@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Places & Events</title>
   
   
@@ -40,6 +41,20 @@
       border-bottom: 2px solid rgba(255, 255, 255, 0.3);
       padding-bottom: 0.25rem;
     }
+    
+    #placeSection , #eventSection{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+#placeSection h2,#eventSection h2 {
+  flex-shrink: 0;
+  margin: 0 0 1rem;
+}
+
 
     #placeList, #eventList {
       flex: 1;
@@ -212,23 +227,138 @@
   flex-shrink: 2; /* prevents shrinking in flex grid  [oai_citation:0‡stackoverflow.com](https://stackoverflow.com/questions/46863476/why-divbefore-shows-on-top-of-the-children-element?utm_source=chatgpt.com) [oai_citation:1‡stackoverflow.com](https://stackoverflow.com/questions/74236210/why-is-before-pseudo-element-appearing-on-top-of-the-element?utm_source=chatgpt.com) [oai_citation:2‡stackoverflow.com](https://stackoverflow.com/questions/65803722/svg-shrinks-in-flexbox?utm_source=chatgpt.com) */
 }
 
+.snap-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.snap-container section {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertically center */
+}
+
+#searchBarRow {
+  display: flex;
+  width: 60%;
+  margin: 0 auto 1rem;
+  gap: 0.5rem;
+}
+
+#placeSearch {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 15px;
+  border: none;
+  font-size: 1rem;
+  background: #fff;
+  color: #000;
+  height: 2.5rem;
+  box-sizing: border-box;
+}
+
+#exploreBtn {
+  padding: 0 1rem;
+  border: none;
+  border-radius: 15px;
+  background-color: #fff;
+  color: #4b0082;
+  font-weight: bold;
+  font-size: 1rem;
+  height: 2.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+#exploreBtn:hover {
+  background: #e0d4ff;
+}
+
+@media (max-width: 600px) {
+  #searchBarRow {
+    flex-direction: column;
+    width: 90%;
+   min-height: calc(2.75rem * 2.5 + 0.5rem);
+    gap: 0.2rem;
+    margin: 0 auto 0.5rem;
+  }
+
+ #placeSearch,
+#exploreBtn {
+  width: 100%;
+  height: 2.75rem;
+  line-height: 2.75rem;
+  padding: 0 1rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  border-radius: 15px;
+  flex:none;
+  min-height: 2.75rem;
+  max-height: 2.75rem;
+}
+
+#placeSearch {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+  #exploreBtn {
+    border-radius: 15px;
+    margin-top: 0.5rem;
+  }
+
+  #typeFilters {
+    width: 90%;
+    padding: 0.25rem 0; /* REDUCED vertical padding */
+    gap: 0.25rem;
+  }
+
+  #typeFilters button {
+    padding: 0.4rem 0.5rem; /* REDUCED */
+    font-size: 0.8rem;
+  }
+}
+
 
   </style>
 </head>
+
 <body>
-  <nav>
-    <a href="test webpage.html">Home Page</a>
-    <a href="places.html">Search</a>
-    <a href="events.html">Events</a>
-  </nav>
+  <div class="snap-container">
 
-  <h2>Search Locations</h2>
+    <!-- 🌟 1. Hero Zone -->
+   <section id="placeSection" class="snap-section">
+      <h1>🧭 Places & Events</h1>
+    <!-- 🔍 2. Filter + Search -->
+    <div id="searchBarRow">
   <input type="text" id="placeSearch" placeholder="Search places..." />
-  <div id="typeFilters"></div>
-  <div id="placeList">Loading…</div>
+  <button id="exploreBtn">Explore</button>
+</div>
+<div id="typeFilters"></div>
+    <!-- 🗺️ 3. Places List -->
+      <div id="placeList">Loading…</div>
+    </section>
 
-  <h2>Events</h2>
-  <div id="eventList">Loading…</div>
+
+    <!-- 🎭 4. Events Section -->
+    <section id="eventSection" class="snap-section" >
+      <h2>Weekly Events</h2>
+      <div id="eventList">Loading…</div>
+    </section>
+
+  </div>
+
+  <div id="placeCard" style="display:none;"></div>
+</body>
 
 /*Place Script*/
   <script>
@@ -339,41 +469,12 @@
       places.forEach(p => {
         const div = document.createElement('div');
         div.className = 'place';
-        div.innerHTML = `<strong>${p.title}</strong><span>${p.location}</span>`;
+        div.innerHTML = `<strong>${p.title}</strong><span>${p.location}</span><span>${p.type}</span>`;
 
-   /*     const targetURL = p.website?.trim() || p.googleurl?.trim();
-        if (targetURL) {
-          div.addEventListener('click', () => window.open(targetURL, '_blank'));
-        } */
-        
-      /*  div.addEventListener('click', () => {
-  const card = document.getElementById('placeCard');
-  const encodedTitle = encodeURIComponent(p.title);
-  
-  // Get lat/lng or fallback to address string
- const mapEmbed = p.googleurl
-  ? `<iframe
-       src="${p.googleurl.replace('/maps/', '/maps/embed?')}"
-       width="100%"
-       height="150"
-       style="border:0; border-radius: 4px; margin-top: 0.5rem;"
-       allowfullscreen=""
-       loading="lazy"
-     ></iframe>`
-  : '';
-
-card.innerHTML = `
-  <div class="close-btn" onclick="document.getElementById('placeCard').style.display='none'">✕</div>
-  <h3>${p.title}</h3>
-  <div><strong>Location:</strong> ${p.location}</div>
-  ${mapEmbed}
-`;
-  card.style.display = 'block';
-}); */
 
 div.addEventListener('click', () => {
   const card = document.getElementById('placeCard');
-  const mapQuery = encodeURIComponent(`${p.title} ${p.location}`);
+  const mapQuery = encodeURIComponent(`${p.title} ${p.location} ${p.type}`);
   const mapEmbed = `
     <iframe
       src="https://www.google.com/maps?q=${mapQuery}&output=embed"
@@ -419,16 +520,17 @@ const iconBox = `
   card.innerHTML = `
     <div class="close-btn" onclick="document.getElementById('placeCard').style.display='none'">✕</div>
     <h3>${p.title}</h3>
-    <div><strong>Location:</strong> ${p.location}</div>
-    ${mapEmbed}
+    <div><strong>Location:</strong> ${p.location}
+    ${mapEmbed}</div>
      ${iconBox}
   `;
-  card.style.display = 'block';
+  card.style.display = 'grid';
 });
 
         container.appendChild(div);
         observer.observe(div);
         allPlaceDivs.push({ el: div, data: p });
+        
       });
 
       // Search filter
@@ -444,7 +546,7 @@ const iconBox = `
  loadPlaces();
   </script>
   
-/*Event Script*/
+//*Event Script*/
   <script>
     async function loadEvents() {
       try {
@@ -467,7 +569,7 @@ const iconBox = `
     loadEvents();
   </script>
 
-/*Scrolling Tab Bar */  
+//*Scrolling Tab Filters Bar */  
 <script>
   const filterWrapper = document.getElementById('typeFilters');
   let isDown = false, startX;
@@ -506,9 +608,9 @@ const iconBox = `
 </script>
 
 
-<div id="placeCard" style="display:none;"></div>
 
-</body>
+
+
 
 </html>
 
