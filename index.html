@@ -636,11 +636,11 @@ const iconBox = `
   });
 
   // Touch scroll (mobile)
-  filterWrapper.addEventListener('touchmove', e => {
+/*  filterWrapper.addEventListener('touchmove', e => {
     filterWrapper.scrollLeft -= e.touches[0].clientX - (filterWrapper._lastTouchX || e.touches[0].clientX);
     filterWrapper._lastTouchX = e.touches[0].clientX;
   });
-  filterWrapper.addEventListener('touchend', () => filterWrapper._lastTouchX = null);
+  filterWrapper.addEventListener('touchend', () => filterWrapper._lastTouchX = null); */
 
   // Scroll gestures with trackpad/mousewheel
   filterWrapper.addEventListener('wheel', e => {
