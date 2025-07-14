@@ -616,8 +616,9 @@ const iconBox = `
 
 //*Scrolling Tab Filters Bar */  
 <script>
+
   const filterWrapper = document.getElementById('typeFilters');
-/*  let isDown = false, startX;
+  let isDown = false, startX;
 
   // Drag-to-scroll (mouse)
   filterWrapper.addEventListener('mousedown', e => {
@@ -634,13 +635,6 @@ const iconBox = `
     filterWrapper.scrollLeft -= walk;
     startX = x;
   });
-*/
-  // Touch scroll (mobile)
-/*  filterWrapper.addEventListener('touchmove', e => {
-    filterWrapper.scrollLeft -= e.touches[0].clientX - (filterWrapper._lastTouchX || e.touches[0].clientX);
-    filterWrapper._lastTouchX = e.touches[0].clientX;
-  });
-  filterWrapper.addEventListener('touchend', () => filterWrapper._lastTouchX = null); */
 
   // Scroll gestures with trackpad/mousewheel
   filterWrapper.addEventListener('wheel', e => {
@@ -651,7 +645,6 @@ const iconBox = `
     }
   }, { passive: false });
 </script>
-
 
 
 <script>
