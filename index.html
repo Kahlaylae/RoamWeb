@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-adsense-account" content="ca-pub-3098807263908139">
   <title> 🧭 Places & Events - It's Happening Now</title>
   
   
@@ -129,6 +130,9 @@
   mask-image: linear-gradient(to right, transparent 0, black 20%, black 80%, transparent 100%);
 }
 
+#typeFilters::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
 
 #typeFilters button {
   flex-shrink: 0;
@@ -279,6 +283,13 @@
 }
 
 
+#logo {
+  width: 100%;
+  max-width: 600px;    /* the largest it should ever grow */
+  height: auto;
+  display: block;
+  margin: 0 auto;      /* ensures it's centered */
+}
 
 #logo,
 #placeTitle,
@@ -362,10 +373,15 @@
     font-size: 0.8rem;
   }
   
-  
+
+
   
 }
 
+
+body.landing-active {
+  padding-left: clamp(2rem, 5vw, 6rem);
+}
 
   </style>
 </head>
@@ -404,6 +420,10 @@
 
   <div id="placeCard" style="display:none;"></div>
 </body>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139"
+     crossorigin="anonymous"></script>x
+
 
 /*Place Script*/
   <script>
@@ -648,6 +668,35 @@ const iconBox = `
 
 
 <script>
+document.getElementById('exploreBtn').addEventListener('click', e => {
+  e.preventDefault();
+
+  const logo = document.getElementById('logo');
+  const filters = document.getElementById('typeFilters');
+  const list = document.getElementById('placeList');
+  const searchBar = document.getElementById('searchBarRow');
+
+// Add the padding-triggering class
+  document.body.classList.add('landing-active');
+  
+  // Animate logo
+  logo.classList.add('shrink');
+
+  // Optional: animate search bar slightly
+  searchBar.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+  searchBar.style.transform = 'translateY(-10px)';
+  searchBar.style.opacity = '0.9';
+
+  // Reveal filter & list after animation
+  setTimeout(() => {
+    filters.classList.remove('hidden');
+    list.classList.remove('hidden');
+  }, 400);
+});
+</script>
+
+
+<script>/*
   document.getElementById('exploreBtn').addEventListener('click', () => {
     const logo = document.getElementById('logo');
    // const placeTitle = document.getElementById('placeTitle');
@@ -666,7 +715,7 @@ const iconBox = `
       list.classList.remove('hidden');
     }, 400);
   });
-</script>
+*/</script>
 
 
 
