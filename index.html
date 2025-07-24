@@ -917,6 +917,42 @@ document.addEventListener('DOMContentLoaded', function() {
   if (typeFilters) enableHorizontalScroll(typeFilters);
 });
 </script>
+<!-- Responsive TopBar Nav Centering -->
+<script>
+const nav = document.getElementById('navHorizontal');
+const topBar = document.getElementById('topBarContainer');
+const buttons = nav ? nav.querySelectorAll('.nav-btn') : [];
+const sections = document.querySelectorAll('.snap-section');
+
+function scrollNavBtnIntoView(btn, align = 'center') {
+  if (!topBar || !btn) return;
+  btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: align });
+}
+
+// On nav-btn click: scroll to section and center nav-btn in topBarContainer
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const sec = document.getElementById(btn.dataset.target);
+    if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+    // Center nav-btn in topBarContainer
+    scrollNavBtnIntoView(btn, window.innerWidth < 600 ? 'center' : 'start');
+  });
+});
+
+// On section scroll: center corresponding nav-btn in topBarContainer
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const btn = nav.querySelector(`.nav-btn[data-target="${entry.target.id}"]`);
+      if (btn) {
+        // Center nav-btn only if user didn't just click (avoid double scroll)
+        scrollNavBtnIntoView(btn, window.innerWidth < 600 ? 'center' : 'start');
+      }
+    }
+  });
+}, { threshold: 0.6 });
+sections.forEach(sec => observer.observe(sec));
+</script>
 
 
 <!-- LandingPageShift -->
