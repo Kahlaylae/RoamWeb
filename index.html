@@ -574,10 +574,13 @@ overflow-y: auto;
   <!-- 🌟 1. Hero Zone -->
    <section id="placeSection" class="snap-section"> 
    
-  <img id="logo" src="WebAppLogo.png" alt="WebApp Logo">
+  <div id="heroVideoBg" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:0;overflow:hidden;pointer-events:none;">
+    <video id="herovideo" src="herovideo.mp4" autoplay muted loop playsinline style="width:100vw;height:100vh;object-fit:cover;"></video>
+  </div>
+  <img id="logo" src="WebAppLogo.png" alt="WebApp Logo" style="position:relative;z-index:1;">
   
-  <div id="searchBarRow">  
-    <input id="placeSearch" type="text" placeholder="Search places..." />
+  <div id="searchBarRow" style="position:relative;z-index:2;">  
+    <input id="placeSearch" type="text" placeholder=" Search places..." />
     <button id="exploreBtn">Explore</button>
   </div>
   
@@ -610,6 +613,10 @@ overflow-y: auto;
 <div id="placeCard" style="display:none;"></div>
 
   <!-- Consolidated Navigation Script: drop this before </body> -->
+  
+
+</body>
+ <!-- Consolidated Navigation Script: drop this before </body> -->
   <script>
   (function() {
     const nav = document.getElementById('navHorizontal');
@@ -658,9 +665,6 @@ overflow-y: auto;
 
   })();
   </script>
-
-</body>
-
 
 <!-- Place Script -->
   <script>
@@ -964,26 +968,28 @@ document.getElementById('exploreBtn').addEventListener('click', e => {
   const filters = document.getElementById('typeFilters');
   const list = document.getElementById('placeList');
   const searchBar = document.getElementById('searchBarRow');
-  const horBar = document.getElementById('navHorizontal')
-  const navCon = document.getElementById('navContainer')
+  const horBar = document.getElementById('navHorizontal');
+  const navCon = document.getElementById('navContainer');
+  const heroVideoBg = document.getElementById('heroVideoBg');
 
-//Animating the logo
+  // Animating the logo
   logo.classList.add('shrink');
-horBar.classList.remove('hidden');
- navCon.insertBefore(logo, navCon.firstChild);
+  horBar.classList.remove('hidden');
+  navCon.insertBefore(logo, navCon.firstChild);
 
   // Optional: animate search bar slightly
   searchBar.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
   searchBar.style.transform = 'translateY(-10px)';
   searchBar.style.opacity = '0.9';
 
+  // Hide hero video background after explore
+  if (heroVideoBg) heroVideoBg.style.display = 'none';
+
   // Reveal filter & list after animation
   setTimeout(() => {
     filters.classList.remove('hidden');
     list.classList.remove('hidden');
   }, 400);
-  
-
 });
 </script>
 
