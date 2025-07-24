@@ -576,21 +576,8 @@ overflow-y: auto;
    
   <div id="heroVideoBg" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:0;overflow:hidden;pointer-events:none;">
     <video id="herovideo" src="herovideo.mp4" autoplay muted loop playsinline style="width:100vw;height:100vh;object-fit:cover;"></video>
- 
+    <div id="heroBlurOverlay" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;backdrop-filter:blur(3.5px);background:rgba(20, 99, 168, 0.246);"></div>
   </div>
-
-<style>
-#heroVideoBg {
-  transition: opacity 0.7s cubic-bezier(0.7,0,0.3,1), visibility 0.7s cubic-bezier(0.7,0,0.3,1);
-  opacity: 1;
-  visibility: visible;
-}
-#heroVideoBg.fade-out {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-</style>
   <img id="logo" src="WebAppLogo.png" alt="WebApp Logo" style="position:relative;z-index:1;">
   
   <div id="searchBarRow" style="position:relative;z-index:2;">  
@@ -975,7 +962,6 @@ sections.forEach(sec => observer.observe(sec));
 
 <!-- LandingPageShift -->
 <script>
-
 document.getElementById('exploreBtn').addEventListener('click', e => {
   e.preventDefault();
 
@@ -997,8 +983,8 @@ document.getElementById('exploreBtn').addEventListener('click', e => {
   searchBar.style.transform = 'translateY(-10px)';
   searchBar.style.opacity = '0.9';
 
-  // Fade out hero video background after explore
-  if (heroVideoBg) heroVideoBg.classList.add('fade-out');
+  // Hide hero video background after explore
+  if (heroVideoBg) heroVideoBg.style.display = 'none';
 
   // Reveal filter & list after animation
   setTimeout(() => {
@@ -1025,4 +1011,3 @@ document.querySelectorAll('#navHorizontal .nav-btn').forEach(btn => {
 
 
 </html>
-
