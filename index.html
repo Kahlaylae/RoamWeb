@@ -2,71 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google-adsense-account" content="ca-pub-3098807263908139">
   <title> 🧭 Places & Events - It's Happening Now</title>
-    
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139"
-     crossorigin="anonymous"></script> 
+  
   
   <style>
-    body {
+  
+  * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+  
+  html {
+  background: linear-gradient(to bottom right, #4b0082, #8a2be2);
+  color: white;
+  overscroll-behavior: none;
+  height: 100% ;
+  scroll-behavior: smooth;
+  overflow-y: hidden;
+}
+  body {
       font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-      height: 100vh;
       display: flex;
       flex-direction: column;
-      background: linear-gradient(to bottom right, #4b0082, #8a2be2);
-      color: white;
     }
 
-    nav {
-      display: flex;
-      gap: 0em;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 0rem;
-    }
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    h2 {
-      margin: 1rem;
-      font-size: 1.5rem;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-      padding-bottom: 0.25rem;
-       flex-shrink: 0;
-  margin: 0 0 1rem;
-    }
-    
-    #placeSection , #eventSection{
+#placeSection , #eventSection, #blogSection, #aboutSection{
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: 1rem;
+  padding: 20px;
   box-sizing: border-box;
+   margin: 0 0 20px;
+ 
 }
 
+#placeSection {
+background:pink;}
+
+#eventSection {
+background:LightBlue;}
+
+#blogSection {
+background:forestgreen;}
+
+#aboutSection {
+background:crimson;}
 
 
-    #placeList, #eventList {
+
+
+#placeList, #eventList {
       flex: 1;
       overflow-y: auto;
       padding: 1rem;
-      background: rgba(255, 255, 255, 0.1);
+      background: yellow; 
       border-radius: 8px;
-      margin: 0 1rem 1rem;
+      margin: 0 1rem 60px;
     }
-
-    .place {
+    
+.place {
       padding: 0.75rem;
       margin-bottom: 0.5rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -76,7 +79,7 @@
       transition: all 0.4s ease;
     }
     
-   .event {
+.event {
       padding: 0.75rem;
       margin-bottom: 0.5rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -86,87 +89,54 @@
       transition: all 0.4s ease;
     }
     
-    .place.visible ,.event.visible{
+.place.visible ,.event.visible{
       opacity: 1;
       transform: translateY(0);
     }
-
-    .place:hover, .event:hover {
+    
+.place:hover, .event:hover {
       background: rgba(255, 255, 255, 0.15);
     }
-
-    .place strong, .event strong {
+    
+.place strong, .event strong {
       display: block;
       font-size: 1.1rem;
       color: #fff;
     }
-
-    .place span, .event span {
+    
+.place span, .event span {
       color: #ddd;
       font-size: 0.9rem;
     }
 
-    #placeSearch {
-      width: 60%;
-      margin: 0 auto 1rem;
-      display: block;
-      padding: 0.5rem;
-      border-radius: 4px;
-      border: none;
-      font-size: 1rem;
-      background: #fff;
-      color: #000;
-    }
-
-#typeFilters {
-  width: 60%;
-  margin: 0 auto 1rem;
-  padding: 0.5rem 0;
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  white-space: nowrap;
-  scroll-behavior: smooth;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE/Edge */
-  mask-image: linear-gradient(to right, transparent 0, black 20%, black 80%, transparent 100%);
-}
-
-#typeFilters::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
-}
-
-#typeFilters button {
-  flex-shrink: 0;
-  white-space: nowrap;
-  padding: 0.5rem 0.75rem;
-  border: none;
-  border-radius: 999px;
-  background: #fff;
-  color: #4b0082;
-  font-weight: bold;
-  font-size: 0.85rem;
-  transition: background 0.2s ease;
-  
-}
-
-#typeFilters button:hover {
-  background: #e0d4ff;
-}
 
 #placeCard {
   position: fixed;
   top: 20%;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.95);
+ /* background: rgba(255, 255, 255, 0.95);*/
+ background:indigo;
   color: black;
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
   z-index: 1000;
   max-width: 300px;
+  max-height: 90vh;
   width: 90%;
+}
+#placeCard {
+  display: grid;
+  grid-template-rows: auto auto auto; /* Title, map, amenities */
+  row-gap: 1rem;
+  padding: 1rem;
+}
+
+#placeCard iframe {
+  width: 100%;
+  height: auto; /* Keep map height intrinsic */
+  min-height: 150px; /* Maintain desired minimum map height */
 }
 
 #placeCard h3 {
@@ -175,12 +145,13 @@
 
 #placeCard .close-btn {
   position: absolute;
-  top: 4px;
-  right: 10px;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
   cursor: pointer;
-  font-weight: bold;
-  color: #4b0082;
-  font-size: 18px;
+  z-index: 20;
 }
 
 #placeCard img {
@@ -189,7 +160,6 @@
   margin-top: 0.5rem;
   border-radius: 4px;
 }
-
 /* 1. Ensure the container is positioned */
 #placeCard .tag-box {
   position: relative;
@@ -230,31 +200,17 @@
 
 
 
-
-.snap-container {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-}
-.snap-container section {
-  scroll-snap-align: start;
-  min-height: 100vh;
-  padding: 1rem;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* vertically center */
-}
-
 #searchBarRow {
   display: flex;
-  width: 60%;
+  width: 80%;
+  max-width:600px;
   margin: 0 auto 1rem;
   gap: 0.5rem;
 }
 
 #placeSearch {
+  width: 60%;
+  max-width:600px;
   flex: 1;
   padding: 0.5rem;
   border-radius: 15px;
@@ -284,16 +240,42 @@
   background: #e0d4ff;
 }
 
-
-#logo {
-  width: 100%;
-  max-width: 600px;    /* the largest it should ever grow */
-  height: auto;
-  display: block;
-  margin: 0 auto;      /* ensures it's centered */
+#typeFilters {
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto 1rem;
+  padding: 0rem 0;
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
+  mask-image: linear-gradient(to right, transparent 0, black 20%, black 80%, transparent 100%);
+  -webkit-scrollbar {  display: none; }
 }
 
-#logo,
+#typeFilters button {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  color: #4b0082;
+  font-weight: bold;
+  font-size: 0.85rem;
+  transition: background 0.2s ease;
+  
+}
+
+#typeFilters button:hover {
+  background: #e0d4ff;
+}
+
+
+
 #placeTitle,
 #typeFilters,
 #placeList {
@@ -302,34 +284,199 @@
 
 #placeTitle.hidden,
 #typeFilters.hidden,
-#placeList.hidden {
+#placeList.hidden{
   opacity: 0;
   transform: translateY(20px);
   pointer-events: none;
-}
-
-#logo.shrink {
-  transform: scale(0.4) translate(-140px, -120px); /* tweak this */
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  width: 100px;
-  height: auto;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 #placeTitle {
     flex-direction: column;
     width: 90%;
-   min-height: calc(2.75rem * 2.5 + 0.5rem);
+    min-height: calc(2.75rem * 2.5 + 0.5rem);
     gap: 0.2rem;
     margin: 0 auto 0.5rem;
   }
 
+
+
+
+#navHorizontal {
+ position:sticky;
+ display: flex;
+
+ min-width: 100%;
+ height: 70px;
+ overflow-y: hidden;
+ justify-content: center; /* ⭐ centers child grid container */
+ align-items: center;
+   
+ font-size: 1.3rem;
+ font-weight: bold;
+ background-color: aquamarine;
+ text-transform: uppercase;
+ white-space: nowrap;
+ 
+ opacity:1;
+ transition: opacity 0.5s ease, transform 0.5s ease;
+ padding: 0 10px;
+
+ z-index: 10; 
+}
+
+
+
+#navHorizontal.hidden {
+  opacity: 0;
+  display:none;
+  overflow: hidden;
+}
+
+
+#logo.shrink {
+grid-area:logo;
+ justify-self: start;
+ 
+transition: transform 0.25s cubic-bezier(0.7, 0, 0.3, 1), width 0.25s ease;
+transform: scale(0.4) translate(0px, 0px) ;
+max-height: 100px;
+min-height: 100px;
+width: auto;
+padding: 10;
+}
+
+#logo:not(.shrink) {
+
+width: 100%;
+  max-width: 600px;    /* the largest it should ever grow */
+  height: auto;
+  align-items: center;
+  display: block;
+  margin: 0;       /* ensures it's centered */
+   
+  display: block;
+  margin: 0 auto;
+  padding: 1rem;
+  max-width: 600px;
+  height: auto;
+  text-align: center;
+}
+
+#topBarContainer {
+  grid-area:nav;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  width: 100%;
+  gap: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+#nav-btn button {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  color: #4b0082;
+  font-weight: bold;
+  font-size: 0.85rem;
+  transition: background 0.3s ease;
+  
+}
+
+#topBarContainer button:hover {
+  background: #e0d4ff;
+}
+
+
+
+.nav-btn.active {
+  background: #fff;
+  color: #4b0082;
+  border-radius: 12px;
+  padding: 0.25rem 0.5rem;
+}
+
+#navContainer{
+display: grid;
+  grid-template-columns: 80px 1fr;
+  grid-template-areas: "logo nav";
+  align-items: center;
+  justify-content: center; /* 🔁 keeps grid centered inside navHorizontal */
+  width: 100%;
+  max-width: 800px
+  
+}
+
+#navHorizontal { overflow-x: auto; white-space: nowrap; }
+#navHorizontal .nav-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+#navHorizontal .nav-btn.active {
+  background: rgba(255,255,255,0.2);
+  border-radius: 8px;
+}
+#navHorizontal.dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+
+
+.snap-container {
+
+
+height: 100vh;
+max-height: 100%;
+overflow-y: auto;
+ 
+  scroll-snap-type: y mandatory;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  
+#topBarContainer::-webkit-scrollbar {
+  display: none;
+}
+  background: inherit;
+}
+
+.snap-container section,
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
+}
+#typeFilters::-webkit-scrollbar {
+  display: none;
+}
+
+
+
 @media (max-width: 600px) {
+
+
 
 #searchBarRow{
     flex-direction: column;
     width: 90%;
+    max-width:500px;
+    max-Height:70px;
    min-height: calc(2.75rem * 2.5 + 0.5rem);
     gap: 0.2rem;
     margin: 0 auto 0.5rem;
@@ -340,7 +487,7 @@
   width: 100%;
   height: 2.75rem;
   line-height: 2.75rem;
-  padding: 0 1rem;
+  padding: 0 0rem;
   font-size: 1rem;
   box-sizing: border-box;
   border-radius: 15px;
@@ -359,6 +506,7 @@
     border-radius: 15px;
     margin-top: 0.5rem;
   }
+  
 #typeFilters {
     width: 90%;
     padding: 0.25rem 0; /* REDUCED vertical padding */
@@ -370,66 +518,151 @@
   padding-bottom: 0;
   
   }
+  
+
+  
 #typeFilters button {
     padding: 0.4rem 0.5rem; /* REDUCED */
     font-size: 0.8rem;
   }
   
-
-
+  #topBarContainer{
+   width: 90%;
+   display:block;
+    padding: 5px 0; /* REDUCED vertical padding */
+    gap: 10px;
+    appearance: none;
+    overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
+  -webkit-scrollbar {  display: none; }
+    -webkit-appearance: none;
+  }
   
-}
-
-
-body.landing-active {
-  padding-left: clamp(2rem, 5vw, 6rem);
+/*end of @Media <600*/ 
 }
 
   </style>
+  
+  
 </head>
 
 <body>
-  <div class="snap-container">
 
-
-
-
-    <!-- 🌟 1. Hero Zone -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139"
+     crossorigin="anonymous"></script>
     
-   <section id="placeSection" class="snap-section"> 
   
-  <img id="logo" src="WebAppLogo.webp" alt="WebApp Logo">
-    
- <div id="searchBarRow">  
+    <div id="navHorizontal" class="hidden">
+    <div id= "navContainer">
+    <div id= "topBarContainer">
+  <div class="nav-btn" data-target="placeSection">Places</div>
+  <div class="nav-btn" data-target="eventSection">Events</div>
+  <div class="nav-btn" data-target="blogSection">Blog</div>
+  <div class="nav-btn" data-target="aboutSection">About Me</div>
+  </div>
+  </div>
+  
+  
+</div>
+ 
+  <div class="snap-container">
+  
+  
+  <!-- 🌟 1. Hero Zone -->
+   <section id="placeSection" class="snap-section"> 
+   
+  <img id="logo" src="WebAppLogo.png" alt="WebApp Logo">
+  
+  <div id="searchBarRow">  
     <input id="placeSearch" type="text" placeholder="Search places..." />
     <button id="exploreBtn">Explore</button>
   </div>
-
+  
 <!-- 🔍 2. Filter + Search -->
   <div id="typeFilters" class="hidden"></div>
     <!-- 🗺️ 3. Places List -->
   <div id="placeList" class="hidden">Loading…</div>
     </section>
-
-
+    
+    
     <!-- 🎭 4. Events Section -->
     <section id="eventSection" class="snap-section" >
       <h2>Weekly Events</h2>
       <div id="eventList">Loading…</div>
     </section>
-
+    
+    <section id = "blogSection" class="snap-section">
+    <div>
+    </div>
+    </section>
+    
+      <section id = "aboutSection" class="snap-section">
+    <div>
+    </div>
+    </section>
+    
+<!-- ::snap-container  -->
   </div>
-
-  <div id="placeCard" style="display:none;"></div>
-
   
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139"
-     crossorigin="anonymous"></script> 
-  
+<div id="placeCard" style="display:none;"></div>
+
+  <!-- Consolidated Navigation Script: drop this before </body> -->
+  <script>
+  (function() {
+    const nav = document.getElementById('navHorizontal');
+    const buttons = nav.querySelectorAll('.nav-btn');
+    const sections = document.querySelectorAll('.snap-section');
+
+    // Click: scroll
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sec = document.getElementById(btn.dataset.target);
+        if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // IntersectionObserver: highlight active
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const btn = nav.querySelector(`.nav-btn[data-target="${entry.target.id}"]`);
+        if (btn) btn.classList.toggle('active', entry.isIntersecting);
+      });
+    }, { threshold: 0.6 });
+
+    sections.forEach(sec => observer.observe(sec));
+
+    // Drag-scroll logic for nav bar
+    let isDown = false, startX, scrollStart;
+    nav.addEventListener('mousedown', e => {
+      isDown = true;
+      nav.classList.add('dragging');
+      startX = e.pageX;
+      scrollStart = nav.scrollLeft;
+    });
+    ['mouseleave', 'mouseup'].forEach(evt =>
+      nav.addEventListener(evt, () => { isDown = false; nav.classList.remove('dragging'); })
+    );
+    nav.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      nav.scrollLeft = scrollStart - (e.pageX - startX);
+    });
+    nav.addEventListener('wheel', e => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        nav.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+
+  })();
+  </script>
+
 </body>
 
 
-/*Place Script*/
+<!-- Place Script -->
   <script>
 
   const tagIcons = {
@@ -538,7 +771,7 @@ body.landing-active {
       places.forEach(p => {
         const div = document.createElement('div');
         div.className = 'place';
-        div.innerHTML = `<strong>${p.title}</strong><span>${p.location}</span><span>${p.type}</span>`;
+        div.innerHTML = `<strong>${p.title}</strong><span>${p.location}</span><br><span>${p.type}</span>`;
 
 
 div.addEventListener('click', () => {
@@ -548,7 +781,7 @@ div.addEventListener('click', () => {
     <iframe
       src="https://www.google.com/maps?q=${mapQuery}&output=embed"
       width="100%"
-      height="150"
+      height="100%"
       style="border:0; border-radius: 4px; margin-top: 0.5rem;"
       allowfullscreen=""
       loading="lazy"
@@ -615,7 +848,7 @@ const iconBox = `
  loadPlaces();
   </script>
   
-//*Event Script*/
+<!-- Event Script -->
   <script>
     async function loadEvents() {
       try {
@@ -638,39 +871,55 @@ const iconBox = `
     loadEvents();
   </script>
 
-//*Scrolling Tab Filters Bar */  
+<!-- Horizontal Scrolling -->
 <script>
+function enableHorizontalScroll(wrapper) {
+  let isDown = false, startX, scrollStart;
 
-  const filterWrapper = document.getElementById('typeFilters');
-  let isDown = false, startX;
-
-  // Drag-to-scroll (mouse)
-  filterWrapper.addEventListener('mousedown', e => {
+  // Mouse drag
+  wrapper.addEventListener('mousedown', e => {
     isDown = true;
-    startX = e.pageX - filterWrapper.offsetLeft;
-    filterWrapper.classList.add('dragging');
+    wrapper.classList.add('dragging');
+    startX = e.pageX;
+    scrollStart = wrapper.scrollLeft;
   });
-  filterWrapper.addEventListener('mouseleave', () => isDown = false);
-  filterWrapper.addEventListener('mouseup', () => isDown = false);
-  filterWrapper.addEventListener('mousemove', e => {
+  ['mouseleave', 'mouseup'].forEach(evt =>
+    wrapper.addEventListener(evt, () => { isDown = false; wrapper.classList.remove('dragging'); })
+  );
+  wrapper.addEventListener('mousemove', e => {
     if (!isDown) return;
-    const x = e.pageX - filterWrapper.offsetLeft;
-    const walk = (x - startX);
-    filterWrapper.scrollLeft -= walk;
-    startX = x;
+    wrapper.scrollLeft = scrollStart - (e.pageX - startX);
   });
 
-  // Scroll gestures with trackpad/mousewheel
-  filterWrapper.addEventListener('wheel', e => {
-    // if vertical scroll is dominant, convert to horizontal
+  // Wheel scroll
+  wrapper.addEventListener('wheel', e => {
     if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
       e.preventDefault();
-      filterWrapper.scrollLeft += e.deltaY;
+      wrapper.scrollLeft += e.deltaY;
     }
   }, { passive: false });
+
+  // Touch drag (mobile)
+  let touchStartX = 0, touchScrollStart = 0.2;
+  wrapper.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].pageX;
+    touchScrollStart = wrapper.scrollLeft;
+  });
+  wrapper.addEventListener('touchmove', e => {
+    const x = e.touches[0].pageX;
+    wrapper.scrollLeft = touchScrollStart - (x - touchStartX);
+  });
+}
+document.addEventListener('DOMContentLoaded', function() {
+  const topBar = document.getElementById('topBarContainer');
+  const typeFilters = document.getElementById('typeFilters');
+  if (topBar) enableHorizontalScroll(topBar);
+  if (typeFilters) enableHorizontalScroll(typeFilters);
+});
 </script>
 
 
+<!-- LandingPageShift -->
 <script>
 document.getElementById('exploreBtn').addEventListener('click', e => {
   e.preventDefault();
@@ -679,12 +928,13 @@ document.getElementById('exploreBtn').addEventListener('click', e => {
   const filters = document.getElementById('typeFilters');
   const list = document.getElementById('placeList');
   const searchBar = document.getElementById('searchBarRow');
+  const horBar = document.getElementById('navHorizontal')
+  const navCon = document.getElementById('navContainer')
 
-// Add the padding-triggering class
-  document.body.classList.add('landing-active');
-  
-  // Animate logo
+//Animating the logo
   logo.classList.add('shrink');
+horBar.classList.remove('hidden');
+ navCon.insertBefore(logo, navCon.firstChild);
 
   // Optional: animate search bar slightly
   searchBar.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
@@ -696,30 +946,24 @@ document.getElementById('exploreBtn').addEventListener('click', e => {
     filters.classList.remove('hidden');
     list.classList.remove('hidden');
   }, 400);
+  
+
 });
 </script>
 
-
-<script>/*
-  document.getElementById('exploreBtn').addEventListener('click', () => {
-    const logo = document.getElementById('logo');
-   // const placeTitle = document.getElementById('placeTitle');
-    const filters = document.getElementById('typeFilters');
-    const list = document.getElementById('placeList');
-
-    // Animate logo to corner
-    logo.classList.add('shrink');
-
-    // Hide search box
-
-    // Show the rest after short delay
-    setTimeout(() => {
-   //   placeTitle.classList.remove('hidden');
-      filters.classList.remove('hidden');
-      list.classList.remove('hidden');
-    }, 400);
+<!-- Scroll Into View -->
+<script>
+document.querySelectorAll('#navHorizontal .nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.getAttribute('data-target');
+    const section = document.getElementById(targetId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
   });
-*/</script>
+});
+</script>
+
 
 
 
