@@ -16,7 +16,7 @@
 }
   
   html {
-  background: linear-gradient(to bottom right, #4b0082, #8a2be2);
+background: transparent;
   color: white;
   overscroll-behavior: none;
   height: 100% ;
@@ -46,16 +46,16 @@ html, body {
 }
 
 #placeSection {
-background:pink;}
+background:transparent;}
 
 #eventSection {
-background:LightBlue;}
+background:transparent;}
 
 #blogSection {
-background:forestgreen;}
+background:transparent;}
 
 #aboutSection {
-background:crimson;}
+background:transparent;}
 
 
 
@@ -63,10 +63,15 @@ background:crimson;}
 #placeList, #eventList {
       flex: 1;
       overflow-y: auto;
+      overflow-x:hidden;
       padding: 1rem;
-      background: yellow; 
-      border-radius: 8px;
+      background: rgba(20,20,30,0.55);
+      border-radius: 18px;
       margin: 0 1rem 60px;
+      box-shadow: 0 4px 32px 0 rgba(0,0,0,0.22);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.12);
     }
     
 .place {
@@ -115,16 +120,18 @@ background:crimson;}
   top: 20%;
   left: 50%;
   transform: translateX(-50%);
- /* background: rgba(255, 255, 255, 0.95);*/
- background:indigo;
-  color: black;
+  background: rgba(20,20,30,0.55);
+  color: #eee;
   padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.22);
   z-index: 1000;
   max-width: 300px;
   max-height: 90vh;
   width: 90%;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
 }
 #placeCard {
   display: grid;
@@ -165,9 +172,13 @@ background:crimson;}
   position: relative;
   margin-top: 0.5rem;
   padding: 0.75rem 0.5rem 0.5rem;
-  background: #eee;
-  border-radius: 6px;
-  color: black;
+  background: rgba(20,20,30,0.55);
+  border-radius: 12px;
+  color: #eee;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.12);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
@@ -206,6 +217,10 @@ background:crimson;}
   max-width:600px;
   margin: 0 auto 1rem;
   gap: 0.5rem;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
 }
 
 #placeSearch {
@@ -254,6 +269,10 @@ background:crimson;}
   -ms-overflow-style: none;  /* IE/Edge */
   mask-image: linear-gradient(to right, transparent 0, black 20%, black 80%, transparent 100%);
   -webkit-scrollbar {  display: none; }
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
 }
 
 #typeFilters button {
@@ -314,7 +333,11 @@ background:crimson;}
    
  font-size: 1.3rem;
  font-weight: bold;
- background-color: aquamarine;
+  background: rgba(20,20,30,0.55);
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
  text-transform: uppercase;
  white-space: nowrap;
  
@@ -553,6 +576,24 @@ overflow-y: auto;
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139"
      crossorigin="anonymous"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var video = document.getElementById('herovideo');
+  if (video) {
+    // Try to play on DOM load
+    if (video.paused) {
+      video.play().catch(() => {});
+    }
+    // Try to play again when video loads
+    video.addEventListener('loadeddata', function() {
+      if (video.paused) {
+        video.play().catch(() => {});
+      }
+    });
+  }
+});
+</script>
     
   
     <div id="navHorizontal" class="hidden">
@@ -574,10 +615,24 @@ overflow-y: auto;
   <!-- 🌟 1. Hero Zone -->
    <section id="placeSection" class="snap-section"> 
    
-  <div id="heroVideoBg" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:0;overflow:hidden;pointer-events:none;">
-    <video id="herovideo" src="herovideo.mp4" autoplay muted loop playsinline style="width:100vw;height:100vh;object-fit:cover;"></video>
-    <div id="heroBlurOverlay" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;backdrop-filter:blur(3.5px);background:rgba(20, 99, 168, 0.246);"></div>
+  <!-- Permanent video background for the whole app -->
+  <div id="heroVideoBg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;overflow:hidden;pointer-events:none;">
+    <video id="herovideo" src="herovideo.mp4" autoplay loop muted playsinline style="width:100vw;height:100vh;object-fit:cover;position:absolute;top:0;left:0;z-index:0;pointer-events:none;background:transparent;"></video>
+    <div id="heroBlurOverlay" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;backdrop-filter:blur(3.5px);background:rgba(20, 20, 30, 0.55);"></div>
   </div>
+
+<style>
+#heroVideoBg {
+  transition: opacity 0.7s cubic-bezier(0.7,0,0.3,1), visibility 0.7s cubic-bezier(0.7,0,0.3,1);
+  opacity: 1;
+  visibility: visible;
+}
+#heroVideoBg.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+</style>
   <img id="logo" src="WebAppLogo.png" alt="WebApp Logo" style="position:relative;z-index:1;">
   
   <div id="searchBarRow" style="position:relative;z-index:2;">  
@@ -962,30 +1017,23 @@ sections.forEach(sec => observer.observe(sec));
 
 <!-- LandingPageShift -->
 <script>
+
 document.getElementById('exploreBtn').addEventListener('click', e => {
   e.preventDefault();
-
   const logo = document.getElementById('logo');
   const filters = document.getElementById('typeFilters');
   const list = document.getElementById('placeList');
   const searchBar = document.getElementById('searchBarRow');
   const horBar = document.getElementById('navHorizontal');
   const navCon = document.getElementById('navContainer');
-  const heroVideoBg = document.getElementById('heroVideoBg');
-
   // Animating the logo
   logo.classList.add('shrink');
   horBar.classList.remove('hidden');
   navCon.insertBefore(logo, navCon.firstChild);
-
   // Optional: animate search bar slightly
   searchBar.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
   searchBar.style.transform = 'translateY(-10px)';
   searchBar.style.opacity = '0.9';
-
-  // Hide hero video background after explore
-  if (heroVideoBg) heroVideoBg.style.display = 'none';
-
   // Reveal filter & list after animation
   setTimeout(() => {
     filters.classList.remove('hidden');
@@ -1011,3 +1059,4 @@ document.querySelectorAll('#navHorizontal .nav-btn').forEach(btn => {
 
 
 </html>
+
