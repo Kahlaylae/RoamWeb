@@ -42,6 +42,7 @@ html, body {
   padding: 20px;
   box-sizing: border-box;
    margin: 0 0 20px;
+   background:transparent;
  
 }
 
@@ -231,8 +232,11 @@ background:transparent;}
   border-radius: 15px;
   border: none;
   font-size: 1rem;
-  background: #fff;
-  color: #000;
+  background: rgba(30,30,40,0.55);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
   height: 2.5rem;
   box-sizing: border-box;
 }
@@ -241,8 +245,11 @@ background:transparent;}
   padding: 0 1rem;
   border: none;
   border-radius: 15px;
-  background-color: #fff;
-  color: #4b0082;
+  background: rgba(30,30,40,0.55);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
   font-weight: bold;
   font-size: 1rem;
   height: 2.5rem;
@@ -421,7 +428,7 @@ width: 100%;
 
 .nav-btn.active {
   background: #fff;
-  color: #4b0082;
+  color: #dabbe2ca;
   border-radius: 12px;
   padding: 0.25rem 0.5rem;
 }
@@ -580,21 +587,34 @@ overflow-y: auto;
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   var video = document.getElementById('herovideo');
-  if (video) {
-    // Try to play on DOM load
+  if (!video) return;
+
+  // Keep trying to play until it works
+  var playInterval = setInterval(function() {
+    if (video.paused) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.play().catch(() => {});
+    } else {
+      clearInterval(playInterval);
+    }
+  }, 50);
+
+  // Also try again when video loads
+  video.addEventListener('loadeddata', function() {
     if (video.paused) {
       video.play().catch(() => {});
     }
-    // Try to play again when video loads
-    video.addEventListener('loadeddata', function() {
-      if (video.paused) {
-        video.play().catch(() => {});
-      }
-    });
-  }
+  });
 });
 </script>
     
+ <div id="heroVideoBg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;overflow:hidden;pointer-events:none;">
+    <video id="herovideo" src="herovideo.mp4" autoplay loop muted playsinline style="width:100vw;height:100vh;object-fit:cover;position:absolute;top:0;left:0;z-index:0;pointer-events:none;background:transparent;"></video>
+    <div id="heroBlurOverlay" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;backdrop-filter:blur(3.5px);background:rgba(20, 20, 30, 0.55);"></div>
+  </div>
   
     <div id="navHorizontal" class="hidden">
     <div id= "navContainer">
@@ -616,11 +636,7 @@ document.addEventListener('DOMContentLoaded', function() {
    <section id="placeSection" class="snap-section"> 
    
   <!-- Permanent video background for the whole app -->
-  <div id="heroVideoBg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;overflow:hidden;pointer-events:none;">
-    <video id="herovideo" src="herovideo.mp4" autoplay loop muted playsinline style="width:100vw;height:100vh;object-fit:cover;position:absolute;top:0;left:0;z-index:0;pointer-events:none;background:transparent;"></video>
-    <div id="heroBlurOverlay" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;backdrop-filter:blur(3.5px);background:rgba(20, 20, 30, 0.55);"></div>
-  </div>
-
+ 
 <style>
 #heroVideoBg {
   transition: opacity 0.7s cubic-bezier(0.7,0,0.3,1), visibility 0.7s cubic-bezier(0.7,0,0.3,1);
@@ -668,11 +684,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
 <div id="placeCard" style="display:none;"></div>
 
-  <!-- Consolidated Navigation Script: drop this before </body> -->
-  
 
-</body>
- <!-- Consolidated Navigation Script: drop this before </body> -->
+  <!-- Consolidated Navigation Script: drop this before </body> -->
+   <!-- Consolidated Navigation Script: drop this before </body> -->
   <script>
   (function() {
     const nav = document.getElementById('navHorizontal');
@@ -721,6 +735,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   })();
   </script>
+
+</body>
+
 
 <!-- Place Script -->
   <script>
