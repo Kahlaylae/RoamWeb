@@ -4,7 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google-adsense-account" content="ca-pub-3098807263908139">
-  <title> 🧭 Places & Events - It's Happening Now</title>
+  <meta name="googlebot-news" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <title>Anguilla's Top Locations & Events Happening Now </title>
+  <meta name="description" content="Explore Anguilla's Top Locations. Track Opening Hours and stay up to date on weekly events." />
+  <!-- Open Graph Meta Tags for SEO & Social Sharing -->
+  <meta property="og:title" content="Anguilla's Top Locations & Events Happening Now" />
+  <meta property="og:description" content="Explore Anguilla's Top Locations. Track Opening Hours and stay up to date on weekly events." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com/" />
+  <meta property="og:image" content="https://yourdomain.com/WebLogo.webp" />
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Anguilla's Top Locations & Events Happening Now" />
+  <meta name="twitter:description" content="Explore Anguilla's Top Locations. Track Opening Hours and stay up to date on weekly events." />
+  <meta name="twitter:image" content="https://yourdomain.com/WebLogo.webp" />
+  <meta name="twitter:site" content="@YourTwitterHandle" />
   
   
   <style>
@@ -581,8 +595,34 @@ overflow-y: auto;
 
 <body>
 
+
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139"
      crossorigin="anonymous"></script>
+
+<!-- Deep-linking: handle #places, #events, #blog, #about fragments -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const fragmentToSection = {
+    '#places': 'placeSection',
+    '#events': 'eventSection',
+    '#blog': 'blogSection',
+    '#about': 'aboutSection'
+  };
+  const hash = window.location.hash.toLowerCase();
+  if (fragmentToSection[hash]) {
+    // If not already visible, trigger the Explore button for #places
+    if (hash === '#places') {
+      const exploreBtn = document.getElementById('exploreBtn');
+      if (exploreBtn) exploreBtn.click();
+    }
+    // Wait a bit for UI to be ready, then scroll
+    setTimeout(() => {
+      const sec = document.getElementById(fragmentToSection[hash]);
+      if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+    }, 400);
+  }
+});
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -608,6 +648,42 @@ document.addEventListener('DOMContentLoaded', function() {
       video.play().catch(() => {});
     }
   });
+
+  // Wait 5 seconds, then if video is still paused, simulate a user click to trigger play
+  setTimeout(function() {
+    if (video.paused) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.dispatchEvent(new Event('click', {bubbles: true, cancelable: true}));
+      video.play().catch(() => {});
+    }
+  }, 5000);
+
+  // Sneaky: hovering over the logo also tries to play the video
+  var logo = document.getElementById('logo');
+  if (logo) {
+    logo.addEventListener('mouseenter', function() {
+      if (video.paused) {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        video.play().catch(() => {});
+      }
+    });
+    // Also clicking the logo always tries to play
+    logo.addEventListener('click', function() {
+      if (video.paused) {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        video.play().catch(() => {});
+      }
+    });
+  }
 });
 </script>
     
@@ -649,7 +725,7 @@ document.addEventListener('DOMContentLoaded', function() {
   pointer-events: none;
 }
 </style>
-  <img id="logo" src="WebAppLogo2.png" alt="WebApp Logo" style="position:relative;z-index:1;">
+  <img id="logo" src="WebLogo.webp" alt="WebApp Logo" style="position:relative;z-index:1;">
   
   <div id="searchBarRow" style="position:relative;z-index:2;">  
     <input id="placeSearch" type="text" placeholder=" Search places..." />
@@ -923,6 +999,27 @@ const iconBox = `
     }
 
  loadPlaces();
+// --- Schema.org JSON-LD automation for Places ---
+async function injectPlacesSchema() {
+  try {
+    const res = await fetch('https://api.npoint.io/779d46d666ced3d99e31');
+    if (!res.ok) return;
+    const places = await res.json();
+    const placeSchemas = places.map(p => ({
+      '@context': 'https://schema.org',
+      '@type': 'Place',
+      'name': p.title,
+      'address': p.location,
+      ...(p.type ? { 'additionalType': p.type } : {}),
+      ...(p.tags ? { 'amenityFeature': p.tags.split(',').map(t => ({'@type':'LocationFeatureSpecification','name':t.trim()})) } : {})
+    }));
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(placeSchemas.length === 1 ? placeSchemas[0] : placeSchemas, null, 2);
+    document.head.appendChild(script);
+  } catch (e) { /* ignore */ }
+}
+injectPlacesSchema();
   </script>
   
 <!-- Event Script -->
@@ -946,6 +1043,26 @@ const iconBox = `
       }
     }
     loadEvents();
+// --- Schema.org JSON-LD automation for Events ---
+async function injectEventsSchema() {
+  try {
+    const res = await fetch('https://api.npoint.io/0305f0de662a57a9f3a8');
+    if (!res.ok) return;
+    const events = await res.json();
+    const eventSchemas = events.map(e => ({
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      'name': e.name,
+      ...(e.place ? { 'location': { '@type': 'Place', 'name': e.place } } : {})
+      // Add more fields as needed from your event data
+    }));
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(eventSchemas.length === 1 ? eventSchemas[0] : eventSchemas, null, 2);
+    document.head.appendChild(script);
+  } catch (e) { /* ignore */ }
+}
+injectEventsSchema();
   </script>
 
 <!-- Horizontal Scrolling -->
