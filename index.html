@@ -617,9 +617,44 @@ overflow-y: auto;
 
 <body>
 
-<!-- PWA Install Prompt Script -->
+<!-- PWA Install Detection & Prompt Script -->
 <script>
 let deferredPrompt = null;
+let isStandalone = false;
+
+// Detect standalone mode (covers iOS, Android, desktop)
+function checkStandalone() {
+  return (
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true ||
+    document.referrer.startsWith('android-app://')
+  );
+}
+
+function showOpenInAppBanner() {
+  // Only show if not in standalone, but installed
+  if (checkStandalone()) return;
+  // Try to use the Web App Banner API if available in the future
+  // For now, show a custom banner
+  let banner = document.getElementById('openInAppBanner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'openInAppBanner';
+    banner.style = 'position:fixed;bottom:0;left:0;width:100vw;background:rgba(20,20,30,0.95);color:#fff;padding:1rem 2rem;z-index:9999;display:flex;align-items:center;justify-content:center;box-shadow:0 -2px 16px 0 rgba(0,0,0,0.18);font-size:1.1rem;';
+    banner.innerHTML = `
+      <span style="margin-right:1.5rem;">Already installed? <b>Open in App</b> for the best experience.</span>
+      <button id="openAppBtn" style="padding:0.5rem 1.2rem;background:#4b0082;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;">Open App</button>
+      <button id="closeBannerBtn" style="margin-left:1rem;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">&times;</button>
+    `;
+    document.body.appendChild(banner);
+    document.getElementById('closeBannerBtn').onclick = () => banner.remove();
+    document.getElementById('openAppBtn').onclick = () => {
+      // Try to launch the app via URL protocol (works for some platforms)
+      window.location.reload(); // fallback: reload, which will open in app if PWA
+    };
+  }
+}
+
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
@@ -631,27 +666,54 @@ window.addEventListener('beforeinstallprompt', (e) => {
 document.addEventListener('DOMContentLoaded', function() {
   const btn = document.getElementById('pwaInstallBtn');
   const msg = document.getElementById('pwaInstallMsg');
+  // Hide install button if already installed
   if (btn) {
-    btn.disabled = !deferredPrompt;
-    btn.onclick = async function() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          btn.style.display = 'none';
-          if (msg) { msg.textContent = 'App installed! You can now use it offline.'; msg.style.display = 'block'; }
-          // Try to cache latest data after install
-          if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-            navigator.serviceWorker.controller.postMessage({action:'cacheData'});
+    if (checkStandalone()) {
+      btn.style.display = 'none';
+      if (msg) { msg.textContent = 'App is already installed!'; msg.style.display = 'block'; }
+    } else {
+      btn.disabled = !deferredPrompt;
+      btn.style.display = 'block';
+      btn.onclick = async function() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            btn.style.display = 'none';
+            if (msg) { msg.textContent = 'App installed! You can now use it offline.'; msg.style.display = 'block'; }
+            // Try to cache latest data after install
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+              navigator.serviceWorker.controller.postMessage({action:'cacheData'});
+            }
+          } else {
+            if (msg) { msg.textContent = 'Install dismissed.'; msg.style.display = 'block'; }
           }
+          deferredPrompt = null;
         } else {
-          if (msg) { msg.textContent = 'Install dismissed.'; msg.style.display = 'block'; }
+          if (msg) { msg.textContent = 'To install, use your browser menu: Add to Home Screen or Install App.'; msg.style.display = 'block'; }
         }
-        deferredPrompt = null;
-      } else {
-        if (msg) { msg.textContent = 'To install, use your browser menu: Add to Home Screen or Install App.'; msg.style.display = 'block'; }
-      }
-    };
+      };
+    }
+  }
+
+  // Show Open in App banner if not in standalone but installed (best effort)
+  if (!checkStandalone() && window.matchMedia('(display-mode: browser)').matches) {
+    // Try to detect if app is installed (best effort, not always possible)
+    // For now, always show if not in standalone
+    showOpenInAppBanner();
+  }
+});
+
+// Listen for display-mode changes (e.g., user opens in app)
+window.matchMedia('(display-mode: standalone)').addEventListener('change', e => {
+  if (e.matches) {
+    // Hide install button and banner if now in standalone
+    const btn = document.getElementById('pwaInstallBtn');
+    if (btn) btn.style.display = 'none';
+    const msg = document.getElementById('pwaInstallMsg');
+    if (msg) { msg.textContent = 'App is already installed!'; msg.style.display = 'block'; }
+    const banner = document.getElementById('openInAppBanner');
+    if (banner) banner.remove();
   }
 });
 </script>
