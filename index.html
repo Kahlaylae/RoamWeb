@@ -619,34 +619,40 @@ overflow-y: auto;
 
 <!-- PWA Install Prompt Script -->
 <script>
-let deferredPrompt;
+let deferredPrompt = null;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  // Optionally, show a custom install button
-  const installBtn = document.createElement('button');
-  installBtn.textContent = 'Install Roam Anguilla App';
-  installBtn.style.position = 'fixed';
-  installBtn.style.bottom = '24px';
-  installBtn.style.right = '24px';
-  installBtn.style.zIndex = '9999';
-  installBtn.style.padding = '0.75rem 1.5rem';
-  installBtn.style.background = 'rgba(20,20,30,0.85)';
-  installBtn.style.color = '#fff';
-  installBtn.style.border = 'none';
-  installBtn.style.borderRadius = '12px';
-  installBtn.style.fontSize = '1rem';
-  installBtn.style.boxShadow = '0 2px 12px 0 rgba(0,0,0,0.18)';
-  installBtn.style.cursor = 'pointer';
-  installBtn.onclick = async () => {
-    installBtn.style.display = 'none';
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      deferredPrompt = null;
-    }
-  };
-  document.body.appendChild(installBtn);
+  // Enable the About section install button
+  const btn = document.getElementById('pwaInstallBtn');
+  if (btn) btn.disabled = false;
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const btn = document.getElementById('pwaInstallBtn');
+  const msg = document.getElementById('pwaInstallMsg');
+  if (btn) {
+    btn.disabled = !deferredPrompt;
+    btn.onclick = async function() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          btn.style.display = 'none';
+          if (msg) { msg.textContent = 'App installed! You can now use it offline.'; msg.style.display = 'block'; }
+          // Try to cache latest data after install
+          if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({action:'cacheData'});
+          }
+        } else {
+          if (msg) { msg.textContent = 'Install dismissed.'; msg.style.display = 'block'; }
+        }
+        deferredPrompt = null;
+      } else {
+        if (msg) { msg.textContent = 'To install, use your browser menu: Add to Home Screen or Install App.'; msg.style.display = 'block'; }
+      }
+    };
+  }
 });
 </script>
 
@@ -820,6 +826,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <p style="color: #ccc; font-size: 1rem; margin-bottom: 1.5rem; text-align: center;">Install Roam Anguilla for the best offline experience and quick access from your home screen.</p>
         </div>
         <button id="pwaInstallBtn" style="padding: 0.75rem 1.5rem; background: #4b0082; color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: bold; box-shadow: 0 2px 12px 0 rgba(0,0,0,0.18); cursor: pointer;">Install App</button>
+        <div id="pwaInstallMsg" style="color:#ccc; font-size:0.95rem; margin-top:0.75rem; display:none; text-align:center;"></div>
       </div>
     </div>
 </section>
