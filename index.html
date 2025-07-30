@@ -23,6 +23,9 @@
   <link rel="canonical" href="https://yourdomain.com/#places" />
   <!-- Favicon for browser tab icon -->
   <link rel="icon" type="image/png" href="titlelogo.png" sizes="25x25" />
+
+  <!-- Manifest for PWA install -->
+  <link rel="manifest" href="manifest.json" />
   
   <style>
   
@@ -614,6 +617,38 @@ overflow-y: auto;
 
 <body>
 
+<!-- PWA Install Prompt Script -->
+<script>
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Optionally, show a custom install button
+  const installBtn = document.createElement('button');
+  installBtn.textContent = 'Install Roam Anguilla App';
+  installBtn.style.position = 'fixed';
+  installBtn.style.bottom = '24px';
+  installBtn.style.right = '24px';
+  installBtn.style.zIndex = '9999';
+  installBtn.style.padding = '0.75rem 1.5rem';
+  installBtn.style.background = 'rgba(20,20,30,0.85)';
+  installBtn.style.color = '#fff';
+  installBtn.style.border = 'none';
+  installBtn.style.borderRadius = '12px';
+  installBtn.style.fontSize = '1rem';
+  installBtn.style.boxShadow = '0 2px 12px 0 rgba(0,0,0,0.18)';
+  installBtn.style.cursor = 'pointer';
+  installBtn.onclick = async () => {
+    installBtn.style.display = 'none';
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+    }
+  };
+  document.body.appendChild(installBtn);
+});
+</script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139"
      crossorigin="anonymous"></script>
