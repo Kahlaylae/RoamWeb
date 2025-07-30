@@ -767,6 +767,14 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Permanent video background for the whole app -->
  
 <style>
+/* Ensure PWA install tile headline and description wrap and stay inside the box */
+#pwaInstallTile h2, #pwaInstallTile p {
+  max-width: 100%;
+  word-break: break-word;
+  white-space: normal;
+  display: block;
+  text-align: center;
+}
 #heroVideoBg {
   transition: opacity 0.7s cubic-bezier(0.7,0,0.3,1), visibility 0.7s cubic-bezier(0.7,0,0.3,1);
   opacity: 1;
@@ -804,9 +812,17 @@ document.addEventListener('DOMContentLoaded', function() {
     </section>
     
       <section id = "aboutSection" class="snap-section">
-    <div>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 300px; margin-top: 2rem;">
+      <div id="pwaInstallTile" style="display: flex; flex-direction: column; align-items: center; background: rgba(20,20,30,0.65); border-radius: 18px; box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18); padding: 2rem 2.5rem; margin-bottom: 2rem; max-width: 340px;">
+        <img src="titlelogo-192.png" alt="Roam Anguilla App Icon" style="width: 72px; height: 72px; margin-bottom: 1rem; box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);" />
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+          <h2 style="color: #fff; font-size: 1.3rem; margin-bottom: 0.5rem; text-align: center;">Click here to download app to desktop/mobile</h2>
+          <p style="color: #ccc; font-size: 1rem; margin-bottom: 1.5rem; text-align: center;">Install Roam Anguilla for the best offline experience and quick access from your home screen.</p>
+        </div>
+        <button id="pwaInstallBtn" style="padding: 0.75rem 1.5rem; background: #4b0082; color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: bold; box-shadow: 0 2px 12px 0 rgba(0,0,0,0.18); cursor: pointer;">Install App</button>
+      </div>
     </div>
-    </section>
+</section>
     
 <!-- ::snap-container  -->
   </div>
