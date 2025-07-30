@@ -20,6 +20,9 @@
   <meta name="twitter:image" content="https://yourdomain.com/WebLogo.webp" />
   <meta name="twitter:site" content="@YourTwitterHandle" />
   
+  <link rel="canonical" href="https://yourdomain.com/#places" />
+  <!-- Favicon for browser tab icon -->
+  <link rel="icon" type="image/png" href="titlelogo.png" sizes="25x25" />
   
   <style>
   
@@ -463,10 +466,26 @@ display: grid;
   display: inline-block;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  background: none;
+  border: none;
+  outline: none;
+  transition: color 0.2s;
+}
+#navHorizontal .nav-btn:visited {
+  color: #fff;
+}
+#navHorizontal .nav-btn:focus {
+  color: #fff;
+}
+#navHorizontal .nav-btn:hover {
+  color: #e0d4ff;
 }
 #navHorizontal .nav-btn.active {
   background: rgba(255,255,255,0.2);
   border-radius: 8px;
+  color: #dabbe2ca;
 }
 #navHorizontal.dragging {
   cursor: grabbing;
@@ -692,18 +711,17 @@ document.addEventListener('DOMContentLoaded', function() {
     <div id="heroBlurOverlay" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;backdrop-filter:blur(3.5px);background:rgba(20, 20, 30, 0.55);"></div>
   </div>
   
-    <div id="navHorizontal" class="hidden">
-    <div id= "navContainer">
-    <div id= "topBarContainer">
-  <div class="nav-btn" data-target="placeSection">Places</div>
-  <div class="nav-btn" data-target="eventSection">Events</div>
-  <div class="nav-btn" data-target="blogSection">Blog</div>
-  <div class="nav-btn" data-target="aboutSection">About Me</div>
-  </div>
-  </div>
-  
-  
-</div>
+
+    <nav id="navHorizontal" class="hidden" aria-label="Main Navigation">
+      <div id="navContainer">
+        <div id="topBarContainer">
+          <a class="nav-btn" href="#places" data-target="placeSection">Places</a>
+          <a class="nav-btn" href="#events" data-target="eventSection">Events</a>
+          <a class="nav-btn" href="#blogSection" data-target="blogSection">Blog</a>
+          <a class="nav-btn" href="#aboutSection" data-target="aboutSection">About Me</a>
+        </div>
+      </div>
+    </nav>
  
   <div class="snap-container">
   
@@ -769,19 +787,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const buttons = nav.querySelectorAll('.nav-btn');
     const sections = document.querySelectorAll('.snap-section');
 
-    // Click: scroll
+    // Click: scroll and pushState
     buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', function(e) {
         const sec = document.getElementById(btn.dataset.target);
-        if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+        if (sec) {
+          sec.scrollIntoView({ behavior: 'smooth' });
+          // Push state for deep linking
+          history.pushState(null, '', btn.getAttribute('href'));
+        }
       });
     });
 
-    // IntersectionObserver: highlight active
+    // IntersectionObserver: highlight active and update URL
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         const btn = nav.querySelector(`.nav-btn[data-target="${entry.target.id}"]`);
-        if (btn) btn.classList.toggle('active', entry.isIntersecting);
+        if (btn) {
+          btn.classList.toggle('active', entry.isIntersecting);
+          if (entry.isIntersecting) {
+            // Only update URL if not already set
+            if (window.location.hash !== btn.getAttribute('href')) {
+              history.pushState(null, '', btn.getAttribute('href'));
+            }
+          }
+        }
       });
     }, { threshold: 0.6 });
 
