@@ -1,21 +1,21 @@
 {
   "name": "Roam Anguilla",
   "short_name": "Roam Anguilla",
-  "start_url": ".",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#14141e",
   "theme_color": "#14141e",
   "description": "Explore Anguilla's Top Locations & Events Happening Now.",
   "icons": [
     {
-      "src": "titlelogo-192.png",
+      "src": "titlelogo-192.webp",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/webp"
     },
     {
-      "src": "titlelogo-512.png",
+      "src": "titlelogo-512.webp",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/webp"
     }
   ]
 }

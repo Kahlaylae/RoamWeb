@@ -22,7 +22,7 @@
   
   <link rel="canonical" href="https://yourdomain.com/#places" />
   <!-- Favicon for browser tab icon -->
-  <link rel="icon" type="image/png" href="titlelogo.png" sizes="25x25" />
+  <link rel="icon" type="image/webp" href="titlelogo.webp" sizes="25x25" />
 
   <!-- Manifest for PWA install -->
   <link rel="manifest" href="manifest.json" />
@@ -424,6 +424,12 @@ width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  
+  -webkit-scrollbar {
+    display: none;
+  }
 }
 
 #nav-btn button {
@@ -820,6 +826,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div id="topBarContainer">
           <a class="nav-btn" href="#places" data-target="placeSection">Places</a>
           <a class="nav-btn" href="#events" data-target="eventSection">Events</a>
+          <a class="nav-btn" href="#itinerary" data-target="itinerarySection">Itinerary</a>
           <a class="nav-btn" href="#blogSection" data-target="blogSection">Blog</a>
           <a class="nav-btn" href="#aboutSection" data-target="aboutSection">About Me</a>
         </div>
@@ -830,59 +837,74 @@ document.addEventListener('DOMContentLoaded', function() {
   
   
   <!-- 🌟 1. Hero Zone -->
-   <section id="placeSection" class="snap-section"> 
-   
-  <!-- Permanent video background for the whole app -->
- 
-<style>
-/* Ensure PWA install tile headline and description wrap and stay inside the box */
-#pwaInstallTile h2, #pwaInstallTile p {
-  max-width: 100%;
-  word-break: break-word;
-  white-space: normal;
-  display: block;
-  text-align: center;
-}
-#heroVideoBg {
-  transition: opacity 0.7s cubic-bezier(0.7,0,0.3,1), visibility 0.7s cubic-bezier(0.7,0,0.3,1);
-  opacity: 1;
-  visibility: visible;
-}
-#heroVideoBg.fade-out {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-</style>
-  <img id="logo" src="WebLogo.webp" alt="WebApp Logo" style="position:relative;z-index:1;">
-  
-  <div id="searchBarRow" style="position:relative;z-index:2;">  
-    <input id="placeSearch" type="text" placeholder=" Search places..." />
-    <button id="exploreBtn">Explore</button>
-  </div>
-  
-<!-- 🔍 2. Filter + Search -->
-  <div id="typeFilters" class="hidden"></div>
-    <!-- 🗺️ 3. Places List -->
-  <div id="placeList" class="hidden">Loading…</div>
-    </section>
-    
-    
-    <!-- 🎭 4. Events Section -->
-    <section id="eventSection" class="snap-section" >
-      <h2>Weekly Events</h2>
-      <div id="eventList">Loading…</div>
-    </section>
-    
-    <section id = "blogSection" class="snap-section">
-    <div>
+  <section id="placeSection" class="snap-section"> 
+    <!-- Permanent video background for the whole app -->
+    <style>
+      /* Ensure PWA install tile headline and description wrap and stay inside the box */
+      #pwaInstallTile h2, #pwaInstallTile p {
+        max-width: 100%;
+        word-break: break-word;
+        white-space: normal;
+        display: block;
+        text-align: center;
+      }
+      #heroVideoBg {
+        transition: opacity 0.7s cubic-bezier(0.7,0,0.3,1), visibility 0.7s cubic-bezier(0.7,0,0.3,1);
+        opacity: 1;
+        visibility: visible;
+      }
+      #heroVideoBg.fade-out {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+    </style>
+    <img id="logo" src="WebLogo.webp" alt="WebApp Logo" style="position:relative;z-index:1;">
+    <div id="searchBarRow" style="position:relative;z-index:2;">  
+      <input id="placeSearch" type="text" placeholder=" Search places..." />
+      <button id="exploreBtn">Explore</button>
     </div>
-    </section>
-    
-      <section id = "aboutSection" class="snap-section">
+    <!-- 🔍 2. Filter + Search -->
+    <div id="typeFilters" class="hidden"></div>
+    <!-- 🗺️ 3. Places List -->
+    <div id="placeList" class="hidden">Loading…</div>
+  </section>
+
+  <!-- 🎭 2. Events Section -->
+  <section id="eventSection" class="snap-section" >
+    <h2>Weekly Events</h2>
+    <div id="eventList">Loading…</div>
+  </section>
+
+  <!-- 🗓️ 3. Itinerary Section -->
+  <section id="itinerarySection" class="snap-section">
+    <h2>Itinerary</h2>
+    <div id="itineraryList">
+      <details open>
+        <summary><strong>Past Plans</strong></summary>
+        <ul id="itineraryPast"></ul>
+      </details>
+      <details open>
+        <summary><strong>Happening Today</strong></summary>
+        <ul id="itineraryToday"></ul>
+      </details>
+      <details open>
+        <summary><strong>Future Plans</strong></summary>
+        <ul id="itineraryFuture"></ul>
+      </details>
+    </div>
+  </section>
+
+  <!-- 📝 4. Blog Section -->
+  <section id="blogSection" class="snap-section">
+    <div></div>
+  </section>
+
+  <!-- 👤 5. About Section -->
+  <section id="aboutSection" class="snap-section">
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 300px; margin-top: 2rem;">
       <div id="pwaInstallTile" style="display: flex; flex-direction: column; align-items: center; background: rgba(20,20,30,0.65); border-radius: 18px; box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18); padding: 2rem 2.5rem; margin-bottom: 2rem; max-width: 340px;">
-        <img src="titlelogo-192.png" alt="Roam Anguilla App Icon" style="width: 72px; height: 72px; margin-bottom: 1rem; box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);" />
+        <img src="titlelogo-192.webp" alt="Roam Anguilla App Icon" style="width: 72px; height: 72px; margin-bottom: 1rem; box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);" />
         <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
           <h2 style="color: #fff; font-size: 1.3rem; margin-bottom: 0.5rem; text-align: center;">Click here to download app to desktop/mobile</h2>
           <p style="color: #ccc; font-size: 1rem; margin-bottom: 1.5rem; text-align: center;">Install Roam Anguilla for the best offline experience and quick access from your home screen.</p>
@@ -891,12 +913,14 @@ document.addEventListener('DOMContentLoaded', function() {
         <div id="pwaInstallMsg" style="color:#ccc; font-size:0.95rem; margin-top:0.75rem; display:none; text-align:center;"></div>
       </div>
     </div>
-</section>
-    
+  </section>
+
 <!-- ::snap-container  -->
-  </div>
+</div>
   
+<!-- Place and Event Cards -->
 <div id="placeCard" style="display:none;"></div>
+<div id="eventCard" style="display:none;"></div>
 
 
   <!-- Consolidated Navigation Script: drop this before </body> -->
@@ -1127,7 +1151,8 @@ const iconBox = `
     <h3>${p.title}</h3>
     <div><strong>Location:</strong> ${p.location}
     ${mapEmbed}</div>
-     ${iconBox}
+    ${iconBox}
+    <button class="itinerary-btn" onclick='addToItinerary({type:"place",data:JSON.parse(decodeURIComponent("${encodeURIComponent(JSON.stringify(p))}"))})'>Add to Itinerary</button>
   `;
   card.style.display = 'grid';
 });
@@ -1185,6 +1210,7 @@ injectPlacesSchema();
           const div = document.createElement('div');
           div.className = 'event';
           div.innerHTML = `<strong>${e.name}</strong><span>${e.place}</span>`;
+          div.addEventListener('click', () => showEventCard(e));
           container.appendChild(div);
         });
       } catch (err) {
@@ -1193,6 +1219,21 @@ injectPlacesSchema();
       }
     }
     loadEvents();
+// Show Event Card Modal
+function showEventCard(e) {
+  const card = document.getElementById('eventCard');
+  card.innerHTML = `
+    <div class="close-btn" onclick="document.getElementById('eventCard').style.display='none'">✕</div>
+    <h3>${e.name}</h3>
+    <div><strong>Day:</strong> ${e.eventday || ''}</div>
+    <div><strong>Begins:</strong> ${e.eventstart !== undefined ? e.eventstart+':00' : ''}</div>
+    <div><strong>Ends:</strong> ${e.eventend !== undefined ? e.eventend+':00' : ''}</div>
+    <div><strong>Location:</strong> ${e.place || ''}</div>
+    ${e.placeurl ? `<div><a href="${e.placeurl}" target="_blank">View on Map</a></div>` : ''}
+    ${e.eventdesc ? `<div style='margin-top:0.5em;'><em>${e.eventdesc}</em></div>` : ''}
+  `;
+  card.style.display = 'grid';
+}
 // --- Schema.org JSON-LD automation for Events ---
 async function injectEventsSchema() {
   try {
@@ -1338,9 +1379,122 @@ document.querySelectorAll('#navHorizontal .nav-btn').forEach(btn => {
   });
 });
 </script>
+<style>
+#eventCard {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20,20,30,0.55);
+  color: #eee;
+  padding: 1rem;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.22);
+  z-index: 1000;
+  max-width: 300px;
+  max-height: 90vh;
+  width: 90%;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: none;
+  grid-template-rows: auto auto auto auto auto;
+  row-gap: 1rem;
+}
+#eventCard h3, #eventCard div, #eventCard span {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+  display: block;
+}
+#eventCard .close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 20;
+}
+</style>
 
 
 
-
-</html>
-
+<script>
+// Itinerary logic
+function getItinerary() {
+  try {
+    return JSON.parse(localStorage.getItem('itinerary')||'[]');
+  } catch { return []; }
+}
+function saveItinerary(arr) {
+  localStorage.setItem('itinerary', JSON.stringify(arr));
+}
+function addToItinerary(item) {
+  const arr = getItinerary();
+  // Check for duplicates
+  const isDuplicate = arr.some(it => {
+    if(item.type === 'event' && it.type === 'event') {
+      return it.data.name === item.data.name && it.data.eventdesc === item.data.eventdesc;
+    } else if(item.type === 'place' && it.type === 'place') {
+      return it.data.title === item.data.title && it.data.location === item.data.location;
+    }
+    return false;
+  });
+  if(isDuplicate) {
+    alert('This item is already in your itinerary!');
+    return;
+  }
+  arr.push({...item, added: Date.now()});
+  saveItinerary(arr);
+  renderItinerary();
+  alert('Added to itinerary!');
+}
+function renderItinerary() {
+  const arr = getItinerary();
+  const now = new Date();
+  const todayStr = now.toISOString().slice(0,10);
+  const past = [], today = [], future = [];
+  arr.forEach(it => {
+    let when = 'future';
+    if(it.type==="event" && it.data.eventdesc) {
+      // Try to parse date from eventdesc (format: yyyy/m/d/hh.hh/hh.hh)
+      const m = it.data.eventdesc.match(/(\d{4})\/(\d{1,2})\/(\d{1,2})/);
+      if(m) {
+        const dstr = `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+        if(dstr < todayStr) when = 'past';
+        else if(dstr === todayStr) when = 'today';
+        else when = 'future';
+      }
+    }
+    else if(it.type==="place") {
+      // For places, just put in future for now
+      when = 'future';
+    }
+    if(when==='past') past.push(it);
+    else if(when==='today') today.push(it);
+    else future.push(it);
+  });
+  const makeLi = it => `<li>${it.type==='event' ? `<b>${it.data.name}</b> (${it.data.eventday||''} ${it.data.eventstart||''}-${it.data.eventend||''}) @ ${it.data.place}` : `<b>${it.data.title}</b> @ ${it.data.location}`}</li>`;
+  document.getElementById('itineraryPast').innerHTML = past.map(makeLi).join('') || '<li>No past plans</li>';
+  document.getElementById('itineraryToday').innerHTML = today.map(makeLi).join('') || '<li>No plans today</li>';
+  document.getElementById('itineraryFuture').innerHTML = future.map(makeLi).join('') || '<li>No future plans</li>';
+}
+document.addEventListener('DOMContentLoaded', renderItinerary);
+</script>
+<style>
+.itinerary-btn {
+  margin-top: 1em;
+  padding: 0.5em 1.2em;
+  background: #4b0082;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);
+}
+.itinerary-btn:hover { background: #6a1bb7; }
+</style>

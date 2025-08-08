@@ -21,9 +21,9 @@ self.addEventListener('install', event => {
         '/',
         '/index.html',
         '/manifest.json',
-        '/titlelogo-192.png',
-        '/titlelogo-512.png',
-        '/titlelogo.png',
+        '/titlelogo-192.webp',
+        '/titlelogo-512.webp',
+        '/titlelogo.webp',
         '/WebLogo.webp',
         '/herovideo.mp4'
       ])
