@@ -55,7 +55,7 @@ html, body {
   overflow: hidden;
 }
 
-#placeSection , #eventSection, #blogSection, #aboutSection{
+#placeSection , #eventSection,#favoriteSection,#blogSection, #aboutSection{
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -65,20 +65,6 @@ html, body {
    background:transparent;
  
 }
-
-#placeSection {
-background:transparent;}
-
-#eventSection {
-background:transparent;}
-
-#blogSection {
-background:transparent;}
-
-#aboutSection {
-background:transparent;}
-
-
 
 
 #placeList, #eventList {
@@ -135,8 +121,7 @@ background:transparent;}
       font-size: 0.9rem;
     }
 
-
-#placeCard {
+#placeCard, #eventCard {
   position: fixed;
   top: 20%;
   left: 50%;
@@ -154,7 +139,7 @@ background:transparent;}
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255,255,255,0.12);
 }
-#placeCard {
+#placeCard, #eventCard {
   display: grid;
   grid-template-rows: auto auto auto; /* Title, map, amenities */
   row-gap: 1rem;
@@ -167,19 +152,8 @@ background:transparent;}
   min-height: 150px; /* Maintain desired minimum map height */
 }
 
-#placeCard h3 {
+#placeCard h3 , #eventCard h3 {
   margin: 0 0 0.5rem;
-}
-
-#placeCard .close-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: none;
-  border: none;
-  font-size: 1.25rem;
-  cursor: pointer;
-  z-index: 20;
 }
 
 #placeCard img {
@@ -237,49 +211,35 @@ background:transparent;}
   width: 80%;
   max-width:600px;
   margin: 0 auto 1rem;
-  gap: 0.5rem;
   background: none !important;
   box-shadow: none !important;
   border: none !important;
   backdrop-filter: none !important;
 }
 
-#placeSearch {
-  width: 60%;
-  max-width:600px;
-  flex: 1;
-  padding: 0.5rem;
+.search-container {
+  display: flex;
+  width: 100%;
+  position: relative;
   border-radius: 15px;
-  border: none;
-  font-size: 1rem;
   background: rgba(30,30,40,0.55);
-  color: #fff;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255,255,255,0.12);
+  overflow: hidden;
+}
+
+#placeSearch {
+  width: 100%;
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  font-size: 1rem;
+  background: transparent;
+  color: #fff;
   height: 2.5rem;
   box-sizing: border-box;
-}
-
-#exploreBtn {
-  padding: 0 1rem;
-  border: none;
-  border-radius: 15px;
-  background: rgba(30,30,40,0.55);
-  color: #fff;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.12);
-  font-weight: bold;
-  font-size: 1rem;
-  height: 2.5rem;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  flex-shrink: 0;
-}
-
-#exploreBtn:hover {
-  background: #e0d4ff;
+  outline: none;
 }
 
 #typeFilters {
@@ -320,23 +280,6 @@ background:transparent;}
   background: #e0d4ff;
 }
 
-
-
-#placeTitle,
-#typeFilters,
-#placeList {
-  transition: all 0.4s ease;
-}
-
-#placeTitle.hidden,
-#typeFilters.hidden,
-#placeList.hidden{
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
 #placeTitle {
     flex-direction: column;
     width: 90%;
@@ -344,9 +287,6 @@ background:transparent;}
     gap: 0.2rem;
     margin: 0 auto 0.5rem;
   }
-
-
-
 
 #navHorizontal {
  position:sticky;
@@ -375,29 +315,7 @@ background:transparent;}
  z-index: 10; 
 }
 
-
-
-#navHorizontal.hidden {
-  opacity: 0;
-  display:none;
-  overflow: hidden;
-}
-
-
-#logo.shrink {
-grid-area:logo;
- justify-self: start;
- 
-transition: transform 0.25s cubic-bezier(0.7, 0, 0.3, 1), width 0.25s ease;
-transform: scale(0.4) translate(0px, 0px) ;
-max-height: 100px;
-min-height: 100px;
-width: auto;
-padding: 10;
-}
-
-#logo:not(.shrink) {
-
+#logo{
 width: 100%;
   max-width: 600px;    /* the largest it should ever grow */
   height: auto;
@@ -450,14 +368,13 @@ width: 100%;
   background: #e0d4ff;
 }
 
-
-
 .nav-btn.active {
   background: #fff;
   color: #dabbe2ca;
   border-radius: 12px;
   padding: 0.25rem 0.5rem;
 }
+
 
 #navContainer{
 display: grid;
@@ -486,10 +403,10 @@ display: grid;
   color: #fff;
 }
 #navHorizontal .nav-btn:focus {
-  color: #fff;
+  color: #870bb8;
 }
 #navHorizontal .nav-btn:hover {
-  color: #e0d4ff;
+  color: #b01eefaf;
 }
 #navHorizontal .nav-btn.active {
   background: rgba(255,255,255,0.2);
@@ -504,8 +421,6 @@ display: grid;
 
 
 .snap-container {
-
-
 height: 100vh;
 max-height: 100%;
 overflow-y: auto;
@@ -542,30 +457,24 @@ overflow-y: auto;
 
 @media (max-width: 600px) {
 
-
-
 #searchBarRow{
-    flex-direction: column;
     width: 90%;
     max-width:500px;
-    max-Height:70px;
-   min-height: calc(2.75rem * 2.5 + 0.5rem);
-    gap: 0.2rem;
     margin: 0 auto 0.5rem;
   }
 
- #placeSearch,
-#exploreBtn {
-  width: 100%;
+.search-container {
+    width: 100%;
+    height: 2.75rem;
+  }
+
+ #placeSearch {
   height: 2.75rem;
   line-height: 2.75rem;
-  padding: 0 0rem;
+  padding: 0 0.5rem;
   font-size: 1rem;
   box-sizing: border-box;
-  border-radius: 15px;
-  flex:none;
-  min-height: 2.75rem;
-  max-height: 2.75rem;
+  background: transparent;
 }
 
 #placeSearch {
@@ -574,9 +483,10 @@ overflow-y: auto;
   padding-top: 0;
   padding-bottom: 0;
 }
+
 #exploreBtn {
-    border-radius: 15px;
-    margin-top: 0.5rem;
+    min-width: 60px;
+    height: 2.75rem;
   }
   
 #typeFilters {
@@ -591,7 +501,6 @@ overflow-y: auto;
   
   }
   
-
   
 #typeFilters button {
     padding: 0.4rem 0.5rem; /* REDUCED */
@@ -649,8 +558,8 @@ function showOpenInAppBanner() {
     banner.style = 'position:fixed;bottom:0;left:0;width:100vw;background:rgba(20,20,30,0.95);color:#fff;padding:1rem 2rem;z-index:9999;display:flex;align-items:center;justify-content:center;box-shadow:0 -2px 16px 0 rgba(0,0,0,0.18);font-size:1.1rem;';
     banner.innerHTML = `
       <span style="margin-right:1.5rem;">Already installed? <b>Open in App</b> for the best experience.</span>
-      <button id="openAppBtn" style="padding:0.5rem 1.2rem;background:#4b0082;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;">Open App</button>
-      <button id="closeBannerBtn" style="margin-left:1rem;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">&times;</button>
+      <button id="openAppBtn" class="buttonstyle">Open App</button>
+      <button id="closeBannerBtn" class="buttonstyle" style="margin-left:1rem;background:none;color:#fff;font-size:1.5rem;">&times;</button>
     `;
     document.body.appendChild(banner);
     document.getElementById('closeBannerBtn').onclick = () => banner.remove();
@@ -733,6 +642,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const fragmentToSection = {
     '#places': 'placeSection',
     '#events': 'eventSection',
+    '#favorites': 'favoriteSection',
     '#blog': 'blogSection',
     '#about': 'aboutSection'
   };
@@ -821,12 +731,12 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
   
 
-    <nav id="navHorizontal" class="hidden" aria-label="Main Navigation">
+    <nav id="navHorizontal" aria-label="Main Navigation">
       <div id="navContainer">
         <div id="topBarContainer">
           <a class="nav-btn" href="#places" data-target="placeSection">Places</a>
           <a class="nav-btn" href="#events" data-target="eventSection">Events</a>
-          <a class="nav-btn" href="#itinerary" data-target="itinerarySection">Itinerary</a>
+          <a class="nav-btn" href="#favorites" data-target="favoriteSection">Favorites</a>
           <a class="nav-btn" href="#blogSection" data-target="blogSection">Blog</a>
           <a class="nav-btn" href="#aboutSection" data-target="aboutSection">About Me</a>
         </div>
@@ -837,7 +747,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   
   <!-- 🌟 1. Hero Zone -->
-  <section id="placeSection" class="snap-section"> 
+  
     <!-- Permanent video background for the whole app -->
     <style>
       /* Ensure PWA install tile headline and description wrap and stay inside the box */
@@ -859,15 +769,26 @@ document.addEventListener('DOMContentLoaded', function() {
         pointer-events: none;
       }
     </style>
+
+   <section id="landingSection" class="snap-section"> 
     <img id="logo" src="WebLogo.webp" alt="WebApp Logo" style="position:relative;z-index:1;">
+    <div id="startAdventureBtn" style="text-align: center; cursor: pointer; margin: 20px auto; width: 100%; max-width: 300px;">
+      <p style="margin: 0; font-size: 1.2rem;background:rgba(49, 49, 56, 0.709);color: white; font-weight: bold;">Start Your Adventure</p>
+    </div>
+   </section>
+
+
+    <section id="placeSection" class="snap-section"> 
     <div id="searchBarRow" style="position:relative;z-index:2;">  
-      <input id="placeSearch" type="text" placeholder=" Search places..." />
-      <button id="exploreBtn">Explore</button>
+      <div class="search-container">
+        <input id="placeSearch" type="text" placeholder=" Search places..." />
+        <button id="exploreBtn" class="buttonstyle">Go</button>
+      </div>
     </div>
     <!-- 🔍 2. Filter + Search -->
-    <div id="typeFilters" class="hidden"></div>
+    <div id="typeFilters" ></div>
     <!-- 🗺️ 3. Places List -->
-    <div id="placeList" class="hidden">Loading…</div>
+    <div id="placeList" >Loading…</div>
   </section>
 
   <!-- 🎭 2. Events Section -->
@@ -876,21 +797,17 @@ document.addEventListener('DOMContentLoaded', function() {
     <div id="eventList">Loading…</div>
   </section>
 
-  <!-- 🗓️ 3. Itinerary Section -->
-  <section id="itinerarySection" class="snap-section">
-    <h2>Itinerary</h2>
-    <div id="itineraryList">
+  <!-- ⭐ 3. Favorites Section -->
+  <section id="favoriteSection" class="snap-section">
+    <h2>Favorites</h2>
+    <div id="favoritesList">
       <details open>
-        <summary><strong>Past Plans</strong></summary>
-        <ul id="itineraryPast"></ul>
+        <summary><strong>Favorited Locations</strong></summary>
+        <ul id="favoritesLocations"></ul>
       </details>
       <details open>
-        <summary><strong>Happening Today</strong></summary>
-        <ul id="itineraryToday"></ul>
-      </details>
-      <details open>
-        <summary><strong>Future Plans</strong></summary>
-        <ul id="itineraryFuture"></ul>
+        <summary><strong>Favorited Events</strong></summary>
+        <ul id="favoritesEvents"></ul>
       </details>
     </div>
   </section>
@@ -909,7 +826,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <h2 style="color: #fff; font-size: 1.3rem; margin-bottom: 0.5rem; text-align: center;">Click here to download app to desktop/mobile</h2>
           <p style="color: #ccc; font-size: 1rem; margin-bottom: 1.5rem; text-align: center;">Install Roam Anguilla for the best offline experience and quick access from your home screen.</p>
         </div>
-        <button id="pwaInstallBtn" style="padding: 0.75rem 1.5rem; background: #4b0082; color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: bold; box-shadow: 0 2px 12px 0 rgba(0,0,0,0.18); cursor: pointer;">Install App</button>
+        <button id="pwaInstallBtn" class="buttonstyle">Install App</button>
         <div id="pwaInstallMsg" style="color:#ccc; font-size:0.95rem; margin-top:0.75rem; display:none; text-align:center;"></div>
       </div>
     </div>
@@ -923,7 +840,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="eventCard" style="display:none;"></div>
 
 
-  <!-- Consolidated Navigation Script: drop this before </body> -->
    <!-- Consolidated Navigation Script: drop this before </body> -->
   <script>
   (function() {
@@ -1102,6 +1018,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 div.addEventListener('click', () => {
+  currentPlace = p; // Store current place globally
   const card = document.getElementById('placeCard');
   const mapQuery = encodeURIComponent(`${p.title} ${p.location} ${p.type}`);
   const mapEmbed = `
@@ -1147,12 +1064,12 @@ const iconBox = `
 `;
 
   card.innerHTML = `
-    <div class="close-btn" onclick="document.getElementById('placeCard').style.display='none'">✕</div>
+    <div class="buttonstyle close-btn" onclick="document.getElementById('placeCard').style.display='none'" style="position: absolute; top: 0.5rem; right: 0.5rem; background: none; font-size: 1.25rem; z-index: 20;">✕</div>
     <h3>${p.title}</h3>
     <div><strong>Location:</strong> ${p.location}
     ${mapEmbed}</div>
     ${iconBox}
-    <button class="itinerary-btn" onclick='addToItinerary({type:"place",data:JSON.parse(decodeURIComponent("${encodeURIComponent(JSON.stringify(p))}"))})'>Add to Itinerary</button>
+    <button class="buttonstyle" onclick="addCurrentPlaceToFavorites()">Add to Favorites</button>
   `;
   card.style.display = 'grid';
 });
@@ -1221,9 +1138,10 @@ injectPlacesSchema();
     loadEvents();
 // Show Event Card Modal
 function showEventCard(e) {
+  currentEvent = e; // Store current event globally
   const card = document.getElementById('eventCard');
   card.innerHTML = `
-    <div class="close-btn" onclick="document.getElementById('eventCard').style.display='none'">✕</div>
+    <div class="buttonstyle close-btn" onclick="document.getElementById('eventCard').style.display='none'" style="position: absolute; top: 0.5rem; right: 0.5rem; background: none; font-size: 1.25rem; z-index: 20;">✕</div>
     <h3>${e.name}</h3>
     <div><strong>Day:</strong> ${e.eventday || ''}</div>
     <div><strong>Begins:</strong> ${e.eventstart !== undefined ? e.eventstart+':00' : ''}</div>
@@ -1231,6 +1149,7 @@ function showEventCard(e) {
     <div><strong>Location:</strong> ${e.place || ''}</div>
     ${e.placeurl ? `<div><a href="${e.placeurl}" target="_blank">View on Map</a></div>` : ''}
     ${e.eventdesc ? `<div style='margin-top:0.5em;'><em>${e.eventdesc}</em></div>` : ''}
+    <button class="buttonstyle" onclick="addCurrentEventToFavorites()">Add to Favorites</button>
   `;
   card.style.display = 'grid';
 }
@@ -1340,32 +1259,6 @@ sections.forEach(sec => observer.observe(sec));
 </script>
 
 
-<!-- LandingPageShift -->
-<script>
-
-document.getElementById('exploreBtn').addEventListener('click', e => {
-  e.preventDefault();
-  const logo = document.getElementById('logo');
-  const filters = document.getElementById('typeFilters');
-  const list = document.getElementById('placeList');
-  const searchBar = document.getElementById('searchBarRow');
-  const horBar = document.getElementById('navHorizontal');
-  const navCon = document.getElementById('navContainer');
-  // Animating the logo
-  logo.classList.add('shrink');
-  horBar.classList.remove('hidden');
-  navCon.insertBefore(logo, navCon.firstChild);
-  // Optional: animate search bar slightly
-  searchBar.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-  searchBar.style.transform = 'translateY(-10px)';
-  searchBar.style.opacity = '0.9';
-  // Reveal filter & list after animation
-  setTimeout(() => {
-    filters.classList.remove('hidden');
-    list.classList.remove('hidden');
-  }, 400);
-});
-</script>
 
 <!-- Scroll Into View -->
 <script>
@@ -1379,122 +1272,197 @@ document.querySelectorAll('#navHorizontal .nav-btn').forEach(btn => {
   });
 });
 </script>
-<style>
-#eventCard {
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(20,20,30,0.55);
-  color: #eee;
-  padding: 1rem;
-  border-radius: 18px;
-  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.22);
-  z-index: 1000;
-  max-width: 300px;
-  max-height: 90vh;
-  width: 90%;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.12);
-  display: none;
-  grid-template-rows: auto auto auto auto auto;
-  row-gap: 1rem;
-}
-#eventCard h3, #eventCard div, #eventCard span {
-  word-break: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
-  max-width: 100%;
-  display: block;
-}
-#eventCard .close-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: none;
-  border: none;
-  font-size: 1.25rem;
-  cursor: pointer;
-  z-index: 20;
-}
-</style>
 
 
 
 <script>
-// Itinerary logic
-function getItinerary() {
+// Favorites logic
+function getFavorites() {
   try {
-    return JSON.parse(localStorage.getItem('itinerary')||'[]');
-  } catch { return []; }
-}
-function saveItinerary(arr) {
-  localStorage.setItem('itinerary', JSON.stringify(arr));
-}
-function addToItinerary(item) {
-  const arr = getItinerary();
-  // Check for duplicates
-  const isDuplicate = arr.some(it => {
-    if(item.type === 'event' && it.type === 'event') {
-      return it.data.name === item.data.name && it.data.eventdesc === item.data.eventdesc;
-    } else if(item.type === 'place' && it.type === 'place') {
-      return it.data.title === item.data.title && it.data.location === item.data.location;
-    }
-    return false;
-  });
-  if(isDuplicate) {
-    alert('This item is already in your itinerary!');
-    return;
+    const stored = localStorage.getItem('favorites');
+    if (!stored) return [];
+    const parsed = JSON.parse(stored);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.error('Error reading favorites from localStorage:', error);
+    return [];
   }
-  arr.push({...item, added: Date.now()});
-  saveItinerary(arr);
-  renderItinerary();
-  alert('Added to itinerary!');
 }
-function renderItinerary() {
-  const arr = getItinerary();
-  const now = new Date();
-  const todayStr = now.toISOString().slice(0,10);
-  const past = [], today = [], future = [];
-  arr.forEach(it => {
-    let when = 'future';
-    if(it.type==="event" && it.data.eventdesc) {
-      // Try to parse date from eventdesc (format: yyyy/m/d/hh.hh/hh.hh)
-      const m = it.data.eventdesc.match(/(\d{4})\/(\d{1,2})\/(\d{1,2})/);
-      if(m) {
-        const dstr = `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
-        if(dstr < todayStr) when = 'past';
-        else if(dstr === todayStr) when = 'today';
-        else when = 'future';
+function saveFavorites(arr) {
+  try {
+    localStorage.setItem('favorites', JSON.stringify(arr));
+  } catch (error) {
+    console.error('Error saving to localStorage:', error);
+    alert('Error saving favorites. Your browser may have storage issues.');
+  }
+}
+
+// Global variables to hold current item data for adding to favorites
+let currentPlace = null;
+let currentEvent = null;
+
+// Helper functions for adding specific items
+function addCurrentPlaceToFavorites() {
+  if (currentPlace) {
+    addToFavorites({type: "place", data: currentPlace});
+  }
+}
+
+function addCurrentEventToFavorites() {
+  if (currentEvent) {
+    addToFavorites({type: "event", data: currentEvent});
+  }
+}
+
+// Function to delete an item from the favorites
+function deleteFromFavorites(itemType, itemIndex) {
+  try {
+    const arr = getFavorites();
+    const filteredItems = arr.filter((item, index) => {
+      if (itemType === 'place' && item.type === 'place') {
+        return index !== itemIndex;
+      } else if (itemType === 'event' && item.type === 'event') {
+        return index !== itemIndex;
       }
-    }
-    else if(it.type==="place") {
-      // For places, just put in future for now
-      when = 'future';
-    }
-    if(when==='past') past.push(it);
-    else if(when==='today') today.push(it);
-    else future.push(it);
-  });
-  const makeLi = it => `<li>${it.type==='event' ? `<b>${it.data.name}</b> (${it.data.eventday||''} ${it.data.eventstart||''}-${it.data.eventend||''}) @ ${it.data.place}` : `<b>${it.data.title}</b> @ ${it.data.location}`}</li>`;
-  document.getElementById('itineraryPast').innerHTML = past.map(makeLi).join('') || '<li>No past plans</li>';
-  document.getElementById('itineraryToday').innerHTML = today.map(makeLi).join('') || '<li>No plans today</li>';
-  document.getElementById('itineraryFuture').innerHTML = future.map(makeLi).join('') || '<li>No future plans</li>';
+      return true;
+    });
+    
+    saveFavorites(filteredItems);
+    renderFavorites();
+    
+    const itemTypeName = itemType === 'place' ? 'location' : 'event';
+    alert(`${itemTypeName.charAt(0).toUpperCase() + itemTypeName.slice(1)} removed from favorites!`);
+  } catch (error) {
+    console.error('Error deleting from favorites:', error);
+    alert('Error removing item from favorites. Please try again.');
+  }
 }
-document.addEventListener('DOMContentLoaded', renderItinerary);
+function addToFavorites(item) {
+  try {
+    console.log('Adding to favorites:', item); // Debug logging
+    
+    if (!item || !item.type || !item.data) {
+      console.error('Invalid item structure:', item);
+      alert('Error: Invalid item data');
+      return;
+    }
+    
+    const arr = getFavorites();
+    
+    // Check for duplicates with better logic
+    const isDuplicate = arr.some(it => {
+      if(item.type === 'event' && it.type === 'event') {
+        // For events, compare name and place (location) for uniqueness
+        return it.data.name === item.data.name && it.data.place === item.data.place;
+      } else if(item.type === 'place' && it.type === 'place') {
+        // For places, compare title and location for uniqueness
+        return it.data.title === item.data.title && it.data.location === item.data.location;
+      }
+      return false;
+    });
+    
+    if(isDuplicate) {
+      const itemName = item.type === 'event' ? item.data.name : item.data.title;
+      alert(`"${itemName}" is already in your favorites!`);
+      return;
+    }
+    
+    arr.push({...item, added: Date.now()});
+    saveFavorites(arr);
+    renderFavorites();
+    
+    const itemName = item.type === 'event' ? item.data.name : item.data.title;
+    alert(`"${itemName}" added to favorites!`);
+    
+    console.log('Successfully added to favorites. Current favorites:', getFavorites()); // Debug logging
+  } catch (error) {
+    console.error('Error adding to favorites:', error);
+    alert('Error adding item to favorites. Please try again.');
+  }
+}
+function renderFavorites() {
+  const arr = getFavorites();
+  const locations = [], events = [];
+  
+  // Separate items by type and keep track of original indices
+  arr.forEach((it, index) => {
+    if(it.type === "place") {
+      locations.push({...it, originalIndex: index});
+    } else if(it.type === "event") {
+      events.push({...it, originalIndex: index});
+    }
+  });
+  
+  const makeLocationLi = (it, locationIndex) => `
+    <li style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+      <span><b>${it.data.title}</b> @ ${it.data.location}</span>
+      <button onclick="deleteFromFavorites('place', ${it.originalIndex})" 
+              class="buttonstyle"
+              style="background: rgba(220, 53, 69, 0.8); min-width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;"
+              title="Remove from favorites">
+        ✕
+      </button>
+    </li>`;
+    
+  const makeEventLi = (it, eventIndex) => `
+    <li style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+      <span><b>${it.data.name}</b> (${it.data.eventday||''} ${it.data.eventstart||''}-${it.data.eventend||''}) @ ${it.data.place}</span>
+      <button onclick="deleteFromFavorites('event', ${it.originalIndex})" 
+              class="buttonstyle"
+              style="background: rgba(220, 53, 69, 0.8); min-width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;"
+              title="Remove from favorites">
+        ✕
+      </button>
+    </li>`;
+  
+  document.getElementById('favoritesLocations').innerHTML = locations.map((it, index) => makeLocationLi(it, index)).join('') || '<li>No favorited locations</li>';
+  document.getElementById('favoritesEvents').innerHTML = events.map((it, index) => makeEventLi(it, index)).join('') || '<li>No favorited events</li>';
+}
+document.addEventListener('DOMContentLoaded', renderFavorites);
 </script>
 <style>
-.itinerary-btn {
-  margin-top: 1em;
-  padding: 0.5em 1.2em;
-  background: #4b0082;
+/* Universal button style */
+.buttonstyle {
+  padding: 0.5rem 1rem;
+  background: rgba(75, 0, 130, 0.8); /* Opaque purple background */
   color: #fff;
   border: none;
   border-radius: 8px;
-  font-size: 1em;
+  font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);
+  transition: background-color 0.2s ease;
 }
-.itinerary-btn:hover { background: #6a1bb7; }
+
+.buttonstyle:hover {
+  background: rgba(180, 150, 255, 0.9); /* Light purple hover */
+}
+
+/* Favorites list styling */
+#favoritesLocations, #favoritesEvents {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#favoritesLocations li, #favoritesEvents li {
+  margin: 0;
+  padding: 0.5rem 0;
+}
 </style>
+
+<!-- Start Adventure Button Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Add click event to the Start Adventure button
+  const startBtn = document.getElementById('startAdventureBtn');
+  if (startBtn) {
+    startBtn.addEventListener('click', function() {
+      // Scroll to the placeSection
+      const placeSection = document.getElementById('placeSection');
+      if (placeSection) {
+        placeSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+});
+</script>
