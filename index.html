@@ -126,41 +126,45 @@ html, body {
   top: 20%;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(20,20,30,0.55);
+  background: rgba(20,20,30,0.85);
   color: #eee;
-  padding: 1rem;
+  padding: 1.25rem;
   border-radius: 18px;
-  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.22);
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.35);
   z-index: 1000;
-  max-width: 300px;
+  max-width: 340px;
   max-height: 90vh;
   width: 90%;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,0.12);
+  overflow-y: auto;
 }
 #placeCard, #eventCard {
   display: grid;
   grid-template-rows: auto auto auto; /* Title, map, amenities */
   row-gap: 1rem;
-  padding: 1rem;
+  padding: 1.25rem;
 }
 
 #placeCard iframe {
   width: 100%;
   height: auto; /* Keep map height intrinsic */
-  min-height: 150px; /* Maintain desired minimum map height */
+  min-height: 180px; /* Maintain desired minimum map height */
+  border-radius: 10px;
 }
 
-#placeCard h3 , #eventCard h3 {
-  margin: 0 0 0.5rem;
+#placeCard h3, #eventCard h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.3rem;
+  color: #fff;
 }
 
 #placeCard img {
   width: 100%;
   height: auto;
   margin-top: 0.5rem;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 /* 1. Ensure the container is positioned */
 #placeCard .tag-box {
@@ -738,7 +742,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <a class="nav-btn" href="#events" data-target="eventSection">Events</a>
           <a class="nav-btn" href="#favorites" data-target="favoriteSection">Favorites</a>
           <a class="nav-btn" href="#blogSection" data-target="blogSection">Blog</a>
-          <a class="nav-btn" href="#aboutSection" data-target="aboutSection">About Me</a>
+          <a class="nav-btn" href="#aboutSection" data-target="aboutSection">About Us</a>
         </div>
       </div>
     </nav>
@@ -801,14 +805,16 @@ document.addEventListener('DOMContentLoaded', function() {
   <section id="favoriteSection" class="snap-section">
     <h2>Favorites</h2>
     <div id="favoritesList">
-      <details open>
-        <summary><strong>Favorited Locations</strong></summary>
-        <ul id="favoritesLocations"></ul>
-      </details>
-      <details open>
-        <summary><strong>Favorited Events</strong></summary>
-        <ul id="favoritesEvents"></ul>
-      </details>
+      <div id="favoritesContainer">
+        <details open>
+          <summary class="favorites-summary"><strong>Favorited Locations</strong></summary>
+          <ul id="favoritesLocations"></ul>
+        </details>
+        <details open>
+          <summary class="favorites-summary"><strong>Favorited Events</strong></summary>
+          <ul id="favoritesEvents"></ul>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -1026,7 +1032,7 @@ div.addEventListener('click', () => {
       src="https://www.google.com/maps?q=${mapQuery}&output=embed"
       width="100%"
       height="100%"
-      style="border:0; border-radius: 4px; margin-top: 0.5rem;"
+      style="border:0; border-radius: 10px; margin-top: 0.5rem;"
       allowfullscreen=""
       loading="lazy"
     ></iframe>`;
@@ -1035,41 +1041,27 @@ div.addEventListener('click', () => {
 const matchedIcons = Object.entries(tagIcons)
   .filter(([label]) => tags.includes(label.toLowerCase()))
   .map(([, icon]) => icon)
-  .join('') || '<span>No tags</span>';
+  .join('') || '<span>No amenities available</span>';
 
 const iconBox = `
-  <div style="
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    background: #eee;
-    border-radius: 6px;
-    color: black;
-  ">
-    <div style="
-      font-weight: bold;
-      font-size: 0.75rem;
-      margin-bottom: 0.25rem;
-    ">Amenities</div>
-
-    <div style="
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-      align-items: center;
-    ">
+  <div class="amenities-box">
+    <div class="amenities-title">Amenities</div>
+    <div class="amenities-icons">
       ${matchedIcons}
     </div>
   </div>
 `;
 
   card.innerHTML = `
-    <div class="buttonstyle close-btn" onclick="document.getElementById('placeCard').style.display='none'" style="position: absolute; top: 0.5rem; right: 0.5rem; background: none; font-size: 1.25rem; z-index: 20;">✕</div>
+    <div class="buttonstyle close-btn" onclick="document.getElementById('placeCard').style.display='none'" style="position: absolute; top: 0.75rem; right: 0.75rem; background: none; font-size: 1.25rem; z-index: 20;">✕</div>
     <h3>${p.title}</h3>
-    <div><strong>Location:</strong> ${p.location}
-    ${mapEmbed}</div>
+    <div class="place-card-details">
+      <div class="place-detail"><strong>Location:</strong> ${p.location}</div>
+      ${p.type ? `<div class="place-detail"><strong>Type:</strong> ${p.type}</div>` : ''}
+      <div class="map-container">${mapEmbed}</div>
+    </div>
     ${iconBox}
-    <button class="buttonstyle" onclick="addCurrentPlaceToFavorites()">Add to Favorites</button>
+    <button class="buttonstyle add-to-favorites-btn" onclick="addCurrentPlaceToFavorites()">Add to Favorites</button>
   `;
   card.style.display = 'grid';
 });
@@ -1141,15 +1133,17 @@ function showEventCard(e) {
   currentEvent = e; // Store current event globally
   const card = document.getElementById('eventCard');
   card.innerHTML = `
-    <div class="buttonstyle close-btn" onclick="document.getElementById('eventCard').style.display='none'" style="position: absolute; top: 0.5rem; right: 0.5rem; background: none; font-size: 1.25rem; z-index: 20;">✕</div>
+    <div class="buttonstyle close-btn" onclick="document.getElementById('eventCard').style.display='none'" style="position: absolute; top: 0.75rem; right: 0.75rem; background: none; font-size: 1.25rem; z-index: 20;">✕</div>
     <h3>${e.name}</h3>
-    <div><strong>Day:</strong> ${e.eventday || ''}</div>
-    <div><strong>Begins:</strong> ${e.eventstart !== undefined ? e.eventstart+':00' : ''}</div>
-    <div><strong>Ends:</strong> ${e.eventend !== undefined ? e.eventend+':00' : ''}</div>
-    <div><strong>Location:</strong> ${e.place || ''}</div>
-    ${e.placeurl ? `<div><a href="${e.placeurl}" target="_blank">View on Map</a></div>` : ''}
-    ${e.eventdesc ? `<div style='margin-top:0.5em;'><em>${e.eventdesc}</em></div>` : ''}
-    <button class="buttonstyle" onclick="addCurrentEventToFavorites()">Add to Favorites</button>
+    <div class="event-card-details">
+      ${e.eventday ? `<div class="event-detail"><strong>Day:</strong> ${e.eventday}</div>` : ''}
+      ${e.eventstart !== undefined ? `<div class="event-detail"><strong>Begins:</strong> ${e.eventstart}:00</div>` : ''}
+      ${e.eventend !== undefined ? `<div class="event-detail"><strong>Ends:</strong> ${e.eventend}:00</div>` : ''}
+      ${e.place ? `<div class="event-detail"><strong>Location:</strong> ${e.place}</div>` : ''}
+      ${e.placeurl ? `<div class="event-detail"><a href="${e.placeurl}" target="_blank" class="event-map-link">View on Map</a></div>` : ''}
+    </div>
+    ${e.eventdesc ? `<div class="event-description"><em>${e.eventdesc}</em></div>` : ''}
+    <button class="buttonstyle add-to-favorites-btn" onclick="addCurrentEventToFavorites()">Add to Favorites</button>
   `;
   card.style.display = 'grid';
 }
@@ -1394,22 +1388,29 @@ function renderFavorites() {
   });
   
   const makeLocationLi = (it, locationIndex) => `
-    <li style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-      <span><b>${it.data.title}</b> @ ${it.data.location}</span>
+    <li>
+      <div class="favorite-item-content">
+        <div class="favorite-item-title">${it.data.title}</div>
+        <div class="favorite-item-details">${it.data.location} ${it.data.type ? `• ${it.data.type}` : ''}</div>
+      </div>
       <button onclick="deleteFromFavorites('place', ${it.originalIndex})" 
-              class="buttonstyle"
-              style="background: rgba(220, 53, 69, 0.8); min-width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;"
+              class="buttonstyle delete-favorite-btn"
               title="Remove from favorites">
         ✕
       </button>
     </li>`;
     
   const makeEventLi = (it, eventIndex) => `
-    <li style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-      <span><b>${it.data.name}</b> (${it.data.eventday||''} ${it.data.eventstart||''}-${it.data.eventend||''}) @ ${it.data.place}</span>
+    <li>
+      <div class="favorite-item-content">
+        <div class="favorite-item-title">${it.data.name}</div>
+        <div class="favorite-item-details">
+          ${it.data.eventday || ''} ${it.data.eventstart ? `${it.data.eventstart}:00` : ''} ${it.data.eventend ? `- ${it.data.eventend}:00` : ''}
+        </div>
+        <div class="favorite-item-location">${it.data.place || ''}</div>
+      </div>
       <button onclick="deleteFromFavorites('event', ${it.originalIndex})" 
-              class="buttonstyle"
-              style="background: rgba(220, 53, 69, 0.8); min-width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;"
+              class="buttonstyle delete-favorite-btn"
               title="Remove from favorites">
         ✕
       </button>
@@ -1437,16 +1438,278 @@ document.addEventListener('DOMContentLoaded', renderFavorites);
   background: rgba(180, 150, 255, 0.9); /* Light purple hover */
 }
 
-/* Favorites list styling */
+/* Favorites section styling */
+#favoritesList {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem;
+  background: rgba(20,20,30,0.55);
+  border-radius: 18px;
+  margin: 0 1rem 60px;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+#favoritesContainer {
+  padding: 0.75rem;
+}
+
+.favorites-summary {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: rgba(20,20,30,0.55);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.favorites-summary:hover {
+  background: rgba(255,255,255,0.1);
+}
+
 #favoritesLocations, #favoritesEvents {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  padding: 0.5rem;
+  margin: 0 0 1rem 0;
 }
 
 #favoritesLocations li, #favoritesEvents li {
-  margin: 0;
-  padding: 0.5rem 0;
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#favoritesLocations li:hover, #favoritesEvents li:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Unify design between place and event lists */
+#placeList, #eventList, #favoritesList {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem;
+  background: rgba(20,20,30,0.55);
+  border-radius: 18px;
+  margin: 0 1rem 60px;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.place, .event {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.place:hover, .event:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+#favoriteSection h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.favorite-item-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.favorite-item-title {
+  font-weight: bold;
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.favorite-item-details, .favorite-item-location {
+  color: #ddd;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.delete-favorite-btn {
+  background: rgba(220, 53, 69, 0.8);
+  min-width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+.delete-favorite-btn:hover {
+  background: rgba(220, 53, 69, 1);
+}
+
+/* Event and Place Card styling */
+.place-card-details, .event-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.place-detail, .event-detail {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.map-container {
+  margin-top: 0.5rem;
+}
+
+.amenities-box {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  color: #333;
+}
+
+.amenities-title {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.amenities-icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  align-items: center;
+}
+
+.event-description {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.event-map-link {
+  color: #b19eff;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 0.25rem;
+}
+
+.event-map-link:hover {
+  text-decoration: underline;
+}
+
+.add-to-favorites-btn {
+  margin-top: 1rem;
+  justify-self: center;
+  width: 100%;
+  max-width: 200px;
+}
+
+.tag-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.tag-icon svg {
+  width: 1.5em;
+  height: 1.5em;
+  margin-bottom: 0.25rem;
+}
+
+/* Mobile optimizations for favorites */
+@media (max-width: 600px) {
+  #favoritesList {
+    margin: 0 0.5rem 50px;
+    padding: 0.5rem;
+  }
+  
+  #favoritesContainer {
+    padding: 0.5rem;
+  }
+  
+  .favorites-summary {
+    padding: 0.5rem;
+  }
+  
+  #favoritesLocations li, #favoritesEvents li {
+    padding: 0.5rem;
+  }
+  
+  .favorite-item-title {
+    font-size: 1rem;
+  }
+  
+  .favorite-item-details, .favorite-item-location {
+    font-size: 0.8rem;
+  }
+  
+  .delete-favorite-btn {
+    min-width: 28px;
+    height: 28px;
+  }
+  
+  /* Mobile optimizations for cards */
+  #placeCard, #eventCard {
+    top: 15%;
+    padding: 1rem;
+    max-width: 320px;
+  }
+  
+  #placeCard h3, #eventCard h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .place-detail, .event-detail {
+    font-size: 0.85rem;
+  }
+  
+  .amenities-box {
+    padding: 0.75rem;
+  }
+  
+  .amenities-icons {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 0.5rem;
+  }
+  
+  .tag-icon {
+    font-size: 0.7rem;
+  }
+  
+  .event-description {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
 }
 </style>
 
