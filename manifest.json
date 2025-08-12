@@ -1,21 +1,41 @@
 {
-  "name": "Roam Anguilla",
+  "name": "Roam Anguilla - Your Ultimate Anguilla Travel Guide",
   "short_name": "Roam Anguilla",
-  "start_url": "/index.html",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#14141e",
-  "theme_color": "#14141e",
-  "description": "Explore Anguilla's Top Locations & Events Happening Now.",
+  "theme_color": "#4b0082",
+  "description": "Discover Anguilla's best restaurants, beaches, and attractions. Your ultimate guide to weekly events, opening hours, and local favorites.",
+  "categories": ["travel", "lifestyle", "entertainment"],
+  "lang": "en-US",
   "icons": [
     {
       "src": "titlelogo-192.webp",
       "sizes": "192x192",
-      "type": "image/webp"
+      "type": "image/webp",
+      "purpose": "any"
     },
     {
       "src": "titlelogo-512.webp",
       "sizes": "512x512",
-      "type": "image/webp"
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "titlelogo-192.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "WebLogo.webp",
+      "sizes": "1280x720",
+      "type": "image/webp",
+      "form_factor": "wide"
     }
   ]
 }

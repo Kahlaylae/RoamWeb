@@ -5,27 +5,75 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google-adsense-account" content="ca-pub-3098807263908139">
   <meta name="googlebot-news" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <title>Anguilla's Top Locations & Events Happening Now </title>
-  <meta name="description" content="Explore Anguilla's Top Locations. Track Opening Hours and stay up to date on weekly events." />
+  <title>Roam Anguilla - Discover Top Locations & Weekly Events</title>
+  <meta name="description" content="Your ultimate guide to Anguilla's best restaurants, beaches, and attractions. Discover weekly events, opening hours, and local favorites with Roam Anguilla." />
+  <meta name="keywords" content="Anguilla travel, Anguilla restaurants, Anguilla beaches, Anguilla events, Caribbean travel guide, Anguilla attractions" />
+  <meta name="author" content="Roam Anguilla" />
+  <meta name="robots" content="index, follow" />
+  
   <!-- Open Graph Meta Tags for SEO & Social Sharing -->
-  <meta property="og:title" content="Anguilla's Top Locations & Events Happening Now" />
-  <meta property="og:description" content="Explore Anguilla's Top Locations. Track Opening Hours and stay up to date on weekly events." />
+  <meta property="og:title" content="Roam Anguilla - Discover Top Locations & Weekly Events" />
+  <meta property="og:description" content="Your ultimate guide to Anguilla's best restaurants, beaches, and attractions. Discover weekly events, opening hours, and local favorites." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://yourdomain.com/" />
-  <meta property="og:image" content="https://yourdomain.com/WebLogo.webp" />
+  <meta property="og:url" content="https://roamaxa.app/" />
+  <meta property="og:image" content="https://roamaxa.app/WebLogo.webp" />
+  <meta property="og:site_name" content="Roam Anguilla" />
+  <meta property="og:locale" content="en_US" />
+  
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Anguilla's Top Locations & Events Happening Now" />
-  <meta name="twitter:description" content="Explore Anguilla's Top Locations. Track Opening Hours and stay up to date on weekly events." />
-  <meta name="twitter:image" content="https://yourdomain.com/WebLogo.webp" />
-  <meta name="twitter:site" content="@YourTwitterHandle" />
+  <meta name="twitter:title" content="Roam Anguilla - Discover Top Locations & Weekly Events" />
+  <meta name="twitter:description" content="Your ultimate guide to Anguilla's best restaurants, beaches, and attractions. Discover weekly events, opening hours, and local favorites." />
+  <meta name="twitter:image" content="https://roamaxa.app/WebLogo.webp" />
+  <meta name="twitter:site" content="@RoamAnguilla" />
+  <meta name="twitter:creator" content="@RoamAnguilla" />
   
-  <link rel="canonical" href="https://yourdomain.com/#places" />
+  <!-- Additional SEO Meta Tags -->
+  <meta name="geo.region" content="AI" />
+  <meta name="geo.placename" content="Anguilla" />
+  <meta name="geo.position" content="18.220554;-63.068615" />
+  <meta name="ICBM" content="18.220554, -63.068615" />
+  <meta name="theme-color" content="#4b0082" />
+  <meta name="msapplication-TileColor" content="#4b0082" />
+  
+  <link rel="canonical" href="https://roamaxa.app/" />
   <!-- Favicon for browser tab icon -->
   <link rel="icon" type="image/webp" href="titlelogo.webp" sizes="25x25" />
 
   <!-- Manifest for PWA install -->
   <link rel="manifest" href="manifest.json" />
+  
+  <!-- JSON-LD Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Roam Anguilla",
+    "description": "Your ultimate guide to Anguilla's best restaurants, beaches, and attractions. Discover weekly events, opening hours, and local favorites.",
+    "url": "https://roamaxa.app/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://roamaxa.app/?search={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Roam Anguilla",
+      "url": "https://roamaxa.app/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://roamaxa.app/WebLogo.webp"
+      },
+      "sameAs": [
+        "https://www.tiktok.com/@roamanguilla",
+        "https://x.com/RoamAnguilla",
+        "https://www.instagram.com/roamanguilla",
+        "https://www.youtube.com/@RoamAnguilla",
+        "https://www.facebook.com/roamanguilla/"
+      ]
+    }
+  }
+  </script>
   
   <style>
   
@@ -1089,17 +1137,37 @@ async function injectPlacesSchema() {
     const res = await fetch('https://api.npoint.io/779d46d666ced3d99e31');
     if (!res.ok) return;
     const places = await res.json();
-    const placeSchemas = places.map(p => ({
+    const placeSchemas = places.slice(0, 10).map(p => ({ // Limit to top 10 places for SEO
       '@context': 'https://schema.org',
-      '@type': 'Place',
+      '@type': 'TouristAttraction',
       'name': p.title,
-      'address': p.location,
+      'address': {
+        '@type': 'PostalAddress',
+        'addressLocality': p.location,
+        'addressCountry': 'AI' // Anguilla country code
+      },
+      'description': `${p.title} in ${p.location}, Anguilla`,
+      'url': 'https://roamaxa.app/#places',
       ...(p.type ? { 'additionalType': p.type } : {}),
-      ...(p.tags ? { 'amenityFeature': p.tags.split(',').map(t => ({'@type':'LocationFeatureSpecification','name':t.trim()})) } : {})
+      ...(p.tags ? { 'amenityFeature': p.tags.split(',').map(t => ({'@type':'LocationFeatureSpecification','name':t.trim()})) } : {}),
+      'isAccessibleForFree': true,
+      'touristType': ['Families', 'Couples', 'Solo Travelers']
     }));
+    
     const script = document.createElement('script');
     script.type = 'application/ld+json';
-    script.textContent = JSON.stringify(placeSchemas.length === 1 ? placeSchemas[0] : placeSchemas, null, 2);
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      'name': 'Top Tourist Attractions in Anguilla',
+      'description': 'Discover the best places to visit in Anguilla',
+      'numberOfItems': placeSchemas.length,
+      'itemListElement': placeSchemas.map((place, index) => ({
+        '@type': 'ListItem',
+        'position': index + 1,
+        'item': place
+      }))
+    }, null, 2);
     document.head.appendChild(script);
   } catch (e) { /* ignore */ }
 }
@@ -1153,16 +1221,56 @@ async function injectEventsSchema() {
     const res = await fetch('https://api.npoint.io/0305f0de662a57a9f3a8');
     if (!res.ok) return;
     const events = await res.json();
-    const eventSchemas = events.map(e => ({
+    const currentWeek = new Date();
+    const weeklyEvents = events.slice(0, 8); // Limit to current week's events for SEO
+    
+    const eventSchemas = weeklyEvents.map(e => ({
       '@context': 'https://schema.org',
       '@type': 'Event',
       'name': e.name,
-      ...(e.place ? { 'location': { '@type': 'Place', 'name': e.place } } : {})
-      // Add more fields as needed from your event data
+      'description': e.eventdesc || `Join us for ${e.name} in Anguilla`,
+      'url': 'https://roamaxa.app/#events',
+      'eventStatus': 'https://schema.org/EventScheduled',
+      'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
+      ...(e.place ? { 
+        'location': { 
+          '@type': 'Place', 
+          'name': e.place,
+          'address': {
+            '@type': 'PostalAddress',
+            'addressCountry': 'AI'
+          }
+        } 
+      } : {}),
+      ...(e.eventday && e.eventstart ? {
+        'startDate': `2024-01-01T${e.eventstart.padStart(2, '0')}:00:00`,
+        'endDate': e.eventend ? `2024-01-01T${e.eventend.padStart(2, '0')}:00:00` : undefined
+      } : {}),
+      'organizer': {
+        '@type': 'Organization',
+        'name': 'Roam Anguilla',
+        'url': 'https://roamaxa.app/'
+      }
     }));
+    
     const script = document.createElement('script');
     script.type = 'application/ld+json';
-    script.textContent = JSON.stringify(eventSchemas.length === 1 ? eventSchemas[0] : eventSchemas, null, 2);
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'EventSeries',
+      'name': 'Weekly Events in Anguilla',
+      'description': 'Discover the best weekly events happening in Anguilla',
+      'url': 'https://roamaxa.app/#events',
+      'location': {
+        '@type': 'Place',
+        'name': 'Anguilla',
+        'address': {
+          '@type': 'PostalAddress',
+          'addressCountry': 'AI'
+        }
+      },
+      'subEvent': eventSchemas
+    }, null, 2);
     document.head.appendChild(script);
   } catch (e) { /* ignore */ }
 }
