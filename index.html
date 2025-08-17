@@ -103,7 +103,7 @@ html, body {
   overflow: hidden;
 }
 
-#placeSection , #eventSection,#favoriteSection,#blogSection, #aboutSection{
+#placeSection , #eventSection,#favoriteSection,#blogSection, #downloadSection{
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -696,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function() {
     '#events': 'eventSection',
     '#favorites': 'favoriteSection',
     '#blog': 'blogSection',
-    '#about': 'aboutSection'
+    '#download': 'downloadSection'
   };
   const hash = window.location.hash.toLowerCase();
   if (fragmentToSection[hash]) {
@@ -789,8 +789,8 @@ document.addEventListener('DOMContentLoaded', function() {
           <a class="nav-btn" href="#places" data-target="placeSection">Places</a>
           <a class="nav-btn" href="#events" data-target="eventSection">Events</a>
           <a class="nav-btn" href="#favorites" data-target="favoriteSection">Favorites</a>
-          <a class="nav-btn" href="#blogSection" data-target="blogSection">Blog</a>
-          <a class="nav-btn" href="#aboutSection" data-target="aboutSection">About Us</a>
+          <a class="nav-btn" href="#blog" data-target="blogSection">Blog</a>
+          <a class="nav-btn" href="#download" data-target="downloadSection">Download</a>
         </div>
       </div>
     </nav>
@@ -868,20 +868,110 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <!-- 📝 4. Blog Section -->
   <section id="blogSection" class="snap-section">
-    <div></div>
+    <h2>Latest from Our Blog</h2>
+    <div id="blogList">
+      <div class="blog-post-card">
+        <div class="blog-post-image">
+          <img src="blog/first-blog-entry/hero-image.jpg" alt="Welcome to Roam Anguilla" onerror="this.style.display='none'">
+        </div>
+        <div class="blog-post-content">
+          <h3 class="blog-post-title">Welcome to Roam Anguilla - Your Ultimate Island Guide</h3>
+          <p class="blog-post-excerpt">Discover the hidden gems of Anguilla through our comprehensive travel guide and local insights. Learn what makes this Caribbean paradise special.</p>
+          <div class="blog-post-meta">
+            <span class="blog-post-date">August 13, 2025</span>
+            <span class="blog-post-author">by Roam Anguilla Team</span>
+          </div>
+          <a href="blog/first-blog-entry/firstblog.html" class="blog-read-more buttonstyle">Read More</a>
+        </div>
+      </div>
+      
+      <div class="blog-coming-soon">
+        <h3>More Stories Coming Soon</h3>
+        <p>We're working on bringing you more insider tips, local stories, and travel guides. Stay tuned for updates!</p>
+        <a href="/blog/index.html" class="buttonstyle" style="margin-top: 1rem; display: inline-block;">View All Blog Posts</a>
+      </div>
+    </div>
   </section>
 
-  <!-- 👤 5. About Section -->
-  <section id="aboutSection" class="snap-section">
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 300px; margin-top: 2rem;">
-      <div id="pwaInstallTile" style="display: flex; flex-direction: column; align-items: center; background: rgba(20,20,30,0.65); border-radius: 18px; box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18); padding: 2rem 2.5rem; margin-bottom: 2rem; max-width: 340px;">
-        <img src="titlelogo-192.webp" alt="Roam Anguilla App Icon" style="width: 72px; height: 72px; margin-bottom: 1rem; box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);" />
-        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-          <h2 style="color: #fff; font-size: 1.3rem; margin-bottom: 0.5rem; text-align: center;">Click here to download app to desktop/mobile</h2>
-          <p style="color: #ccc; font-size: 1rem; margin-bottom: 1.5rem; text-align: center;">Install Roam Anguilla for the best offline experience and quick access from your home screen.</p>
+  <!-- � 5. Download Section -->
+  <section id="downloadSection" class="snap-section">
+    <h2>Get the App</h2>
+    <div id="downloadContainer">
+      <!-- PWA Install Tile -->
+      <div id="pwaInstallTile" class="download-card">
+        <img src="titlelogo-192.webp" alt="Roam Anguilla App Icon" class="app-icon" />
+        <div class="download-content">
+          <h3>Install Roam Anguilla</h3>
+          <p>Get the full experience with our Progressive Web App. Works offline, loads faster, and gives you quick access from your home screen.</p>
+          <div class="download-features">
+            <div class="feature">
+              <span class="feature-icon">📱</span>
+              <span>Native app experience</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">🚀</span>
+              <span>Lightning fast loading</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">🌐</span>
+              <span>Works offline</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">🔔</span>
+              <span>Push notifications</span>
+            </div>
+          </div>
+          <button id="pwaInstallBtn" class="buttonstyle install-btn">Install App</button>
+          <div id="pwaInstallMsg" class="install-message"></div>
         </div>
-        <button id="pwaInstallBtn" class="buttonstyle">Install App</button>
-        <div id="pwaInstallMsg" style="color:#ccc; font-size:0.95rem; margin-top:0.75rem; display:none; text-align:center;"></div>
+      </div>
+      
+      <!-- Social Media Card -->
+      <div class="download-card social-card">
+        <h3>Follow Our Journey</h3>
+        <p>Stay connected with the latest updates, insider tips, and Anguilla adventures across all our social platforms.</p>
+        <div class="social-links">
+          <a href="https://www.tiktok.com/@roamanguilla" target="_blank" class="social-link tiktok">
+            <span class="social-icon">📱</span>
+            <span>TikTok</span>
+          </a>
+          <a href="https://x.com/RoamAnguilla" target="_blank" class="social-link twitter">
+            <span class="social-icon">🐦</span>
+            <span>Twitter</span>
+          </a>
+          <a href="https://www.instagram.com/roamanguilla" target="_blank" class="social-link instagram">
+            <span class="social-icon">📸</span>
+            <span>Instagram</span>
+          </a>
+          <a href="https://www.youtube.com/@RoamAnguilla" target="_blank" class="social-link youtube">
+            <span class="social-icon">📺</span>
+            <span>YouTube</span>
+          </a>
+          <a href="https://www.facebook.com/roamanguilla/" target="_blank" class="social-link facebook">
+            <span class="social-icon">👥</span>
+            <span>Facebook</span>
+          </a>
+        </div>
+      </div>
+      
+      <!-- About Card -->
+      <div class="download-card about-card">
+        <h3>About Roam Anguilla</h3>
+        <p>Your ultimate guide to discovering the hidden gems and vibrant culture of Anguilla. We're passionate about sharing the authentic Caribbean experience through local insights, real-time updates, and comprehensive guides.</p>
+        <div class="about-stats">
+          <div class="stat">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Top Locations</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">Weekly</span>
+            <span class="stat-label">Event Updates</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">Local</span>
+            <span class="stat-label">Expertise</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1022,9 +1112,11 @@ document.addEventListener('DOMContentLoaded', function() {
 };
 
   async function loadPlaces() {
-      const res = await fetch('https://api.npoint.io/779d46d666ced3d99e31');
-      if (!res.ok) throw new Error('Failed to fetch places.');
+    try {
+      const res = await fetch('https://roamaxa.app/places.json');
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       const places = await res.json();
+      console.log('✅ Places loaded successfully from roamaxa.app:', places.length, 'places');
 
       const container = document.getElementById('placeList');
       const filterBar = document.getElementById('typeFilters');
@@ -1128,13 +1220,20 @@ const iconBox = `
           el.style.display = q === "" || match ? 'block' : 'none';
         });
       });
+    } catch (error) {
+      console.error('Error loading places:', error);
+      const container = document.getElementById('placeList');
+      if (container) {
+        container.innerHTML = 'Unable to load places. Please try again later.';
+      }
     }
+  }
 
  loadPlaces();
 // --- Schema.org JSON-LD automation for Places ---
 async function injectPlacesSchema() {
   try {
-    const res = await fetch('https://api.npoint.io/779d46d666ced3d99e31');
+    const res = await fetch('https://roamaxa.app/places.json');
     if (!res.ok) return;
     const places = await res.json();
     const placeSchemas = places.slice(0, 10).map(p => ({ // Limit to top 10 places for SEO
@@ -1178,9 +1277,10 @@ injectPlacesSchema();
   <script>
     async function loadEvents() {
       try {
-        const res = await fetch('https://api.npoint.io/0305f0de662a57a9f3a8');
-        if (!res.ok) throw new Error('Network error');
+        const res = await fetch('https://roamaxa.app/events.json');
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         const events = await res.json();
+        console.log('✅ Events loaded successfully from roamaxa.app:', events.length, 'events');
         const container = document.getElementById('eventList');
         container.innerHTML = ''; // clear loading text
         events.forEach(e => {
@@ -1218,7 +1318,7 @@ function showEventCard(e) {
 // --- Schema.org JSON-LD automation for Events ---
 async function injectEventsSchema() {
   try {
-    const res = await fetch('https://api.npoint.io/0305f0de662a57a9f3a8');
+    const res = await fetch('https://roamaxa.app/events.json');
     if (!res.ok) return;
     const events = await res.json();
     const currentWeek = new Date();
@@ -1817,6 +1917,458 @@ document.addEventListener('DOMContentLoaded', renderFavorites);
   .event-description {
     font-size: 0.85rem;
     padding: 0.5rem;
+  }
+}
+
+/* Blog Section Styling */
+#blogSection h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+#blogList {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem;
+  background: rgba(20,20,30,0.55);
+  border-radius: 18px;
+  margin: 0 1rem 60px;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.blog-post-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.blog-post-card:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+}
+
+.blog-post-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.blog-post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blog-post-title {
+  color: #fff;
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.blog-post-excerpt {
+  color: #ddd;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.blog-post-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.blog-read-more {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.blog-coming-soon {
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.blog-coming-soon h3 {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.blog-coming-soon p {
+  color: #ccc;
+  font-size: 0.95rem;
+}
+
+/* Mobile optimizations for blog */
+@media (max-width: 600px) {
+  #blogList {
+    margin: 0 0.5rem 50px;
+    padding: 0.75rem;
+  }
+  
+  .blog-post-card {
+    padding: 1rem;
+  }
+  
+  .blog-post-image {
+    height: 160px;
+  }
+  
+  .blog-post-title {
+    font-size: 1.1rem;
+  }
+  
+  .blog-post-meta {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .blog-coming-soon {
+    padding: 1.5rem;
+  }
+}
+
+/* Download Section Styling */
+#downloadSection h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+#downloadContainer {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.5rem;
+  background: rgba(20,20,30,0.55);
+  border-radius: 18px;
+  margin: 0 1rem 60px;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+}
+
+.download-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.1);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.download-card:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+}
+
+#pwaInstallTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.app-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.download-content {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.download-content h3 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  word-wrap: break-word;
+  text-align: center;
+  width: 100%;
+}
+
+.download-content p {
+  color: #ddd;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.download-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #ddd;
+  font-size: 0.9rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.feature-icon {
+  font-size: 1.2rem;
+}
+
+.install-btn {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.install-message {
+  color: #ccc;
+  font-size: 0.9rem;
+  text-align: center;
+  display: none;
+}
+
+.social-card h3, .about-card h3 {
+  color: #fff;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+.social-card p, .about-card p {
+  color: #ddd;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  text-align: center;
+}
+
+.social-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.social-link:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.social-icon {
+  font-size: 1.2rem;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.stat-number {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.stat-label {
+  color: #ddd;
+  font-size: 0.9rem;
+}
+
+/* Mobile optimizations for download section */
+@media (max-width: 600px) {
+  #downloadSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  #downloadSection h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    word-wrap: break-word;
+  }
+  
+  #downloadContainer {
+    margin: 0 0.5rem 50px;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .download-card {
+    padding: 1.5rem;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+  }
+  
+  .app-icon {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .download-features {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    max-width: 100%;
+  }
+  
+  .feature {
+    justify-content: center;
+    text-align: center;
+    word-wrap: break-word;
+  }
+  
+  .social-links {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    max-width: 100%;
+  }
+  
+  .social-link {
+    justify-content: center;
+    text-align: center;
+    word-wrap: break-word;
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .about-stats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 100%;
+  }
+  
+  .download-content h3 {
+    font-size: 1.3rem;
+    word-wrap: break-word;
+  }
+  
+  .social-card h3, .about-card h3 {
+    font-size: 1.2rem;
+    word-wrap: break-word;
+  }
+  
+  .download-content p, .social-card p, .about-card p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  #downloadContainer {
+    margin: 0 0.5rem 50px;
+    padding: 0.75rem;
+  }
+  
+  .download-card {
+    padding: 1rem;
+  }
+  
+  #downloadSection h2 {
+    font-size: 1.5rem;
+  }
+  
+  .download-content h3, .social-card h3, .about-card h3 {
+    font-size: 1.1rem;
+  }
+  
+  .download-content p, .social-card p, .about-card p {
+    font-size: 0.85rem;
+  }
+  
+  .social-link {
+    padding: 0.6rem 0.4rem;
+    font-size: 0.85rem;
   }
 }
 </style>
