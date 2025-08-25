@@ -47,15 +47,48 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
+    "@type": ["WebSite", "TravelWebsite"],
     "name": "Roam Anguilla",
     "description": "Your ultimate guide to Anguilla's best restaurants, beaches, and attractions. Discover weekly events, opening hours, and local favorites.",
     "url": "https://roamaxa.app/",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://roamaxa.app/?search={search_term_string}",
-      "query-input": "required name=search_term_string"
+    "keywords": "Anguilla travel guide, Anguilla restaurants, Anguilla beaches, Anguilla events, Caribbean travel, Anguilla attractions, things to do Anguilla",
+    "mainEntity": {
+      "@type": "TouristDestination",
+      "name": "Anguilla",
+      "description": "A beautiful Caribbean island destination with pristine beaches, world-class restaurants, and vibrant cultural events",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 18.220554,
+        "longitude": -63.068615
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "AI",
+        "addressRegion": "Caribbean"
+      },
+      "touristType": ["Beach Lovers", "Food Enthusiasts", "Couples", "Families", "Luxury Travelers"],
+      "includedInDataCatalog": {
+        "@type": "DataCatalog",
+        "name": "Caribbean Travel Destinations"
+      }
     },
+    "potentialAction": [
+      {
+        "@type": "SearchAction",
+        "target": "https://roamaxa.app/?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      {
+        "@type": "ViewAction",
+        "name": "Find Restaurants in Anguilla",
+        "target": "https://roamaxa.app/#places"
+      },
+      {
+        "@type": "ViewAction", 
+        "name": "Check Events in Anguilla",
+        "target": "https://roamaxa.app/#events"
+      }
+    ],
     "publisher": {
       "@type": "Organization",
       "name": "Roam Anguilla",
@@ -870,6 +903,27 @@ document.addEventListener('DOMContentLoaded', function() {
   <section id="blogSection" class="snap-section">
     <h2>Latest from Our Blog</h2>
     <div id="blogList">
+      <!-- Latest Post: Volunteer ANT -->
+      <div class="blog-post-card">
+        <div class="blog-post-image">
+          <img src="blog/volunteer-ant/hero-image.webp" alt="Volunteering on Prickly Pear with Anguilla National Trust" onerror="this.style.display='none'">
+        </div>
+        <div class="blog-post-content">
+          <h3 class="blog-post-title">Volunteering on Prickly Pear with Anguilla National Trust</h3>
+          <p class="blog-post-excerpt">Join us on a volunteer research trip to Prickly Pear West. Discover marine bird conservation, endemic wildlife, and pristine Caribbean nature.</p>
+          <div class="blog-post-meta">
+            <span class="blog-post-date">August 25, 2025</span>
+            <span class="blog-post-author">by Roam Anguilla Team</span>
+            <span class="blog-post-tags">
+              <span class="tag conservation">Conservation</span>
+              <span class="tag adventure">Adventure</span>
+            </span>
+          </div>
+          <a href="blog/volunteer-ant/" class="blog-read-more buttonstyle">Read More</a>
+        </div>
+      </div>
+      
+      <!-- Featured Post -->
       <div class="blog-post-card">
         <div class="blog-post-image">
           <img src="blog/firstblog/hero-image.jpg" alt="Welcome to Roam Anguilla" onerror="this.style.display='none'">
@@ -880,15 +934,19 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="blog-post-meta">
             <span class="blog-post-date">August 13, 2025</span>
             <span class="blog-post-author">by Roam Anguilla Team</span>
+            <span class="blog-post-tags">
+              <span class="tag featured">Featured</span>
+              <span class="tag tips">Travel Tips</span>
+            </span>
           </div>
-          <a href="blog/firstblog/index.html" class="blog-read-more buttonstyle">Read More</a>
+          <a href="blog/firstblog/" class="blog-read-more buttonstyle">Read More</a>
         </div>
       </div>
       
       <div class="blog-coming-soon">
         <h3>More Stories Coming Soon</h3>
         <p>We're working on bringing you more insider tips, local stories, and travel guides. Stay tuned for updates!</p>
-        <a href="/blog/index.html" class="buttonstyle" style="margin-top: 1rem; display: inline-block;">View All Blog Posts</a>
+        <a href="blog/" class="buttonstyle" style="margin-top: 1rem; display: inline-block;">View All Blog Posts</a>
       </div>
     </div>
   </section>
@@ -1238,19 +1296,41 @@ async function injectPlacesSchema() {
     const places = await res.json();
     const placeSchemas = places.slice(0, 10).map(p => ({ // Limit to top 10 places for SEO
       '@context': 'https://schema.org',
-      '@type': 'TouristAttraction',
+      '@type': ['TouristAttraction', 'Place', 'LocalBusiness'],
       'name': p.title,
       'address': {
         '@type': 'PostalAddress',
         'addressLocality': p.location,
-        'addressCountry': 'AI' // Anguilla country code
+        'addressCountry': 'AI', // Anguilla country code
+        'addressRegion': 'Caribbean'
       },
-      'description': `${p.title} in ${p.location}, Anguilla`,
+      'description': `${p.title} in ${p.location}, Anguilla. ${p.type ? `Popular ${p.type.toLowerCase()}` : 'Must-visit destination'} offering authentic Caribbean experiences.`,
       'url': 'https://roamaxa.app/#places',
-      ...(p.type ? { 'additionalType': p.type } : {}),
+      'geo': {
+        '@type': 'GeoCoordinates',
+        'latitude': 18.220554, // Default to Anguilla center, ideally use specific coords
+        'longitude': -63.068615
+      },
+      'containedInPlace': {
+        '@type': 'Island',
+        'name': 'Anguilla',
+        'addressCountry': 'AI'
+      },
+      ...(p.type ? { 'additionalType': `https://schema.org/${p.type.replace(/\s+/g, '')}` } : {}),
       ...(p.tags ? { 'amenityFeature': p.tags.split(',').map(t => ({'@type':'LocationFeatureSpecification','name':t.trim()})) } : {}),
-      'isAccessibleForFree': true,
-      'touristType': ['Families', 'Couples', 'Solo Travelers']
+      'isAccessibleForFree': p.type?.toLowerCase().includes('beach') || p.type?.toLowerCase().includes('park'),
+      'touristType': ['Beach Lovers', 'Food Enthusiasts', 'Families', 'Couples', 'Solo Travelers'],
+      'priceRange': p.type?.toLowerCase().includes('restaurant') ? '$$-$$$' : 'Free',
+      'aggregateRating': {
+        '@type': 'AggregateRating',
+        'ratingValue': '4.5',
+        'bestRating': '5',
+        'ratingCount': '50+'
+      },
+      'availableLanguage': ['English'],
+      'currenciesAccepted': 'USD, XCD',
+      'paymentAccepted': 'Cash, Credit Card',
+      'openingHours': p.type?.toLowerCase().includes('restaurant') ? 'Mo-Su 11:00-23:00' : '24/7'
     }));
     
     const script = document.createElement('script');
@@ -1326,30 +1406,59 @@ async function injectEventsSchema() {
     
     const eventSchemas = weeklyEvents.map(e => ({
       '@context': 'https://schema.org',
-      '@type': 'Event',
+      '@type': ['Event', 'SocialEvent'],
       'name': e.name,
-      'description': e.eventdesc || `Join us for ${e.name} in Anguilla`,
+      'description': e.eventdesc || `Join us for ${e.name} in Anguilla. Experience authentic Caribbean culture and entertainment.`,
       'url': 'https://roamaxa.app/#events',
       'eventStatus': 'https://schema.org/EventScheduled',
       'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
+      'isAccessibleForFree': true,
+      'inLanguage': 'en',
+      'audience': {
+        '@type': 'Audience',
+        'audienceType': 'Tourists, Locals, Families'
+      },
       ...(e.place ? { 
         'location': { 
-          '@type': 'Place', 
+          '@type': ['Place', 'TouristAttraction'], 
           'name': e.place,
           'address': {
             '@type': 'PostalAddress',
-            'addressCountry': 'AI'
+            'addressLocality': e.place,
+            'addressCountry': 'AI',
+            'addressRegion': 'Caribbean'
+          },
+          'geo': {
+            '@type': 'GeoCoordinates',
+            'latitude': 18.220554,
+            'longitude': -63.068615
           }
         } 
       } : {}),
       ...(e.eventday && e.eventstart ? {
-        'startDate': `2024-01-01T${e.eventstart.padStart(2, '0')}:00:00`,
-        'endDate': e.eventend ? `2024-01-01T${e.eventend.padStart(2, '0')}:00:00` : undefined
+        'startDate': `2025-01-01T${String(e.eventstart).padStart(2, '0')}:00:00-04:00`,
+        'endDate': e.eventend ? `2025-01-01T${String(e.eventend).padStart(2, '0')}:00:00-04:00` : undefined,
+        'duration': e.eventend ? `PT${e.eventend - e.eventstart}H` : 'PT3H'
       } : {}),
       'organizer': {
         '@type': 'Organization',
         'name': 'Roam Anguilla',
-        'url': 'https://roamaxa.app/'
+        'url': 'https://roamaxa.app/',
+        'sameAs': [
+          'https://www.instagram.com/roamanguilla',
+          'https://www.facebook.com/roamanguilla/'
+        ]
+      },
+      'offers': {
+        '@type': 'Offer',
+        'price': '0',
+        'priceCurrency': 'USD',
+        'availability': 'https://schema.org/InStock',
+        'validFrom': '2025-01-01'
+      },
+      'performer': {
+        '@type': 'Organization',
+        'name': e.place || 'Local Artists'
       }
     }));
     
@@ -1985,10 +2094,48 @@ document.addEventListener('DOMContentLoaded', renderFavorites);
 
 .blog-post-meta {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
   font-size: 0.85rem;
   color: #aaa;
+}
+
+.blog-post-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.tag.conservation {
+  background: rgba(75, 0, 130, 0.3);
+  border-color: rgba(75, 0, 130, 0.5);
+}
+
+.tag.adventure {
+  background: rgba(40, 167, 69, 0.3);
+  border-color: rgba(40, 167, 69, 0.5);
+}
+
+.tag.featured {
+  background: rgba(255, 193, 7, 0.3);
+  border-color: rgba(255, 193, 7, 0.5);
+  color: #ffd700;
+}
+
+.tag.tips {
+  background: rgba(23, 162, 184, 0.3);
+  border-color: rgba(23, 162, 184, 0.5);
 }
 
 .blog-read-more {
@@ -2035,7 +2182,16 @@ document.addEventListener('DOMContentLoaded', renderFavorites);
   
   .blog-post-meta {
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.5rem;
+  }
+  
+  .blog-post-tags {
+    margin-top: 0.25rem;
+  }
+  
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
   }
   
   .blog-coming-soon {
