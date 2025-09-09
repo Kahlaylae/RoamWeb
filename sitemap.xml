@@ -1,44 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  NOTE: This sitemap is generated from jsonassets/content.json via jsonassets/generate-sitemap.js
+  Run: node jsonassets/generate-sitemap.js
+  Do not hand-edit; changes will be overwritten.
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://roamaxa.app/</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://roamaxa.app/#places</loc>
-    <lastmod>2025-08-16</lastmod>
+    <loc>https://roamaxa.app/#placesSection</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://roamaxa.app/#events</loc>
-    <lastmod>2025-08-16</lastmod>
+    <loc>https://roamaxa.app/#eventsSection</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://roamaxa.app/#favorites</loc>
-    <lastmod>2025-08-16</lastmod>
+    <loc>https://roamaxa.app/#favoritesSection</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://roamaxa.app/#download</loc>
-    <lastmod>2025-08-16</lastmod>
+    <loc>https://roamaxa.app/#downloadSection</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://roamaxa.app/blog/</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2025-08-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://roamaxa.app/blog/firstblog/</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2025-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://roamaxa.app/blog/volunteer-ant/</loc>
+    <lastmod>2025-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

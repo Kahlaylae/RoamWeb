@@ -1,0 +1,10 @@
+{
+  "name": "roamaxa-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Roam Anguilla static site with PWA and sitemap generator",
+  "license": "MIT",
+  "scripts": {
+    "build:sitemap": "node jsonassets/generate-sitemap.js --base=https://roamaxa.app"
+  }
+}

@@ -534,8 +534,9 @@
     
     .blog-post-meta {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column; /* vertical stack on all screen sizes */
+      align-items: flex-start;
+      gap: 0.3rem;
       margin-bottom: 1rem;
       font-size: 0.9rem;
       color: #888;
@@ -766,13 +767,7 @@
         margin-bottom: 0.75rem;
       }
       
-      .blog-post-meta {
-        flex-direction: column;
-        gap: 0.25rem;
-        align-items: flex-start;
-        margin-bottom: 0.75rem;
-        font-size: 0.8rem;
-      }
+  .blog-post-meta { font-size: 0.8rem; }
       
       .read-more {
         padding: 0.6rem 1.2rem;
@@ -858,7 +853,7 @@
   <header class="header">
     <div class="header-content">
       <div class="logo">
-        <img src="../WebLogo.webp" alt="Roam Anguilla Logo" />
+        <img src="../assets/WebLogo.webp" alt="Roam Anguilla Logo" />
         <h1>Roam Anguilla Blog</h1>
       </div>
       <a href="../#blog" class="back-link">
@@ -893,95 +888,7 @@
       <!-- Main Content Area -->
       <div class="blog-main">
         <div class="blog-grid" id="blogGrid">
-          <!-- Featured Post -->
-          <article class="blog-post-card featured-post" data-category="tips">
-            <div class="featured-badge">Featured</div>
-            <div class="blog-post-image">
-              <img src="firstblog/hero-image.jpg" alt="Welcome to Roam Anguilla" onerror="this.style.display='none';" />
-            </div>
-            <div class="blog-post-content">
-              <h3 class="blog-post-title">
-                <a href="firstblog/">Welcome to Roam Anguilla - Your Ultimate Island Guide</a>
-              </h3>
-              <div class="blog-post-meta">
-                <span class="blog-post-date">August 13, 2025</span>
-                <span class="blog-post-category">Travel Tips</span>
-                <span class="blog-post-author">Roam Anguilla Team</span>
-              </div>
-              <p class="blog-post-excerpt">
-                Discover the hidden gems of Anguilla through our comprehensive travel guide and local insights. Learn what makes this Caribbean paradise special and how to make the most of your visit.
-              </p>
-              <a href="firstblog/" class="read-more">
-                Read More →
-              </a>
-            </div>
-          </article>
-          
-          <!-- New Post: Volunteering on Prickly Pear -->
-          <article class="blog-post-card" data-category="events">
-            <div class="blog-post-image">
-              <img src="volunteer-ant/hero-image.webp" alt="Volunteering on Prickly Pear with Anguilla National Trust" onerror="this.style.display='none';" />
-            </div>
-            <div class="blog-post-content">
-              <h3 class="blog-post-title">
-                <a href="volunteer-ant/">Volunteering on Prickly Pear with Anguilla National Trust</a>
-              </h3>
-              <div class="blog-post-meta">
-                <span class="blog-post-date">August 25, 2025</span>
-                <span class="blog-post-category">Conservation</span>
-                <span class="blog-post-author">Roam Anguilla Team</span>
-              </div>
-              <p class="blog-post-excerpt">
-                Join us on a volunteer research trip to Prickly Pear West with the Anguilla National Trust. Discover marine bird conservation, endemic wildlife, and pristine Caribbean nature on this lesser-known cay.
-              </p>
-              <a href="volunteer-ant/" class="read-more">
-                Read More →
-              </a>
-            </div>
-          </article>
-          
-          <!-- Coming Soon Posts Preview -->
-          <article class="blog-post-card coming-soon-card" data-category="restaurants">
-            <div class="blog-post-content">
-              <h3 class="blog-post-title">Top 10 Restaurants in Anguilla</h3>
-              <div class="blog-post-meta">
-                <span class="blog-post-date">Coming Soon</span>
-                <span class="blog-post-category">Restaurants</span>
-              </div>
-              <p class="blog-post-excerpt">
-                From beachfront dining to hidden culinary gems, discover the best restaurants that make Anguilla a food lover's paradise.
-              </p>
-              <div class="coming-soon-badge">Coming Soon</div>
-            </div>
-          </article>
-          
-          <article class="blog-post-card coming-soon-card" data-category="beaches">
-            <div class="blog-post-content">
-              <h3 class="blog-post-title">Complete Guide to Shoal Bay East</h3>
-              <div class="blog-post-meta">
-                <span class="blog-post-date">Coming Soon</span>
-                <span class="blog-post-category">Beach Guides</span>
-              </div>
-              <p class="blog-post-excerpt">
-                Everything you need to know about Anguilla's most famous beach - from the best spots to activities and dining options.
-              </p>
-              <div class="coming-soon-badge">Coming Soon</div>
-            </div>
-          </article>
-          
-          <article class="blog-post-card coming-soon-card" data-category="events">
-            <div class="blog-post-content">
-              <h3 class="blog-post-title">Weekly Events Guide: What's Happening</h3>
-              <div class="blog-post-meta">
-                <span class="blog-post-date">Coming Soon</span>
-                <span class="blog-post-category">Events</span>
-              </div>
-              <p class="blog-post-excerpt">
-                Stay updated with the latest events, festivals, and cultural happenings around the island every week.
-              </p>
-              <div class="coming-soon-badge">Coming Soon</div>
-            </div>
-          </article>
+          <!-- Posts will be injected dynamically from content.json -->
         </div>
         
         <!-- Newsletter Signup -->
@@ -1044,6 +951,12 @@
             <a href="https://x.com/RoamAnguilla" target="_blank" class="social-follow-link twitter">
               <span>🐦</span> Twitter
             </a>
+            <a href="https://www.youtube.com/@RoamAnguilla" target="_blank" class="social-follow-link youtube">
+              <span>▶️</span> YouTube
+            </a>
+            <a href="https://www.facebook.com/roamanguilla/" target="_blank" class="social-follow-link facebook">
+              <span>🟦</span> Facebook
+            </a>
           </div>
         </div>
       </aside>
@@ -1058,87 +971,113 @@
   </div>
 
   <script>
-    // Category filtering functionality
-    document.addEventListener('DOMContentLoaded', function() {
+    // Dynamic blog loading from content.json with featured latest post
+    (function(){
+      const CONTENT_URL = '/jsonassets/content.json';
+      const gridEl = document.getElementById('blogGrid');
       const filterBtns = document.querySelectorAll('.filter-btn');
-      const blogCards = document.querySelectorAll('.blog-post-card');
       const categoryLinks = document.querySelectorAll('.category-list a');
-      
-      function filterPosts(category) {
-        blogCards.forEach(card => {
-          const cardCategory = card.getAttribute('data-category');
-          if (category === 'all' || cardCategory === category) {
-            card.style.display = 'block';
-            setTimeout(() => {
-              card.style.opacity = '1';
-              card.style.transform = 'translateY(0)';
-            }, 100);
-          } else {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-              card.style.display = 'none';
-            }, 300);
-          }
-        });
+      let posts = [];
+      let currentCategory = 'all';
+
+      function parseDate(str){
+        if(!str) return new Date(0);
+        const cleaned = str.replace(/,(?=\d{4}$)/, ', ');
+        const d = new Date(cleaned);
+        return isNaN(d.getTime()) ? new Date(0) : d;
       }
-      
-      // Filter button click handlers
-      filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const category = btn.getAttribute('data-category');
-          
-          // Update active state
-          filterBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          
-          // Filter posts
-          filterPosts(category);
-        });
-      });
-      
-      // Category link click handlers
-      categoryLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const category = link.getAttribute('data-category');
-          
-          // Update filter buttons
-          filterBtns.forEach(b => b.classList.remove('active'));
-          const targetBtn = document.querySelector(`[data-category="${category}"]`);
-          if (targetBtn) {
-            targetBtn.classList.add('active');
-          }
-          
-          // Filter posts
-          filterPosts(category);
-          
-          // Scroll to blog grid
-          document.getElementById('blogGrid').scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-          });
-        });
-      });
-      
-      // Newsletter form handler
+      function formatDate(d){ return d.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}); }
+
+      function load(){
+        gridEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#fff;opacity:.85;">Loading posts...</div>';
+        fetch(CONTENT_URL,{cache:'no-store'}).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+          .then(json=>{
+            posts = (json||[]).map(p=>({...p,_date:parseDate(p.date)})).sort((a,b)=> b._date - a._date);
+            render();
+          })
+          .catch(err=>{ console.error(err); gridEl.innerHTML='<div style="grid-column:1/-1;text-align:center;color:#fff;opacity:.85;">Failed to load posts.</div>'; });
+      }
+
+      function render(){
+        gridEl.innerHTML='';
+        if(!posts.length){
+          gridEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#fff;opacity:.85;">No posts yet.</div>';
+          return;
+        }
+        const filtered = posts.filter(p=> currentCategory==='all' || (p.tag && p.tag.toLowerCase().includes(currentCategory)) );
+        // Featured is always first (latest overall) if it passes filter (or show anyway when all)
+        const featured = posts[0];
+        if(currentCategory==='all' || (featured.tag && featured.tag.toLowerCase().includes(currentCategory))){
+          gridEl.appendChild(buildFeatured(featured));
+        }
+        filtered.forEach(p=>{ if(p!==featured) gridEl.appendChild(buildCard(p)); });
+      }
+
+      function buildFeatured(p){
+        const art = document.createElement('article');
+        art.className='blog-post-card featured-post';
+        art.dataset.category = (p.tag||'').toLowerCase();
+        art.innerHTML = `
+          <div class="featured-badge">Featured</div>
+          <div class="blog-post-image">
+            <img src="${p.image||'/assets/placeholder.webp'}" alt="${escapeHTML(p.title)}" onerror="this.style.display='none';" />
+          </div>
+          <div class="blog-post-content">
+            <h3 class="blog-post-title"><a href="${p.url}">${escapeHTML(p.title)}</a></h3>
+            <div class="blog-post-meta">
+              <span class="blog-post-date">${formatDate(p._date)}</span>
+              <span class="blog-post-category">${escapeHTML(p.tag||'')}</span>
+              <span class="blog-post-author">Roam Anguilla Team</span>
+            </div>
+            <p class="blog-post-excerpt">${escapeHTML(p.description||'')}</p>
+            <a href="${p.url}" class="read-more">Read More →</a>
+          </div>`;
+        return art;
+      }
+
+      function trim(str,len){ if(!str) return ''; return str.length>len? str.slice(0,len-3)+'...':str; }
+      function buildCard(p){
+        const art = document.createElement('article');
+        art.className='blog-post-card';
+        art.dataset.category = (p.tag||'').toLowerCase();
+        art.innerHTML = `
+          <div class="blog-post-image">
+            <img src="${p.image||'/assets/placeholder.webp'}" alt="${escapeHTML(p.title)}" onerror="this.style.display='none';" />
+          </div>
+          <div class="blog-post-content">
+            <h3 class="blog-post-title"><a href="${p.url}">${escapeHTML(p.title)}</a></h3>
+            <div class="blog-post-meta">
+              <span class="blog-post-date">${formatDate(p._date)}</span>
+              <span class="blog-post-category">${escapeHTML(p.tag||'')}</span>
+              <span class="blog-post-author">Roam Anguilla Team</span>
+            </div>
+            <p class="blog-post-excerpt">${escapeHTML(trim(p.description||'', 240))}</p>
+            <a href="${p.url}" class="read-more">Read More →</a>
+          </div>`;
+        return art;
+      }
+
+      function escapeHTML(str){ return String(str).replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;' }[c]||c)); }
+
+      function setCategory(cat){
+        currentCategory = cat;
+        filterBtns.forEach(b=> b.classList.toggle('active', b.getAttribute('data-category')===cat));
+        render();
+        gridEl.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+
+      // Button handlers
+      filterBtns.forEach(btn=> btn.addEventListener('click',()=> setCategory(btn.getAttribute('data-category'))));
+      categoryLinks.forEach(link=> link.addEventListener('click',e=>{ e.preventDefault(); setCategory(link.getAttribute('data-category')); }));
+
+      // Newsletter placeholder
       const newsletterForm = document.querySelector('.newsletter-form');
-      if (newsletterForm) {
-        newsletterForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const email = e.target.querySelector('input[type="email"]').value;
-          // TODO: Implement newsletter signup functionality
-          alert('Newsletter signup coming soon! Thanks for your interest.');
-        });
+      if(newsletterForm){
+        newsletterForm.addEventListener('submit', e=>{ e.preventDefault(); alert('Newsletter signup coming soon!'); });
       }
-      
-      // Initialize card animations
-      blogCards.forEach(card => {
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-        card.style.transition = 'all 0.3s ease';
-      });
-    });
+
+      load();
+    })();
   </script>
 </body>
 </html>

@@ -1,0 +1,55 @@
+{
+  "name": "Roam Anguilla - The Ultimate Anguilla Travel Guide",
+  "short_name": "Roam Anguilla",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#14141e",
+  "theme_color": "#4b0082",
+  "description": "Discover Anguillas best restaurants, beaches, and attractions. Download Roam Anguilla onto your mobile device today! And you'll never miss a live music event again! Stay in the know. Roam... Its Happening Now!",
+  "homepage_url": "https://roamaxa.app",
+  "shortcuts": [
+    { "name": "Places", "url": "/#placesSection", "description": "Jump to Places" },
+    { "name": "Events", "url": "/#eventsSection", "description": "See today's events" },
+    { "name": "Blog", "url": "/#blogSection", "description": "Latest articles" }
+  ],
+  "handles": {
+    "website": "https://roamaxa.app",
+    "tiktok": "https://www.tiktok.com/@roamanguilla",
+    "twitter": "https://x.com/RoamAnguilla",
+    "instagram": "https://www.instagram.com/roamanguilla",
+    "youtube": "https://www.youtube.com/@RoamAnguilla",
+    "facebook": "https://www.facebook.com/roamanguilla/"
+  },
+  "categories": ["travel", "lifestyle", "entertainment"],
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "/assets/titlelogo-192.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/titlelogo-512.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/titlelogo-192.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/WebLogo.webp",
+      "sizes": "1280x720",
+      "type": "image/webp",
+      "form_factor": "wide"
+    }
+  ]
+}
