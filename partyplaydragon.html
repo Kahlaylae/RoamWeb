@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segmented Dragon</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0d1117; /* Dark background for a "neon" effect */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #c9d1d9;
+            font-family: sans-serif;
+            cursor: none;
+        }
+
+        canvas {
+            background-color: #0d1117;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.1);
+        }
+
+        #message, #controls {
+            position: absolute;
+            text-align: center;
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        #message {
+            top: 20px;
+        }
+
+        #controls {
+            bottom: 20px;
+            font-size: 0.9rem;
+            text-shadow: 0 0 3px rgba(0, 255, 255, 0.5);
+        }
+        
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+            text-shadow: 0 0 10px #4CAF50;
+            z-index: 10;
+        }
+        
+        #splashScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            color: #fff;
+            text-shadow: 0 0 10px #fff;
+        }
+
+        #splashScreen h1 {
+            font-size: 4rem;
+            margin: 0;
+        }
+
+        #splashScreen p {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        #splashScreen .restart-prompt {
+            font-size: 1rem;
+            margin-top: 30px;
+            opacity: 0.8;
+            animation: pulse 1.5s infinite;
+        }
+        
+        #gameOverScreen h1 {
+            text-shadow: 0 0 20px #ff0000;
+        }
+        
+        #levelCompleteScreen h1 {
+            text-shadow: 0 0 20px #00ff00;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+    </style>
+</head>
+<body tabindex="0">
+
+    <div id="score"></div>
+    <div id="message">Click or tap to make the dragon shoot!</div>
+    <div id="controls">Use WASD or Arrow Keys to move.</div>
+    <canvas id="dragonCanvas"></canvas>
+    
+    <div id="splashScreen">
+        <h1 id="splashTitle"></h1>
+        <p id="splashMessage"></p>
+        <p class="restart-prompt" id="splashPrompt"></p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('dragonCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const splashScreen = document.getElementById('splashScreen');
+        const splashTitle = document.getElementById('splashTitle');
+        const splashMessage = document.getElementById('splashMessage');
+        const splashPrompt = document.getElementById('splashPrompt');
+
+        const DRAGON_SEGMENT_SIZE = 12;
+        const DRAGON_LENGTH = 4;
+        const SEGMENT_SPACING = DRAGON_SEGMENT_SIZE * 2;
+        const PELLET_SPEED = 15;
+        const DRAGON_SPEED = 5;
+        const OPEN_MOUTH_DURATION = 150;
+        const BOSS_ENEMY_SPAWN_THRESHOLD = 10;
+        
+        // The expandable dictionary of levels and their properties.
+        const levels = {
+            1: { target: 60, emoji: '👹', regularHp: 1, bossHp: 5, enemySpeed: 2.5 },
+            2: { target: 80, emoji: '🫦', regularHp: 2, bossHp: 4, enemySpeed: 3.5 }
+        };
+        
+        // LevelWatcher class to manage the game's level progression.
+        class LevelWatcher {
+            constructor(levels) {
+                this.levels = levels;
+                this.currentLevel = 1;
+            }
+
+            nextLevel() {
+                if (this.currentLevel < Object.keys(this.levels).length) {
+                    this.currentLevel++;
+                    return true;
+                }
+                return false;
+            }
+
+            reset() {
+                this.currentLevel = 1;
+            }
+
+            getLevelConfig() {
+                return this.levels[this.currentLevel];
+            }
+
+            isLastLevel() {
+                return this.currentLevel === Object.keys(this.levels).length;
+            }
+        }
+        
+        const levelWatcher = new LevelWatcher(levels);
+
+        let gameLoopInterval;
+        let dragonSegments = [];
+        let projectiles = [];
+        let enemies = [];
+        let target = { x: 0, y: 0 };
+        let keyboardVelocity = { x: 0, y: 0 };
+        let isMouthOpen = false;
+        let lastPelletTime = 0;
+        let dragonHit = false;
+        let enemiesDestroyed = 0;
+        let isPaused = false;
+        let isGameOver = false;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            target.x = canvas.width / 2;
+            target.y = canvas.height / 2;
+            if (dragonSegments.length === 0) {
+                initializeDragon();
+            }
+        }
+
+        function initializeDragon() {
+            dragonSegments = [];
+            for (let i = 0; i < DRAGON_LENGTH; i++) {
+                dragonSegments.push({
+                    x: canvas.width / 2 - i * SEGMENT_SPACING,
+                    y: canvas.height / 2,
+                    angle: 0
+                });
+            }
+        }
+
+        function updateDragon() {
+            target.x += keyboardVelocity.x;
+            target.y += keyboardVelocity.y;
+            target.x = Math.max(0, Math.min(canvas.width, target.x));
+            target.y = Math.max(0, Math.min(canvas.height, target.y));
+
+            const head = dragonSegments[0];
+            const dx = target.x - head.x;
+            const dy = target.y - head.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance > 1) {
+                head.angle = Math.atan2(dy, dx);
+                const moveSpeed = Math.min(DRAGON_SPEED, distance);
+                head.x += Math.cos(head.angle) * moveSpeed;
+                head.y += Math.sin(head.angle) * moveSpeed;
+            }
+
+            for (let i = 1; i < dragonSegments.length; i++) {
+                const currentSegment = dragonSegments[i];
+                const prevSegment = dragonSegments[i - 1];
+                const angleToPrev = Math.atan2(prevSegment.y - currentSegment.y, prevSegment.x - currentSegment.x);
+                currentSegment.angle = angleToPrev;
+                currentSegment.x = prevSegment.x - Math.cos(angleToPrev) * SEGMENT_SPACING;
+                currentSegment.y = prevSegment.y - Math.sin(angleToPrev) * SEGMENT_SPACING;
+            }
+        }
+
+        function drawDragon() {
+            ctx.lineCap = 'round';
+            const baseColor = dragonHit ? 'rgba(138, 43, 226, 0.8)' : 'rgba(0, 255, 255, 0.8)';
+            const shadowColor = dragonHit ? 'rgba(75, 0, 130, 0.8)' : 'rgba(0, 255, 255, 0.5)';
+
+            for (let i = 0; i < dragonSegments.length; i++) {
+                const segment = dragonSegments[i];
+                const alpha = 1 - (i / dragonSegments.length) * 0.7;
+
+                if (i === 0) {
+                    ctx.beginPath();
+                    ctx.arc(segment.x, segment.y, DRAGON_SEGMENT_SIZE * 1.5, 0, Math.PI * 2);
+                    ctx.fillStyle = baseColor;
+                    ctx.shadowColor = shadowColor;
+                    ctx.shadowBlur = 15;
+                    ctx.fill();
+
+                    if (isMouthOpen) {
+                        ctx.beginPath();
+                        ctx.arc(segment.x, segment.y, DRAGON_SEGMENT_SIZE * 1.2, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(255, 100, 100, 0.9)`;
+                        ctx.shadowColor = `rgba(255, 0, 0, 0.7)`;
+                        ctx.shadowBlur = 10;
+                        ctx.fill();
+                    }
+
+                    const eyeDist = DRAGON_SEGMENT_SIZE / 2;
+                    const eyeOffsetAngle = Math.PI / 2;
+                    const eye1X = segment.x + Math.cos(segment.angle + eyeOffsetAngle) * eyeDist;
+                    const eye1Y = segment.y + Math.sin(segment.angle + eyeOffsetAngle) * eyeDist;
+                    const eye2X = segment.x + Math.cos(segment.angle - eyeOffsetAngle) * eyeDist;
+                    const eye2Y = segment.y + Math.sin(segment.angle - eyeOffsetAngle) * eyeDist;
+                    
+                    ctx.beginPath();
+                    ctx.arc(eye1X, eye1Y, 3, 0, Math.PI * 2);
+                    ctx.arc(eye2X, eye2Y, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = '#fff';
+                    ctx.shadowColor = '#fff';
+                    ctx.shadowBlur = 5;
+                    ctx.fill();
+                    
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(segment.x, segment.y, DRAGON_SEGMENT_SIZE, 0, Math.PI * 2);
+                    ctx.fillStyle = baseColor;
+                    ctx.shadowColor = shadowColor;
+                    ctx.shadowBlur = 15;
+                    ctx.fill();
+                }
+            }
+        }
+
+        function updatePellets() {
+            projectiles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x + p.size > canvas.width || p.x - p.size < 0) {
+                    p.vx = -p.vx;
+                    p.x = Math.max(p.size, Math.min(canvas.width - p.size, p.x));
+                    p.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                }
+
+                if (p.y + p.size > canvas.height || p.y - p.size < 0) {
+                    p.vy = -p.vy;
+                    p.y = Math.max(p.size, Math.min(canvas.height - p.size, p.y));
+                    p.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                }
+            });
+        }
+
+        function drawPellets() {
+            projectiles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.shadowColor = p.color;
+                ctx.shadowBlur = 15;
+                ctx.fill();
+            });
+        }
+        
+        function spawnEnemy() {
+            if (isPaused) return;
+            let size, hp;
+            const levelConfig = levelWatcher.getLevelConfig();
+            let speed = levelConfig.enemySpeed;
+
+            if (enemiesDestroyed >= BOSS_ENEMY_SPAWN_THRESHOLD && Math.random() < 0.1) {
+                size = 60;
+                hp = levelConfig.bossHp;
+                speed = levelConfig.enemySpeed / 2;
+            } else {
+                size = 30;
+                hp = levelConfig.regularHp;
+            }
+
+            let startX, startY;
+            const corner = Math.floor(Math.random() * 4);
+            switch (corner) {
+                case 0:
+                    startX = 0;
+                    startY = 0;
+                    break;
+                case 1:
+                    startX = canvas.width;
+                    startY = 0;
+                    break;
+                case 2:
+                    startX = 0;
+                    startY = canvas.height;
+                    break;
+                case 3:
+                    startX = canvas.width;
+                    startY = canvas.height;
+                    break;
+            }
+
+            enemies.push({
+                x: startX,
+                y: startY,
+                vx: 0,
+                vy: 0,
+                size: size,
+                hp: hp,
+                speed: speed,
+                emoji: levelConfig.emoji
+            });
+        }
+
+        function updateEnemies() {
+            const dragonHead = dragonSegments[0];
+            enemies.forEach(enemy => {
+                if (enemy.x + (enemy.size / 2) > canvas.width || enemy.x - (enemy.size / 2) < 0) {
+                    enemy.vx = -enemy.vx;
+                }
+                if (enemy.y + (enemy.size / 2) > canvas.height || enemy.y - (enemy.size / 2) < 0) {
+                    enemy.vy = -enemy.vy;
+                }
+                const dx = dragonHead.x - enemy.x;
+                const dy = dragonHead.y - enemy.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance > 0) {
+                    enemy.vx = (dx / distance) * enemy.speed;
+                    enemy.vy = (dy / distance) * enemy.speed;
+                }
+                enemy.x += enemy.vx;
+                enemy.y += enemy.vy;
+            });
+        }
+
+        function drawEnemies() {
+            enemies.forEach(enemy => {
+                ctx.font = `${enemy.size}px sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(enemy.emoji, enemy.x, enemy.y);
+            });
+        }
+
+        function checkPelletEnemyCollision() {
+            projectiles = projectiles.filter(pellet => {
+                let pelletHit = false;
+                enemies = enemies.filter(enemy => {
+                    const dx = pellet.x - enemy.x;
+                    const dy = pellet.y - enemy.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < pellet.size + (enemy.size / 2)) {
+                        pelletHit = true;
+                        enemy.hp--;
+                        if (enemy.hp <= 0) {
+                            enemiesDestroyed++;
+                            updateScore();
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+                return !pelletHit;
+            });
+        }
+
+        function checkDragonEnemyCollision() {
+            enemies.forEach(enemy => {
+                for (let i = 0; i < dragonSegments.length; i++) {
+                    const segment = dragonSegments[i];
+                    const dx = segment.x - enemy.x;
+                    const dy = segment.y - enemy.y;
+                    let segmentSize = DRAGON_SEGMENT_SIZE;
+                    if (i === 0) {
+                        segmentSize *= 1.5;
+                    }
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < segmentSize + (enemy.size / 2)) {
+                        dragonHit = true;
+                        break;
+                    }
+                }
+            });
+        }
+        
+        function updateScore() {
+            const levelConfig = levelWatcher.getLevelConfig();
+            scoreElement.innerText = `Level ${levelWatcher.currentLevel}: ${enemiesDestroyed}/${levelConfig.target} Eliminated`;
+        }
+
+        function showSplashScreen(title, message, prompt) {
+            splashTitle.innerText = title;
+            splashMessage.innerText = message;
+            splashPrompt.innerText = prompt;
+            splashScreen.style.display = 'flex';
+            if (title === 'GAME OVER') {
+                splashTitle.style.textShadow = '0 0 20px #ff0000';
+            } else {
+                splashTitle.style.textShadow = '0 0 20px #00ff00';
+            }
+            clearInterval(gameLoopInterval);
+        }
+
+        function endGame() {
+            isPaused = true;
+            isGameOver = true;
+            showSplashScreen('GAME OVER', `You eliminated ${enemiesDestroyed} enemies!`, 'Click or tap to play again.');
+        }
+
+        function startNextLevel() {
+            levelWatcher.nextLevel();
+            enemiesDestroyed = 0;
+            projectiles = [];
+            enemies = [];
+            isPaused = false;
+            splashScreen.style.display = 'none';
+            initializeDragon();
+            updateScore();
+            gameLoopInterval = setInterval(spawnEnemy, 1000);
+            animate();
+        }
+
+        function restartGame() {
+            isPaused = false;
+            isGameOver = false;
+            dragonHit = false;
+            levelWatcher.reset();
+            enemiesDestroyed = 0;
+            projectiles = [];
+            enemies = [];
+            splashScreen.style.display = 'none';
+            initializeDragon();
+            updateScore();
+            gameLoopInterval = setInterval(spawnEnemy, 1000);
+            animate();
+        }
+
+        function animate() {
+            if (isPaused) {
+                return;
+            }
+
+            ctx.fillStyle = 'rgba(13, 17, 23, 0.4)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.shadowBlur = 0;
+            ctx.shadowColor = 'transparent';
+            
+            updateDragon();
+            updatePellets();
+            updateEnemies();
+            
+            checkPelletEnemyCollision();
+            checkDragonEnemyCollision();
+            
+            drawDragon();
+            drawPellets();
+            drawEnemies();
+
+            if (dragonHit) {
+                endGame();
+                return;
+            }
+            
+            const levelConfig = levelWatcher.getLevelConfig();
+            if (enemiesDestroyed >= levelConfig.target) {
+                if (!levelWatcher.isLastLevel()) {
+                    isPaused = true;
+                    showSplashScreen('LEVEL COMPLETE!', `You've completed Level ${levelWatcher.currentLevel}!`, 'Click or tap to continue to the next level.');
+                } else {
+                    isPaused = true;
+                    showSplashScreen('VICTORY!', `You have defeated all enemies!`, 'Click or tap to play again.');
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        function shootPellet() {
+            if (isPaused) return;
+            const now = Date.now();
+            if (now - lastPelletTime > 150) {
+                lastPelletTime = now;
+                const head = dragonSegments[0];
+                const angle = head.angle;
+                projectiles.push({
+                    x: head.x + Math.cos(angle) * DRAGON_SEGMENT_SIZE * 2,
+                    y: head.y + Math.sin(angle) * DRAGON_SEGMENT_SIZE * 2,
+                    vx: Math.cos(angle) * PELLET_SPEED,
+                    vy: Math.sin(angle) * PELLET_SPEED,
+                    size: 8,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`
+                });
+
+                isMouthOpen = true;
+                setTimeout(() => {
+                    isMouthOpen = false;
+                }, OPEN_MOUTH_DURATION);
+            }
+        }
+
+        function onDown(e) {
+            e.preventDefault();
+            if (isPaused) {
+                if (isGameOver) {
+                    restartGame();
+                } else {
+                    startNextLevel();
+                }
+            } else {
+                shootPellet();
+            }
+        }
+
+        function onMove(e) {
+            let x, y;
+            if (e.type.startsWith('touch')) {
+                const touch = e.touches[0];
+                x = touch.clientX;
+                y = touch.clientY;
+            } else {
+                x = e.clientX;
+                y = e.clientY;
+            }
+            target.x = x;
+            target.y = y;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (isPaused) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    if (isGameOver) {
+                        restartGame();
+                    } else {
+                        startNextLevel();
+                    }
+                }
+                return;
+            }
+            const speed = DRAGON_SPEED;
+            switch (e.key.toLowerCase()) {
+                case 'w':
+                case 'arrowup':
+                    keyboardVelocity.y = -speed;
+                    break;
+                case 's':
+                case 'arrowdown':
+                    keyboardVelocity.y = speed;
+                    break;
+                case 'a':
+                case 'arrowleft':
+                    keyboardVelocity.x = -speed;
+                    break;
+                case 'd':
+                case 'arrowright':
+                    keyboardVelocity.x = speed;
+                    break;
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (isPaused) return;
+            switch (e.key.toLowerCase()) {
+                case 'w':
+                case 's':
+                case 'arrowup':
+                case 'arrowdown':
+                    keyboardVelocity.y = 0;
+                    break;
+                case 'a':
+                case 'd':
+                case 'arrowleft':
+                case 'arrowright':
+                    keyboardVelocity.x = 0;
+                    break;
+            }
+        });
+
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousedown', onDown);
+        window.addEventListener('touchstart', onDown, { passive: false });
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('touchmove', onMove, { passive: false });
+        
+        window.onload = function() {
+            resizeCanvas();
+            restartGame();
+            document.body.focus();
+        };
+    </script>
+</body>
+</html>
