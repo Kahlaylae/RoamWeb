@@ -1,22 +1,22 @@
-<!DOCTYPE html> 
-<html> 
-<head lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
-  <title>Roam Anguilla - Discover Top Locations, Weekly Events & Travel Guide</title>
-  <meta name="description" content="Discover Anguilla's top restaurants, beaches, events and local favorites. A fast PWA travel guide with weekly happenings and curated amenities." />
-  <meta name="keywords" content="Anguilla travel, Anguilla restaurants, Anguilla beaches, Anguilla events, Anguilla attractions, Caribbean travel guide" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Roam Anguilla - Your Anguilla Travel Guide</title>
+  <meta name="description" content="Discover Anguilla's best restaurants, beaches, events, and stories. Your go-to travel companion for the Caribbean's most exclusive island." />
+  <meta name="keywords" content="Anguilla travel, Anguilla blog, Anguilla restaurants, Anguilla beaches, Anguilla events, Anguilla attractions, Caribbean travel guide" />
   <meta name="author" content="Roam Anguilla" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://roamaxa.app/" />
-  <meta name="theme-color" content="#4b0082" />
-  <meta name="msapplication-TileColor" content="#4b0082" />
+  <meta name="theme-color" content="#1E6F9F" />
+  <meta name="msapplication-TileColor" content="#1E6F9F" />
   <meta name="google-adsense-account" content="ca-pub-3098807263908139">
   <meta name="googlebot-news" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Roam Anguilla - Discover Top Locations & Weekly Events" />
-  <meta property="og:description" content="Anguilla's guide: restaurants, beaches, events, local favorites & offline-ready PWA." />
+  <meta property="og:title" content="Roam Anguilla - Stories, Events & Places" />
+  <meta property="og:description" content="Anguilla travel stories, weekly events, and the best places to explore." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://roamaxa.app/" />
   <meta property="og:image" content="https://roamaxa.app/assets/WebLogo.webp" />
@@ -25,8 +25,8 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Roam Anguilla - Discover Top Locations & Weekly Events" />
-  <meta name="twitter:description" content="Explore Anguilla: top spots, events, and travel insights." />
+  <meta name="twitter:title" content="Roam Anguilla - Stories, Events & Places" />
+  <meta name="twitter:description" content="Explore Anguilla: travel stories, top spots, and weekly events." />
   <meta name="twitter:image" content="https://roamaxa.app/assets/WebLogo.webp" />
   <meta name="twitter:site" content="@RoamAnguilla" />
   <meta name="twitter:creator" content="@RoamAnguilla" />
@@ -41,99 +41,307 @@
   <link rel="icon" type="image/webp" href="/assets/titlelogo.webp" sizes="32x32" />
   <link rel="manifest" href="/jsonassets/manifest.json" />
 
-  <!-- Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&display=swap">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
 
   <!-- Structured Data -->
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":["WebSite","TravelWebsite"],"name":"Roam Anguilla","description":"Anguilla travel guide: beaches, restaurants, events, favorites & offline-ready PWA.","url":"https://roamaxa.app/","keywords":"Anguilla travel guide, Anguilla restaurants, Anguilla beaches, Anguilla events, Caribbean travel, Anguilla attractions","publisher":{"@type":"Organization","name":"Roam Anguilla","url":"https://roamaxa.app/","logo":{"@type":"ImageObject","url":"https://roamaxa.app/assets/WebLogo.webp"},"sameAs":["https://www.tiktok.com/@roamanguilla","https://x.com/RoamAnguilla","https://www.instagram.com/roamanguilla","https://www.youtube.com/@RoamAnguilla","https://www.facebook.com/roamanguilla/"]},"potentialAction":[{"@type":"SearchAction","target":"https://roamaxa.app/?search={search_term_string}","query-input":"required name=search_term_string"},{"@type":"ViewAction","name":"Find Places","target":"https://roamaxa.app/#placesSection"},{"@type":"ViewAction","name":"Check Events","target":"https://roamaxa.app/#eventsSection"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":["WebSite","TravelWebsite"],"name":"Roam Anguilla","description":"Anguilla travel stories, events, and the best places to explore on the Caribbean's most exclusive island.","url":"https://roamaxa.app/","publisher":{"@type":"Organization","name":"Roam Anguilla","url":"https://roamaxa.app/","logo":{"@type":"ImageObject","url":"https://roamaxa.app/assets/WebLogo.webp"},"sameAs":["https://www.tiktok.com/@roamanguilla","https://x.com/RoamAnguilla","https://www.instagram.com/roamanguilla","https://www.youtube.com/@RoamAnguilla","https://www.facebook.com/roamanguilla/"]},"potentialAction":{"@type":"SearchAction","target":"https://roamaxa.app/blog?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+
+  <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139" crossorigin="anonymous"></script>
-     
-  <style>
-    :root{ --content-max: 960px; --gutter: clamp(14px, 4vw, 48px); }
-    html{ background-color:#100423; margin:0; padding:0; overflow-x:hidden; }
-    body { margin:0; overflow-x:hidden; display:grid; grid-template-rows:70px 1fr; height:100vh; font-family:"Quicksand", sans-serif; }
-    h1{ font-size:2rem; font-family:"Inter", sans-serif; font-weight:bold; color:#fff; text-wrap:wrap; }
-    h2{ font-size:1.5rem; font-weight:bold; color:#fff; text-wrap:wrap; }
-    p{ font-size:1rem; color:#fff; text-wrap:wrap; }
-    .caption{ font-size:.8rem; color:#aaa; }
-    .caption img{ display:block; position:center; max-width:100%; max-height:300px; font-size:.8rem; color:#aaa; }
-    #background-video { position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1; }
-    .sectionPanel{ display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:1rem; flex:1 1 auto; overflow:hidden; box-sizing:border-box; padding:clamp(12px,4vh,32px) var(--gutter); background:rgba(20,20,30,0.55); min-height:100%; max-height:100%; position:relative; box-shadow:0 4px 32px 0 rgba(0,0,0,0.22); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.12); scroll-snap-align:start; scroll-snap-stop:always; scroll-behavior:smooth; scrollbar-width:none; -ms-overflow-style:none; }
-    .sectionList{ flex:0 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden; width:100%; max-width:var(--content-max); margin:0 auto; padding:1.1rem 1.25rem 1.25rem 1.25rem; background:rgba(74,73,72,0.55); border-radius:20px; box-shadow:0 4px 32px 0 rgba(0,0,0,0.22); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; }
-    .sectionListItem{ display:flex; justify-content:space-between; align-items:flex-start; width:100%; max-width:680px; margin:.45rem auto 0 auto; box-sizing:border-box; overflow:hidden; padding:.7rem 1rem; gap:.75rem; cursor:pointer; transition:background .25s ease, transform .25s ease, box-shadow .25s ease; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.10); border-radius:14px; min-height:70px; }
-    .sectionListItem:hover{ background:rgba(255,255,255,0.12); transform:translateY(-3px); box-shadow:0 6px 22px -6px rgba(0,0,0,0.55); }
-    @media (max-width:640px){ .sectionList{ padding:.9rem .65rem 1rem .65rem; } .sectionListItem{ max-width:100%; padding:.6rem .75rem; min-height:64px; } }
-    @media (min-width:1300px){ .sectionListItem{ max-width:660px; } }
-    .panelCard{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); display:flex; flex-direction:column; gap:.75rem; width:min(90%,340px); max-width:340px; max-height:70vh; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:1rem 1rem 1.15rem; background:rgba(20,20,30,0.9); color:#eee; border-radius:16px; box-shadow:0 6px 26px -4px rgba(0,0,0,0.55); z-index:50; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.14); }
-    .navigation::-webkit-scrollbar,.panelCard::-webkit-scrollbar,.sectionList::-webkit-scrollbar { width:0; height:0; display:none; }
-    .panelCard,.sectionList { scrollbar-width:none; -ms-overflow-style:none; }
-    .amenitiesBlock{ background:linear-gradient(145deg,rgba(255,255,255,0.07),rgba(255,255,255,0.03)); border:1px solid rgba(255,255,255,0.18); border-radius:14px; padding:.65rem .7rem .75rem; display:flex; flex-direction:column; gap:.55rem; }
-    .amenitiesLabel{ margin:0; font-size:.7rem; letter-spacing:.6px; text-transform:uppercase; font-weight:600; opacity:.85; color:#e2e2e2; }
-    .amenitiesIcons{ display:flex; flex-wrap:wrap; gap:.6rem; align-items:flex-start; }
-    .social-follow{ list-style:none; display:flex; flex-direction:column; gap:.6rem; margin:0; padding:0; }
-    .social-follow-link{ display:flex; align-items:center; gap:.65rem; padding:.65rem .9rem; background:rgba(75,0,130,0.15); border:1px solid rgba(255,255,255,0.18); border-radius:10px; color:#d4c8ff; text-decoration:none; font-size:.75rem; font-weight:600; letter-spacing:.4px; transition:background .25s, color .25s, transform .25s, box-shadow .25s; }
-    .social-follow-link span.icon{ font-size:1rem; line-height:1; display:inline-flex; }
-    .social-follow-link:hover{ background:#4b0082; color:#fff; transform:translateY(-2px); box-shadow:0 6px 20px -6px rgba(0,0,0,.6); }
-    .pageButton{ padding:.5rem 1rem; background:rgba(75,0,130,0.8); color:#fff; border:none; border-radius:8px; font-size:1rem; cursor:pointer; transition:background-color .2s ease; }
-    .pageButton:hover{ background:rgba(180,150,255,0.9); }
-    .closeButton{ position:absolute; top:10px; right:10px; background-color:rgba(255,255,255,0.8); border:none; border-radius:5px; padding:10px 15px; cursor:pointer; }
-    .navigation{ z-index:10; flex:1; display:flex; justify-content:flex-start; align-items:center; gap:1rem; width:100%; height:70px; margin:0; padding:0 1rem; background:rgba(20,20,30,0.85); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid rgba(255,255,255,0.12); box-shadow:0 4px 32px 0 rgba(0,0,0,0.22); overflow-x:auto; overflow-y:hidden; white-space:nowrap; scroll-behavior:smooth; scrollbar-width:none; -ms-overflow-style:none; }
-    .navigation{ justify-content:center; }
-    .navigation:after{ content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.35),rgba(255,255,255,0)); pointer-events:none; }
-    .navigation a{ position:relative; display:inline-flex; align-items:center; gap:.45rem; padding:.55rem 1rem; border-radius:14px; font-size:.85rem; font-weight:600; letter-spacing:.5px; color:#dcd8f5; text-decoration:none; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); transition:color .25s, background .25s, box-shadow .25s, transform .25s, border-color .25s; }
-    .navigation a h1{ font-size:1rem; margin:0; font-weight:600; color:inherit; letter-spacing:.5px; }
-    .navigation a .nav-icon{ display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; }
-    .navigation a .nav-icon svg{ width:24px; height:24px; display:block; }
-    .navigation a .nav-label{ margin-left:.4rem; }
-    @media (max-width:640px){ .navigation a .nav-label{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; } .navigation a{ padding:.55rem .7rem; } }
-    .navigation a:hover{ background:rgba(255,255,255,0.15); color:#fff; box-shadow:0 4px 18px -6px rgba(0,0,0,.55); }
-    .navigation a:active{ transform:translateY(1px); }
-    .navigation a.active{ background:linear-gradient(140deg,#f97316,#d946ef); color:#fff; box-shadow:0 6px 22px -6px rgba(0,0,0,.65); border-color:rgba(255,255,255,0.4); }
-    .navigation a.active:before{ content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; background:linear-gradient(120deg,rgba(255,255,255,.45),rgba(255,255,255,0) 55%,rgba(255,255,255,.25)); -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; }
-    .navigation a:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
-    .navigation a .nav-icon svg [fill="#000000"], .navigation a .nav-icon svg [fill='black']{ fill:currentColor !important; } .navigation a .nav-icon svg [stroke="#000000"], .navigation a .nav-icon svg [stroke='black'], .navigation a .nav-icon svg{ stroke:currentColor !important; }
-    .navigation.dragging{ cursor:grabbing; scroll-behavior:auto; }
-    .snapContainer { overflow-y:auto; display:block; padding-top:0; scroll-snap-type:y mandatory; scroll-snap-stop:always; scroll-snap-align:center; scroll-behavior:smooth; scrollbar-width:none; -ms-overflow-style:none; }
-    .snapContainer::-webkit-scrollbar { display:none; }
-  </style>
 </head>
-<body> 
-<video id="background-video" autoplay muted loop preload="auto"><source src="assets/hero-video.mp4" type="video/mp4"></video>
-<nav class="navigation" id="mainNav" aria-label="Primary"></nav>
-<div id="mainContent" class="snapContainer">
-<section id="placesSection" class="sectionPanel"> 
-  <h2>Explore Anguilla Locations<br><p style="margin:.4rem 0 0;font-size:.95rem;font-weight:500;max-width:640px;color:#e9e4ff;">Find pristine beaches, foodie hotspots, chill beach bars & hidden local gems for your next island moment.</p></h2>
-  <div id="placeList" class="sectionList"><script src="/jsonassets/places.js"></script></div>
-</section>
-<section id="eventsSection" class="sectionPanel"> 
-  <h2>Anguilla Weekly Events<br><p style="margin:.4rem 0 0;font-size:.95rem;font-weight:500;max-width:640px;color:#ffe6d2;">Live music nights, beach BBQs, cultural vibes & island energy—updated each week.</p></h2>
-  <div id="eventList" class="sectionList"><script src="/jsonassets/events.js"></script></div>
-</section>
-<section id="favoritesSection" class="sectionPanel"> 
-  <h2>Your Personal Anguilla Favorites<br><p style="margin:.4rem 0 0;font-size:.95rem;font-weight:500;max-width:640px;color:#d6f7ff;">Build your custom trip guide—save spots, plan days, come back anytime.</p></h2>
-  <h3 style="margin:.75rem 0 .35rem;">Favorite Places</h3>
-  <div id="favoritePlaces" class="sectionList"></div>
-  <h3 style="margin:1.25rem 0 .35rem;">Favorite Events</h3>
-  <div id="favoriteEvents" class="sectionList"></div>
-</section>
-<section id="blogSection" class="sectionPanel">
-<h2>Roam Anguilla Blog Section<br><p style="margin:.4rem 0 0;font-size:.95rem;font-weight:500;max-width:640px;color:#ffe9f6;">Stories from the sand: conservation treks, local culture & travel hacks. <a href="/blog/" style="color:#ffd58f;text-decoration:underline;font-weight:600;">Read all posts →</a></p></h2>
-    <div id="blogList" class="sectionList"><script src="/jsonassets/bloglist.js"></script></div>
-</section>
-<section id="downloadSection" class="sectionPanel">
-  <h2>Download The Roam Anguilla App<br><p style="margin:.4rem 0 0;font-size:.95rem;font-weight:500;max-width:640px;color:#e6d9ff;">Install for offline browsing, faster loads & staying in sync with weekly island updates.</p></h2>
-  <div id="downloadList" class="sectionList">
-    <div style="display:flex;flex-direction:column;gap:.85rem;max-width:640px;margin:0 auto;">
-      <div id="pwaMeta" class="caption" style="display:flex;flex-direction:column;gap:.35rem;"></div>
-      <ul id="handlesList" class="social-follow" style="margin:.25rem 0 .4rem;"></ul>
-      <button id="installBtn" style="display:none;align-self:flex-start;padding:.55rem .95rem;background:#4b0082;color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:10px;font-size:.8rem;cursor:pointer;letter-spacing:.5px;">Install App</button>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <a href="/" style="text-decoration:none;">
+        <h1>Roam <span>Anguilla</span></h1>
+      </a>
     </div>
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="/blog" class="nav-link">Blog</a>
+      <a href="/events.html" class="nav-link">Events</a>
+      <a href="/places.html" class="nav-link">Places</a>
+    </nav>
+    <a href="/download.html" class="get-app-link">
+      <i class="fas fa-mobile-alt"></i> Get the App
+    </a>
   </div>
-  <script src="/jsonassets/download.js"></script>
-</section>
+
+  <!-- Latest in Anguilla -->
+  <div class="section-title">
+    <i class="fas fa-newspaper"></i> Latest in Anguilla
+  </div>
+  <div id="blogList" class="horizontal-scroll"></div>
+  <div style="overflow:hidden;">
+    <a href="/blog" class="view-all-link">View all posts &rarr;</a>
+  </div>
+
+  <!-- Happening now & soon -->
+  <div class="section-title">
+    <i class="fas fa-calendar-alt"></i> Happening now &amp; soon
+  </div>
+  <div id="featuredEventsContainer" class="horizontal-scroll">
+    <p id="eventsLoading" style="color:#4a5568;font-size:.9rem;margin:.5rem 0;">Loading events&hellip;</p>
+  </div>
+  <div style="overflow:hidden;">
+    <a href="/events.html" class="view-all-link">View all events &rarr;</a>
+  </div>
+
+  <!-- Explore Anguilla -->
+  <div class="section-title">
+    <i class="fas fa-compass"></i> Explore Anguilla
+  </div>
+  <div class="places-scroll-container">
+    <div id="placesContainer" class="places-grid"></div>
+  </div>
+  <div style="overflow:hidden;">
+    <a href="/places.html" class="view-all-link">View all places &rarr;</a>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    🌊 Roam &mdash; Make it your adventure 🌴<br />
+    <small style="font-size:0.75rem;color:#7a8899;margin-top:0.4rem;display:block;">
+      <a href="/blog" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Blog</a>·
+      <a href="/events.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Events</a>·
+      <a href="/places.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Places</a>·
+      <a href="/download.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Get the App</a>
+    </small>
+  </div>
+
 </div>
-<script src="/jsonassets/navigation.js"></script>
+
+<!-- Detail modal -->
+<div id="detailModal" class="modal" role="dialog" aria-modal="true">
+  <div class="modal-content">
+    <button class="modal-close" id="closeModal" aria-label="Close">&times;</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- Service Worker -->
 <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>
+
+<!-- Blog posts -->
+<script src="/jsonassets/bloglist.js"></script>
+
+<!-- Events & Places -->
+<script>
+(function(){
+  'use strict';
+
+  var EVENTS_URL  = '/jsonassets/events.json';
+  var PLACES_URL  = '/jsonassets/places.json';
+  var PLACES_CAP  = 12;
+  var EVENTS_CAP  = 8;
+  var WEEKDAYS    = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+
+  /* ── helpers ── */
+  function esc(str){
+    return String(str||'').replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function formatHour(h){
+    if(h === undefined || h === null) return '—';
+    var h24   = Math.floor(h);
+    var mins  = Math.round((h - h24) * 60);
+    var ampm  = h24 >= 12 ? 'pm' : 'am';
+    var h12   = h24 % 12 || 12;
+    return h12 + ':' + (mins < 10 ? '0' : '') + mins + ' ' + ampm;
+  }
+
+  /* ── event helpers ── */
+  function enrichEvent(ev){
+    var now        = new Date();
+    var currentDay = WEEKDAYS[now.getDay()];
+    var hour       = now.getHours() + now.getMinutes() / 60;
+    var eventDay   = ev.eventday.toLowerCase();
+    var start      = ev.eventstart, end = ev.eventend;
+    var dayDiff    = (WEEKDAYS.indexOf(eventDay) - WEEKDAYS.indexOf(currentDay) + 7) % 7;
+
+    var startDate  = new Date(now);
+    startDate.setDate(now.getDate() + dayDiff);
+    startDate.setHours(Math.floor(start), Math.round((start % 1) * 60), 0, 0);
+
+    var endDate = new Date(startDate);
+    endDate.setHours(Math.floor(end), Math.round((end % 1) * 60), 0, 0);
+    if(end < start) endDate.setDate(endDate.getDate() + 1);
+
+    var isActive      = (now >= startDate && now <= endDate);
+    var remainingMs   = endDate - now;
+    var startsInMs    = startDate - now;
+    return Object.assign({}, ev, {isActive: isActive, remainingMs: remainingMs, startsInMs: startsInMs});
+  }
+
+  function getSortedEvents(events){
+    var enriched = events.map(enrichEvent);
+    enriched.sort(function(a, b){
+      if(a.isActive && !b.isActive) return -1;
+      if(!a.isActive && b.isActive) return 1;
+      if(a.isActive && b.isActive)  return b.remainingMs - a.remainingMs;
+      return a.startsInMs - b.startsInMs;
+    });
+    return enriched.slice(0, EVENTS_CAP);
+  }
+
+  /* ── render events ── */
+  function renderFeaturedEvents(events){
+    var container = document.getElementById('featuredEventsContainer');
+    if(!container) return;
+    var loading = document.getElementById('eventsLoading');
+    if(loading) loading.remove();
+    if(!events.length){
+      container.innerHTML = '<p style="color:#4a5568;font-size:.9rem;margin:.5rem 0;">No events scheduled right now.</p>';
+      return;
+    }
+    var top = getSortedEvents(events);
+    top.forEach(function(ev){
+      var card = document.createElement('div');
+      card.className = 'event-card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.innerHTML =
+        '<div class="event-day-badge">' + esc(ev.eventday) + '</div>' +
+        '<div class="event-name">'      + esc(ev.name)     + '</div>' +
+        '<div class="event-place"><i class="fas fa-map-marker-alt" style="color:var(--orange);margin-right:.3rem;"></i>' + esc(ev.place) + '</div>' +
+        '<div class="event-time">'      + formatHour(ev.eventstart) + ' &ndash; ' + formatHour(ev.eventend) + '</div>' +
+        '<div class="event-status">'    + (ev.isActive ? '🔵 happening now' : '⏳ upcoming') + '</div>';
+      card.addEventListener('click', function(){ showModal('event', ev); });
+      card.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); showModal('event', ev); } });
+      container.appendChild(card);
+    });
+  }
+
+  /* ── render places ── */
+  function renderPlaces(places){
+    var container = document.getElementById('placesContainer');
+    if(!container) return;
+    var shown = places.slice(0, PLACES_CAP);
+    if(!shown.length){
+      container.innerHTML = '<p style="color:#4a5568;font-size:.9rem;margin:.5rem 0;">No places listed yet.</p>';
+      return;
+    }
+    shown.forEach(function(place){
+      var imgSrc = place.image || '/assets/placeholder.webp';
+      var card   = document.createElement('div');
+      card.className = 'place-card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.innerHTML =
+        '<div class="place-img" style="background-image:url(\'' + esc(imgSrc) + '\');"></div>' +
+        '<div class="place-info">' +
+          '<div class="place-title">'    + esc(place.title)  + '</div>' +
+          '<div class="place-category">' + esc(place.label)  + ' &middot; ' + esc(place.type) + '</div>' +
+          '<div class="place-footer">' +
+            '<span class="place-phone">' +
+              (place.phone ? '<a href="tel:' + esc(place.phone) + '"><i class="fas fa-phone-alt"></i> ' + esc(place.phone.substring(0, 16)) + '</a>' : '<span style="color:#aaa;">—</span>') +
+            '</span>' +
+            '<span class="place-link"><i class="fas fa-map-marker-alt"></i> details</span>' +
+          '</div>' +
+        '</div>';
+      card.addEventListener('click', function(){ showModal('place', place); });
+      card.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); showModal('place', place); } });
+      container.appendChild(card);
+    });
+  }
+
+  /* ── modal ── */
+  var _allEvents = [];
+  var _placeMap  = {};
+
+  function showModal(type, data){
+    var modal    = document.getElementById('detailModal');
+    var bodyDiv  = document.getElementById('modalBody');
+    if(!modal || !bodyDiv) return;
+
+    if(type === 'place'){
+      var linkedEvents = _allEvents.filter(function(ev){ return ev.placeurl === data.googleurl; });
+      var evListHTML   = linkedEvents.length
+        ? '<ul class="event-list">' + linkedEvents.map(function(e){
+            return '<li><strong>' + esc(e.name) + '</strong> &mdash; ' + esc(e.eventday) + ' ' + formatHour(e.eventstart) + '&ndash;' + formatHour(e.eventend) + '</li>';
+          }).join('') + '</ul>'
+        : '<p style="color:#6c757d;font-size:.85rem;">No scheduled events right now.</p>';
+
+      bodyDiv.innerHTML =
+        '<h2 style="font-size:1.8rem;color:var(--blue);margin-bottom:1rem;">' + esc(data.title) + '</h2>' +
+        '<div class="detail-row"><strong>' + esc(data.label) + ' &middot; ' + esc(data.type) + '</strong>' + (data.location ? ' &middot; ' + esc(data.location) : '') + '</div>' +
+        '<div class="detail-row">' +
+          '<i class="fas fa-phone-alt" style="color:var(--orange);margin-right:.4rem;"></i>' + (data.phone ? '<a href="tel:' + esc(data.phone) + '" style="color:var(--blue);">' + esc(data.phone) + '</a>' : '—') + '<br>' +
+          '<i class="fas fa-globe" style="color:var(--orange);margin-right:.4rem;margin-top:.3rem;"></i>' + (data.website ? '<a href="' + esc(data.website) + '" target="_blank" rel="noopener" style="color:var(--blue);">' + esc(data.website) + '</a>' : '—') +
+        '</div>' +
+        '<div class="detail-row"><i class="fas fa-clock" style="color:var(--orange);margin-right:.4rem;"></i> Opens ' + formatHour(data.open) + ' &middot; Closes ' + formatHour(data.closes) + (data.closedon ? '<br><small style="color:#6c757d;">' + esc(data.closedon) + '</small>' : '') + '</div>' +
+        '<div class="detail-row"><strong>🎟️ Events here</strong>' + evListHTML + '</div>' +
+        '<div class="detail-row"><a href="' + esc(data.googleurl) + '" target="_blank" rel="noopener" style="background:var(--blue);color:white;padding:.5rem 1.2rem;border-radius:40px;display:inline-block;text-decoration:none;font-weight:600;">🗺️ Open in Google Maps</a></div>';
+    } else {
+      var venue       = _placeMap[data.placeurl] || {title: data.place, phone: ''};
+      var descRaw     = data.eventdesc || '';
+      var isTimestamp = /^\d{4}\//.test(descRaw);
+      var descHTML    = (!descRaw || isTimestamp) ? 'Live music &amp; island vibes.' : esc(descRaw);
+
+      bodyDiv.innerHTML =
+        '<h2 style="font-size:1.8rem;color:var(--blue);margin-bottom:1rem;">✨ ' + esc(data.name) + '</h2>' +
+        '<div class="detail-row"><strong>📅 ' + esc(data.eventday) + '</strong> &middot; ' + formatHour(data.eventstart) + ' &ndash; ' + formatHour(data.eventend) + '</div>' +
+        '<div class="detail-row">📍 <strong>' + esc(venue.title || data.place) + '</strong>' + (venue.phone ? '<br>📞 ' + esc(venue.phone) : '') + '</div>' +
+        '<div class="detail-row">' + descHTML + '</div>' +
+        '<div class="detail-row">' +
+          '<a href="' + esc(data.placeurl) + '" target="_blank" rel="noopener" style="background:var(--orange);color:white;padding:.4rem 1rem;border-radius:30px;display:inline-block;text-decoration:none;font-weight:600;margin-right:.6rem;">🔗 View on Google Maps</a>' +
+          (venue.googleurl ? '<button onclick="window._roamShowModal(\'place\',' + JSON.stringify(venue).replace(/</g,'\\u003c') + ')" style="background:var(--blue);border:none;color:white;padding:.4rem 1rem;border-radius:30px;cursor:pointer;font-weight:600;">🏝️ Venue details</button>' : '') +
+        '</div>';
+    }
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    var modal = document.getElementById('detailModal');
+    if(modal) modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  /* expose for venue details button */
+  window._roamShowModal = showModal;
+
+  /* ── init ── */
+  function init(){
+    var closeBtn = document.getElementById('closeModal');
+    var modal    = document.getElementById('detailModal');
+    if(closeBtn) closeBtn.addEventListener('click', closeModal);
+    if(modal)    modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+    Promise.all([
+      fetch(EVENTS_URL, {cache: 'no-store'}).then(function(r){ if(!r.ok) throw new Error('events '+r.status); return r.json(); }),
+      fetch(PLACES_URL, {cache: 'no-store'}).then(function(r){ if(!r.ok) throw new Error('places '+r.status); return r.json(); })
+    ]).then(function(results){
+      var events = results[0] || [];
+      var places = results[1] || [];
+
+      _allEvents = events;
+      places.forEach(function(p){ _placeMap[p.googleurl] = p; });
+
+      renderFeaturedEvents(events);
+      renderPlaces(places);
+    }).catch(function(err){
+      console.error('RoamAXA homepage load error:', err);
+      var el = document.getElementById('eventsLoading');
+      if(el) el.textContent = 'Unable to load events.';
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
 </body>
 </html>

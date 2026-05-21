@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Events · Roam Anguilla</title>
+  <meta name="description" content="Weekly events in Anguilla — live music, beach parties, dining experiences, and more happening now and soon." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://roamaxa.app/events.html" />
+  <meta name="theme-color" content="#1E6F9F" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Events · Roam Anguilla" />
+  <meta property="og:description" content="Weekly events in Anguilla — live music, beach parties, and dining experiences." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://roamaxa.app/events.html" />
+  <meta property="og:image" content="https://roamaxa.app/assets/WebLogo.webp" />
+  <meta property="og:site_name" content="Roam Anguilla" />
+
+  <!-- Favicon & Manifest -->
+  <link rel="icon" type="image/webp" href="/assets/titlelogo.webp" sizes="32x32" />
+  <link rel="manifest" href="/jsonassets/manifest.json" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139" crossorigin="anonymous"></script>
+
+  <style>
+    /* Override events.js dark inline styles for the filter bar and list items */
+    #eventsDayBar {
+      background: var(--light-blue) !important;
+      border: 1px solid rgba(30,111,159,0.2) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    #eventsDayBar button {
+      background: transparent !important;
+      color: #1a2c3e !important;
+      border-color: rgba(30,111,159,0.3) !important;
+    }
+    #eventsSection .sectionListItem {
+      background: white;
+      border-radius: 20px;
+      border: 1px solid #f0ede8;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    #eventsSection .sectionListItem:hover {
+      box-shadow: 0 8px 20px rgba(30,111,159,0.12);
+      transform: translateY(-2px);
+    }
+    #eventsSection .sectionListItem h3 { color: #1a2c3e !important; }
+    #eventsSection .sectionListItem p { color: #4a5568 !important; }
+    #eventsSection .sectionListItem a { color: var(--blue) !important; }
+    .caption { color: #4a5568; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <a href="/" style="text-decoration:none;">
+        <h1>Roam <span>Anguilla</span></h1>
+      </a>
+    </div>
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="/blog" class="nav-link">Blog</a>
+      <a href="/events.html" class="nav-link active">Events</a>
+      <a href="/places.html" class="nav-link">Places</a>
+    </nav>
+    <a href="/download.html" class="get-app-link">
+      <i class="fas fa-mobile-alt"></i> Get the App
+    </a>
+  </div>
+
+  <!-- Events Section -->
+  <section id="eventsSection">
+    <div class="section-title">
+      <i class="fas fa-calendar-alt"></i> Events in Anguilla
+    </div>
+    <!-- events.js inserts the day filter bar before #eventList -->
+    <div id="eventList"></div>
+  </section>
+
+  <!-- Footer -->
+  <div class="footer">
+    🌊 Roam &mdash; Make it your adventure 🌴<br />
+    <small style="font-size:0.75rem;color:#7a8899;margin-top:0.4rem;display:block;">
+      <a href="/blog" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Blog</a>·
+      <a href="/events.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Events</a>·
+      <a href="/places.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Places</a>·
+      <a href="/download.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Get the App</a>
+    </small>
+  </div>
+
+</div>
+
+<!-- Service Worker -->
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>
+
+<!-- Events -->
+<script src="/jsonassets/events.js"></script>
+</body>
+</html>

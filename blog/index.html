@@ -32,9 +32,14 @@
   <meta name="ICBM" content="18.220554, -63.068615" />
   
   <link rel="canonical" href="https://roamaxa.app/blog/" />
-  <link rel="icon" type="image/webp" href="../titlelogo.webp" sizes="25x25" />
+  <link rel="icon" type="image/webp" href="/assets/titlelogo.webp" sizes="32x32" />
 
+  <!-- Shared design system -->
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
 
+  <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139"
      crossorigin="anonymous"></script>
   
@@ -90,70 +95,29 @@
     }
     
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Inter', sans-serif;
       line-height: 1.6;
       color: #333;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
+      background-color: #f5f5f5;
     }
-    
-    .header {
-      background: rgba(75, 0, 130, 0.9);
-      backdrop-filter: blur(10px);
-      padding: 1.5rem 0;
+
+    /* Full-width site nav bar */
+    .blog-header {
+      background: white;
+      border-bottom: 2px solid var(--light-orange);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      padding: 1rem 0;
       margin-bottom: 3rem;
-      box-shadow: 0 4px 20px rgba(75, 0, 130, 0.3);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-    
-    .header-content {
+    .blog-header-inner {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    
-    .logo {
-      display: flex;
-      align-items: center;
+      flex-wrap: wrap;
       gap: 1rem;
-    }
-    
-    .logo img {
-      width: 50px;
-      height: 50px;
-      border-radius: 8px;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
-    }
-    
-    .logo h1 {
-      font-size: 1.8rem;
-      color: #fff;
-      font-weight: bold;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-    
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      background: rgba(255,255,255,0.2);
-      color: white;
-      text-decoration: none;
-      border-radius: 50px;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      border: 1px solid rgba(255,255,255,0.3);
-      backdrop-filter: blur(5px);
-    }
-    
-    .back-link:hover {
-      background: rgba(255,255,255,0.3);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255,255,255,0.2);
     }
     
     .container {
@@ -169,11 +133,11 @@
     }
     
     .ad-placeholder {
-      background: rgba(255,255,255,0.1);
-      border: 2px dashed rgba(255,255,255,0.3);
+      background: rgba(30,111,159,0.04);
+      border: 2px dashed rgba(30,111,159,0.2);
       padding: 2rem;
       border-radius: 8px;
-      color: rgba(255,255,255,0.6);
+      color: #7a8899;
       font-size: 0.9rem;
       font-weight: 500;
     }
@@ -210,21 +174,23 @@
     
     .filter-btn {
       padding: 0.75rem 1.5rem;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: white;
+      border: 1px solid rgba(30,111,159,0.2);
       border-radius: 25px;
-      color: #fff;
+      color: #1a2c3e;
       cursor: pointer;
       transition: all 0.3s ease;
       font-weight: 500;
       font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
     }
     
     .filter-btn:hover, .filter-btn.active {
-      background: #4b0082;
-      border-color: #4b0082;
+      background: var(--orange);
+      border-color: var(--orange);
+      color: white;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(75, 0, 130, 0.3);
+      box-shadow: 0 4px 12px rgba(255,140,66,0.3);
     }
     
     /* Blog Content Layout */
@@ -246,17 +212,16 @@
     
     .page-title h2 {
       font-size: 3rem;
-      color: white;
+      color: #1a2c3e;
       margin-bottom: 1rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      font-weight: 800;
     }
     
     .page-title p {
       font-size: 1.2rem;
-      color: rgba(255,255,255,0.9);
+      color: #4a5568;
       max-width: 600px;
       margin: 0 auto;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     }
     
     .blog-grid {
@@ -267,18 +232,19 @@
     }
     
     .blog-post-card {
-      background: rgba(255, 255, 255, 0.95);
+      background: white;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+      border: 1px solid rgba(30,111,159,0.1);
       transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
       position: relative;
     }
     
     .blog-post-card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+      box-shadow: 0 16px 48px rgba(30,111,159,0.15);
+      border-color: var(--orange);
     }
     
     /* Featured Post Styling */
@@ -294,7 +260,7 @@
       position: absolute;
       top: 1rem;
       left: 1rem;
-      background: #4b0082;
+      background: var(--blue);
       color: white;
       padding: 0.5rem 1rem;
       border-radius: 20px;
@@ -324,7 +290,7 @@
       position: absolute;
       top: 1rem;
       right: 1rem;
-      background: rgba(255,165,0,0.9);
+      background: var(--orange);
       color: white;
       padding: 0.5rem 1rem;
       border-radius: 20px;
@@ -333,7 +299,7 @@
     }
     
     .blog-post-category {
-      background: #4b0082;
+      background: var(--orange);
       color: white;
       padding: 0.25rem 0.75rem;
       border-radius: 12px;
@@ -347,16 +313,16 @@
     }
     
     .sidebar-widget {
-      background: rgba(255, 255, 255, 0.9);
+      background: white;
       border-radius: 16px;
       padding: 1.5rem;
       margin-bottom: 2rem;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+      border: 1px solid rgba(30,111,159,0.08);
     }
     
     .sidebar-widget h4 {
-      color: #4b0082;
+      color: var(--blue);
       font-size: 1.2rem;
       margin-bottom: 1rem;
       font-weight: bold;
@@ -383,7 +349,7 @@
     }
     
     .popular-post h5 a:hover {
-      color: #4b0082;
+      color: var(--blue);
     }
     
     .popular-post-date {
@@ -409,7 +375,7 @@
     }
     
     .category-list a:hover {
-      color: #4b0082;
+      color: var(--blue);
     }
     
     .social-follow {
@@ -423,33 +389,33 @@
       align-items: center;
       gap: 0.75rem;
       padding: 0.75rem;
-      background: rgba(75, 0, 130, 0.1);
+      background: var(--light-blue);
       border-radius: 8px;
-      color: #4b0082;
+      color: var(--blue);
       text-decoration: none;
       transition: all 0.3s ease;
       font-weight: 500;
     }
     
     .social-follow-link:hover {
-      background: #4b0082;
+      background: var(--blue);
       color: white;
       transform: translateY(-2px);
     }
     
     /* Newsletter Signup */
     .newsletter-signup {
-      background: rgba(255, 255, 255, 0.9);
+      background: white;
       border-radius: 16px;
       padding: 2rem;
       text-align: center;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+      border: 1px solid rgba(30,111,159,0.08);
       margin-top: 2rem;
     }
     
     .newsletter-signup h3 {
-      color: #4b0082;
+      color: var(--blue);
       font-size: 1.5rem;
       margin-bottom: 1rem;
     }
@@ -469,24 +435,27 @@
     .newsletter-form input {
       flex: 1;
       padding: 0.75rem 1rem;
-      border: 1px solid #ddd;
+      border: 1px solid rgba(30,111,159,0.2);
       border-radius: 8px;
       font-size: 1rem;
+      font-family: 'Inter', sans-serif;
     }
+    .newsletter-form input:focus { outline: none; border-color: var(--blue); }
     
     .newsletter-form button {
       padding: 0.75rem 1.5rem;
-      background: #4b0082;
+      background: var(--blue);
       color: white;
       border: none;
       border-radius: 8px;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       transition: background 0.3s ease;
+      font-family: 'Inter', sans-serif;
     }
     
     .newsletter-form button:hover {
-      background: #6a0dad;
+      background: var(--orange);
     }
     
     .blog-post-image {
@@ -514,7 +483,7 @@
     .blog-post-title {
       font-size: 1.4rem;
       font-weight: bold;
-      color: #2c3e50;
+      color: #1a2c3e;
       margin-bottom: 0.75rem;
       line-height: 1.3;
     }
@@ -526,7 +495,7 @@
     }
     
     .blog-post-title a:hover {
-      color: #4b0082;
+      color: var(--blue);
     }
     
     .blog-post-excerpt {
@@ -551,7 +520,7 @@
     }
     
     .blog-post-author {
-      color: #4b0082;
+      color: var(--blue);
       font-weight: 500;
     }
     
@@ -560,7 +529,7 @@
       align-items: center;
       gap: 0.5rem;
       padding: 0.75rem 1.5rem;
-      background: #4b0082;
+      background: var(--blue);
       color: white;
       text-decoration: none;
       border-radius: 8px;
@@ -569,22 +538,21 @@
     }
     
     .read-more:hover {
-      background: #6a0dad;
+      background: var(--orange);
       transform: translateX(4px);
     }
     
     .coming-soon {
       text-align: center;
-      background: rgba(255, 255, 255, 0.9);
+      background: white;
       border-radius: 16px;
       padding: 3rem 2rem;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06);
     }
     
     .coming-soon h3 {
       font-size: 1.8rem;
-      color: #4b0082;
+      color: var(--blue);
       margin-bottom: 1rem;
     }
     
@@ -597,6 +565,9 @@
     
     /* Mobile Optimizations */
     @media (max-width: 768px) {
+      .blog-header-inner { flex-direction: column; text-align: center; gap: 0.75rem; }
+      .blog-content-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+      .blog-header-inner .header-nav { justify-content: center; }
       .header-content {
         flex-direction: column;
         gap: 1rem;
@@ -854,14 +825,21 @@
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-content">
+  <!-- Site nav bar (matches homepage) -->
+  <header class="blog-header">
+    <div class="blog-header-inner">
       <div class="logo">
-        <img src="../assets/WebLogo.webp" alt="Roam Anguilla Logo" />
-        <h1>Roam Anguilla Blog</h1>
+        <a href="/" style="text-decoration:none;">
+          <h1>Roam <span>Anguilla</span></h1>
+        </a>
       </div>
-      <a href="../#blog" class="back-link">
-        ← Back to App
+      <nav class="header-nav" aria-label="Main navigation">
+        <a href="/blog" class="nav-link active">Blog</a>
+        <a href="/events.html" class="nav-link">Events</a>
+        <a href="/places.html" class="nav-link">Places</a>
+      </nav>
+      <a href="/download.html" class="get-app-link">
+        <i class="fas fa-mobile-alt"></i> Get the App
       </a>
     </div>
   </header>
@@ -946,20 +924,20 @@
         <div class="sidebar-widget">
           <h4>Follow Us</h4>
           <div class="social-follow">
-            <a href="https://www.instagram.com/roamanguilla" target="_blank" class="social-follow-link instagram">
-              <span>📸</span> Instagram
+            <a href="https://www.instagram.com/roamanguilla" target="_blank" rel="noopener" class="social-follow-link">
+              <i class="fab fa-instagram"></i> Instagram
             </a>
-            <a href="https://www.tiktok.com/@roamanguilla" target="_blank" class="social-follow-link tiktok">
-              <span>📱</span> TikTok
+            <a href="https://www.tiktok.com/@roamanguilla" target="_blank" rel="noopener" class="social-follow-link">
+              <i class="fab fa-tiktok"></i> TikTok
             </a>
-            <a href="https://x.com/RoamAnguilla" target="_blank" class="social-follow-link twitter">
-              <span>🐦</span> Twitter
+            <a href="https://x.com/RoamAnguilla" target="_blank" rel="noopener" class="social-follow-link">
+              <i class="fab fa-x-twitter"></i> Twitter / X
             </a>
-            <a href="https://www.youtube.com/@RoamAnguilla" target="_blank" class="social-follow-link youtube">
-              <span>▶️</span> YouTube
+            <a href="https://www.youtube.com/@RoamAnguilla" target="_blank" rel="noopener" class="social-follow-link">
+              <i class="fab fa-youtube"></i> YouTube
             </a>
-            <a href="https://www.facebook.com/roamanguilla/" target="_blank" class="social-follow-link facebook">
-              <span>🟦</span> Facebook
+            <a href="https://www.facebook.com/roamanguilla/" target="_blank" rel="noopener" class="social-follow-link">
+              <i class="fab fa-facebook"></i> Facebook
             </a>
           </div>
         </div>

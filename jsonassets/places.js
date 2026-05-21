@@ -50,7 +50,15 @@
       ensureTypeFilterBar(places, container);
       applyFilter('');
       injectSchema(places);
-  updateFavoritesUI();
+      updateFavoritesUI();
+      // Wire up modal close
+      const modal = qs('#placeModal');
+      const closeBtn = qs('#closeModal');
+      if(modal){
+        if(closeBtn) closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
+        document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+      }
     } catch(e){ console.error('places load failed', e); container.textContent = 'Unable to load places.'; }
   }
 
@@ -60,23 +68,23 @@
     const hostSection = qs('#placesSection');
     const wrap = ce('div');
     // unified width with sectionList (full width constrained by var(--content-max))
-    wrap.style.cssText = 'width:100%;max-width:var(--content-max);margin:0 auto .45rem auto;display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);padding:.55rem .85rem .6rem;border-radius:14px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-sizing:border-box;';
+    wrap.style.cssText = 'width:100%;margin:0 0 .6rem 0;display:flex;align-items:center;gap:.6rem;background:#eef5fa;border:1px solid rgba(30,111,159,0.2);padding:.55rem .85rem .6rem;border-radius:14px;box-sizing:border-box;';
     const icon = ce('span');
-    icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
+    icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E6F9F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
     searchInput = ce('input');
     searchInput.id = 'placeSearch';
     searchInput.type = 'search';
     searchInput.placeholder = 'Search places';
     searchInput.autocomplete = 'off';
     searchInput.setAttribute('aria-label','Search places');
-    searchInput.style.cssText = 'flex:1;background:transparent;border:0;outline:none;font-size:.85rem;color:#fff;font-family:inherit;padding:.2rem;';
+    searchInput.style.cssText = 'flex:1;background:transparent;border:0;outline:none;font-size:.85rem;color:#1a2c3e;font-family:inherit;padding:.2rem;';
 
     // Location enable button
     locBtn = ce('button');
     locBtn.type = 'button';
     locBtn.id = 'locEnable';
     locBtn.textContent = 'Enable Location';
-    locBtn.style.cssText = 'flex:0 0 auto;font-size:.6rem;letter-spacing:.7px;text-transform:uppercase;padding:.45rem .65rem;border-radius:9px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.12);color:#fff;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:.35rem;';
+    locBtn.style.cssText = 'flex:0 0 auto;font-size:.6rem;letter-spacing:.7px;text-transform:uppercase;padding:.45rem .65rem;border-radius:9px;border:1px solid rgba(30,111,159,0.35);background:#e8f2f9;color:#1E6F9F;cursor:pointer;font-weight:700;display:flex;align-items:center;gap:.35rem;font-family:inherit;';
     if(!('geolocation' in navigator)){
       locBtn.textContent = 'No Geo';
       locBtn.disabled = true;
@@ -100,8 +108,9 @@
       pos=>{
         userPos = { lat: pos.coords.latitude, lon: pos.coords.longitude, acc: pos.coords.accuracy };
         locBtn.textContent = 'Location On';
-        locBtn.style.background = 'linear-gradient(135deg,#2563eb,#7c3aed)';
-        locBtn.style.borderColor = 'rgba(255,255,255,0.5)';
+        locBtn.style.background = 'linear-gradient(135deg,#1E6F9F,#FF8C42)';
+        locBtn.style.borderColor = '#1E6F9F';
+        locBtn.style.color = '#fff';
         ensureRadiusBar();
         startWatchLocation();
         applyFilter(lastFilter);
@@ -135,7 +144,7 @@
     const listContainer = qs('#placeList');
     radiusBar = ce('div');
     radiusBar.id = 'radiusFilterBar';
-    radiusBar.style.cssText = 'width:100%;max-width:var(--content-max);margin:0 auto .6rem auto;display:flex;align-items:center;gap:.55rem;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding:.55rem .55rem .6rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.16);border-radius:14px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-sizing:border-box;';
+    radiusBar.style.cssText = 'width:100%;margin:0 0 .6rem 0;display:flex;align-items:center;gap:.55rem;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding:.55rem .55rem .6rem;background:#eef5fa;border:1px solid rgba(30,111,159,0.2);border-radius:14px;box-sizing:border-box;';
     const hideStyle = document.getElementById('radiusHideStyle') || document.createElement('style');
     hideStyle.id='radiusHideStyle'; hideStyle.textContent='#radiusFilterBar::-webkit-scrollbar{display:none;}';
     if(!document.getElementById('radiusHideStyle')) document.head.appendChild(hideStyle);
@@ -158,16 +167,17 @@
     return b;
   }
   function radiusBtnStyle(){
-    return [ 'flex:0 0 auto','padding:.45rem .8rem','font-size:.6rem','letter-spacing:.65px','text-transform:uppercase','border-radius:999px','border:1px solid rgba(255,255,255,0.18)','background:rgba(255,255,255,0.08)','color:#fff','cursor:pointer','font-weight:600','transition:background .25s,border-color .25s' ].join(';');
+    return [ 'flex:0 0 auto','padding:.45rem .8rem','font-size:.6rem','letter-spacing:.65px','text-transform:uppercase','border-radius:999px','border:1px solid rgba(30,111,159,0.3)','background:transparent','color:#1a2c3e','cursor:pointer','font-weight:600','transition:background .25s,border-color .25s','font-family:inherit' ].join(';');
   }
   function setActiveRadiusBtn(){
     if(!radiusBar) return;
     [...radiusBar.querySelectorAll('button')].forEach(btn=>{
       const val = btn.dataset.radius || null;
       const active = (val==null && radiusKm==null) || (val!=null && Number(val)===radiusKm);
-      btn.style.background = active ? 'linear-gradient(135deg,#15803d,#4ade80)' : 'rgba(255,255,255,0.08)';
-      btn.style.borderColor = active ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.18)';
-      btn.style.boxShadow = active ? '0 0 0 2px rgba(34,197,94,0.25)' : 'none';
+      btn.style.background = active ? '#1E6F9F' : 'transparent';
+      btn.style.color = active ? '#fff' : '#1a2c3e';
+      btn.style.borderColor = active ? '#1E6F9F' : 'rgba(30,111,159,0.3)';
+      btn.style.boxShadow = active ? '0 0 0 2px rgba(30,111,159,0.2)' : 'none';
     });
   }
 
@@ -179,7 +189,7 @@
     if(!types.length) return; // nothing to build
     typeBar = ce('div');
     typeBar.id = 'placeTypeBar';
-    typeBar.style.cssText = 'width:100%;max-width:var(--content-max);margin:0 auto .65rem auto;display:flex;align-items:center;gap:.5rem;overflow-x:auto;overflow-y:visible;padding:.6rem .55rem .65rem;scrollbar-width:none;-ms-overflow-style:none;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);border-radius:14px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-sizing:border-box;min-height:56px;';
+    typeBar.style.cssText = 'width:100%;margin:0 0 .65rem 0;display:flex;align-items:center;gap:.5rem;overflow-x:auto;overflow-y:visible;padding:.6rem .55rem .65rem;scrollbar-width:none;-ms-overflow-style:none;background:#eef5fa;border:1px solid rgba(30,111,159,0.2);border-radius:14px;box-sizing:border-box;min-height:56px;';
     typeBar.setAttribute('role','tablist');
     typeBar.addEventListener('wheel', e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ typeBar.scrollLeft += e.deltaY; e.preventDefault(); }});
     const hideStyle = document.getElementById('placeTypeBarHide') || document.createElement('style');
@@ -220,14 +230,13 @@
       'letter-spacing:.7px',
       'text-transform:uppercase',
       'border-radius:999px',
-      'border:1px solid rgba(255,255,255,0.18)',
-      'background:rgba(255,255,255,0.08)',
-      'color:#fff',
+      'border:1px solid rgba(30,111,159,0.3)',
+      'background:transparent',
+      'color:#1a2c3e',
       'cursor:pointer',
       'font-weight:600',
       'transition:background .25s,border-color .25s',
-      'backdrop-filter:blur(4px)',
-      '-webkit-backdrop-filter:blur(4px)'
+      'font-family:inherit'
     ].join(';');
   }
 
@@ -235,9 +244,10 @@
     if(!typeBar) return;
     [...typeBar.querySelectorAll('button')].forEach(b=>{
       const active = b.dataset.typeValue === val;
-      b.style.background = active ? 'linear-gradient(135deg,#6a00ff,#8a33ff)' : 'rgba(255,255,255,0.08)';
-      b.style.borderColor = active ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.18)';
-      b.style.boxShadow = active ? '0 0 0 2px rgba(138,51,255,0.25)' : 'none';
+      b.style.background = active ? '#FF8C42' : 'transparent';
+      b.style.color = active ? '#fff' : '#1a2c3e';
+      b.style.borderColor = active ? '#FF8C42' : 'rgba(30,111,159,0.3)';
+      b.style.boxShadow = active ? '0 0 0 2px rgba(255,140,66,0.2)' : 'none';
     });
   }
 
@@ -294,20 +304,19 @@
 
   function closeIfFilteredOut(place, list){
     if(!list.some(x=> x===place)){
-      const card = qs('#placeCard');
-      if(card) card.remove();
+      closeModal();
       current = null;
     }
   }
 
-  /* ---------- Rendering List ---------- */
+  /* ---------- Rendering Grid ---------- */
   function render(container, list){
     container.innerHTML='';
     nodes = [];
     list.forEach(p=>{
-      const d = ce('div','sectionListItem');
-      d.innerHTML = placeRowHTML(p);
-      d.addEventListener('click', ()=> openCard(p));
+      const d = ce('div','place-card');
+      d.innerHTML = placeCardHTML(p);
+      d.addEventListener('click', ()=> openModal(p));
       container.appendChild(d);
       nodes.push(d);
     });
@@ -322,26 +331,20 @@
     return img.includes('/') ? '/' + img : '/assets/' + img;
   }
 
-  function placeRowHTML(p){
-    const status = computeOpenStatus(p);
-    const statusColor = status.state==='open' ? '#4ade80' : (status.state==='closing' ? '#fbbf24' : '#f87171');
+  function placeCardHTML(p){
     const imgSrc = pickImage(p);
+    const status = computeOpenStatus(p);
+    const statusColor = status.state==='open' ? '#15803d' : (status.state==='closing' ? '#d97706' : '#dc2626');
+    const fav = favoriteSet.has(placeSlug(p));
     const dist = renderDistance(p);
-  const fav = favoriteSet.has(placeSlug(p));
     return `
-      <div style="display:flex;flex-direction:row;align-items:flex-start;gap:.75rem;width:100%;">
-        <div style="flex:0 0 auto;display:flex;align-items:center;justify-content:center;">
-          <img src="${imgSrc}" alt="${escapeHTML(p.title)}" style="width:70px;height:70px;object-fit:cover;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:#222;" loading="lazy" onerror="this.src='${PLACEHOLDER_IMG}'" />
-        </div>
-        <div style="display:flex;flex-direction:column;flex:1;min-width:0;">
-      <h3 style="margin:0 0 .25rem 0;font-size:.95rem;font-weight:600;line-height:1.15;color:#fff;display:flex;align-items:center;gap:.4rem;">${escapeHTML(p.title)}${fav?'<span style=\"color:#fbbf24;font-size:.8rem;\" title=\"Favorited\">★</span>':''}</h3>
-          <p style="margin:0 0 .15rem 0;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;font-size:.6rem;letter-spacing:.5px;text-transform:uppercase;">
-            ${p.type?`<span style=\"background:#4b0082;padding:.15rem .5rem;border-radius:999px;color:#fff;\">${escapeHTML(p.type)}</span>`:''}
-            <span style="color:${statusColor};font-weight:600;">${status.label}</span>
-            ${dist?`<span style=\"background:#222;padding:.15rem .5rem;border-radius:999px;color:#fff;\">${dist}</span>`:''}
-          </p>
-          <p style="margin:0;font-size:.65rem;color:#ddd;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;">${escapeHTML(p.location||'')}</p>
-          <div style="margin-top:.45rem;display:flex;flex-wrap:wrap;gap:.4rem;">${miniAmenityIcons(p,6)}</div>
+      <div class="place-img" style="background-image:url('${escapeHTML(imgSrc)}');"></div>
+      <div class="place-info">
+        <div class="place-title">${escapeHTML(p.title)}${fav?' <span style="color:#f59e0b;font-size:1rem;" title="Favorited">&#9733;</span>':''}</div>
+        <span class="place-category">${escapeHTML(p.type||p.label||'Place')}</span>
+        <div class="place-footer">
+          <span style="font-size:0.75rem;font-weight:600;color:${statusColor};">${escapeHTML(status.label)}</span>
+          ${dist?`<span style="font-size:0.72rem;color:#6b7280;background:#f3f4f6;padding:.15rem .55rem;border-radius:999px;">${escapeHTML(dist)}</span>`:''}
         </div>
       </div>`;
   }
@@ -379,39 +382,42 @@
     return icons.join('');
   }
 
-  function openCard(p, hostOverride){
+  function openModal(p){
     current = p;
-    let card = qs('#placeCard');
-    const hostSection = hostOverride || qs('#placesSection');
-    if(!card){
-      card = ce('div','panelCard');
-      card.id='placeCard';
-      (hostSection||document.body).appendChild(card);
-    }
+    const modal = qs('#placeModal');
+    const body = qs('#modalBody');
+    if(!modal || !body) return;
     const mapQuery = encodeURIComponent(`${p.title} ${p.location||''}`);
     const imgSrc = pickImage(p);
     const dist = renderDistance(p) || '';
     const hoursLine = buildHoursLine(p);
     const closedDays = (p.closedon||'').trim();
     const fav = favoriteSet.has(placeSlug(p));
-    card.innerHTML = `
-      <button class=\"closeButton\" onclick=\"this.parentElement.remove()\">✕</button>
-      <h3 style=\"margin:0 0 .5rem 0;\">${escapeHTML(p.title)}</h3>
-      <img src=\"${imgSrc}\" alt=\"${escapeHTML(p.title)}\" style=\"width:100%;height:auto;max-height:220px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,0.15);background:#222;\" loading=\"lazy\" onerror=\"this.src='${PLACEHOLDER_IMG}'\" />
-      <p style=\"margin:.5rem 0 .15rem 0;\"><strong>Location:</strong> ${escapeHTML(p.location||'N/A')}</p>
-      ${p.type?`<p style=\\"margin:.15rem 0;\\"><strong>Type:</strong> ${escapeHTML(p.type)}</p>`:''}
-      <p style=\"margin:.15rem 0;\"><strong>Status:</strong> ${computeOpenStatus(p).label}</p>
-      ${hoursLine?`<p style=\\"margin:.15rem 0;\\"><strong>Hours:</strong> ${hoursLine}</p>`:''}
-      ${closedDays?`<p style=\\"margin:.15rem 0;\\"><strong>Closed:</strong> ${escapeHTML(closedDays)}</p>`:''}
-      ${dist?`<p style=\\"margin:.15rem 0;\\"><strong>Distance:</strong> ${dist}</p>`:''}
-      <iframe src=\"https://www.google.com/maps?q=${mapQuery}&output=embed\" loading=\"lazy\" style=\"width:100%;min-height:180px;border:0;border-radius:10px;margin: .5rem 0 0 0;\"></iframe>
+    body.innerHTML = `
+      <h2 id="modalTitle">${escapeHTML(p.title)}</h2>
+      <img src="${escapeHTML(imgSrc)}" alt="${escapeHTML(p.title)}" style="width:100%;max-height:220px;object-fit:cover;border-radius:20px;margin:1rem 0;background:#eef2f5;" loading="lazy" onerror="this.src='${PLACEHOLDER_IMG}'" />
+      <div class="detail-row">
+        <p><strong>Location:</strong> ${escapeHTML(p.location||'N/A')}</p>
+        ${p.type?`<p style="margin-top:.4rem;"><strong>Type:</strong> ${escapeHTML(p.type)}</p>`:''}
+        <p style="margin-top:.4rem;"><strong>Status:</strong> ${escapeHTML(computeOpenStatus(p).label)}</p>
+        ${hoursLine?`<p style="margin-top:.4rem;"><strong>Hours:</strong> ${escapeHTML(hoursLine)}</p>`:''}
+        ${closedDays?`<p style="margin-top:.4rem;"><strong>Closed:</strong> ${escapeHTML(closedDays)}</p>`:''}
+        ${dist?`<p style="margin-top:.4rem;"><strong>Distance:</strong> ${escapeHTML(dist)}</p>`:''}
+      </div>
       ${amenities(p)}
-  ${(p.phone||'').trim()?`<p style=\\"margin:.6rem 0 0 0;\\"><strong>Phone:</strong> <a href=\\"tel:${p.phone.replace(/[^+0-9]/g,'')}\\" style=\\"color:#9fd4ff;\\">${escapeHTML(p.phone)}</a></p>`:''}
-  ${(p.website||'').trim()?`<p style=\\"margin:.35rem 0 0 0;\\"><strong>Website:</strong> <a href=\\"${escapeHTML(p.website)}\\" target=\\"_blank\\" rel=\\"noopener\\" style=\\"color:#9fd4ff;\\">Visit Site</a></p>`:''}
-      <button class=\"pageButton\" style=\"margin-top:.75rem;\" data-fav-toggle=\"1\">${fav?'★ Favorited':'☆ Add Favorite'}</button>
+      ${(p.phone||'').trim()?`<p style="margin:.8rem 0 0;"><strong>Phone:</strong> <a href="tel:${escapeHTML(p.phone.replace(/[^+0-9]/g,''))}" style="color:var(--blue);">${escapeHTML(p.phone)}</a></p>`:''}
+      ${(p.website||'').trim()?`<p style="margin:.4rem 0 0;"><strong>Website:</strong> <a href="${escapeHTML(p.website)}" target="_blank" rel="noopener" style="color:var(--blue);">Visit Site &#8599;</a></p>`:''}
+      <p style="margin:.4rem 0 0;"><a href="https://www.google.com/maps?q=${mapQuery}" target="_blank" rel="noopener" style="color:var(--blue);">View on Google Maps &#8599;</a></p>
+      <button class="pageButton" style="margin-top:1.2rem;width:100%;" data-fav-toggle="1">${fav?'&#9733; Favorited':'&#9734; Add to Favorites'}</button>
     `;
-    const favBtn = card.querySelector('[data-fav-toggle]');
+    const favBtn = body.querySelector('[data-fav-toggle]');
     if(favBtn){ favBtn.addEventListener('click', ()=> toggleFavorite(p)); }
+    modal.classList.add('active');
+  }
+
+  function closeModal(){
+    const modal = qs('#placeModal');
+    if(modal) modal.classList.remove('active');
   }
   function buildHoursLine(p){
     const o = p.open; const c = p.closes;
@@ -486,25 +492,25 @@
     if(favoriteSet.has(slug)) favoriteSet.delete(slug); else favoriteSet.add(slug);
     saveFavorites();
     updateFavoritesUI();
-    applyFilter(lastFilter); // refresh stars in main list
-    const card = qs('#placeCard');
-    if(card){
-      const btn = card.querySelector('[data-fav-toggle]');
-      if(btn) btn.textContent = favoriteSet.has(slug) ? '★ Favorited' : '☆ Add Favorite';
+    applyFilter(lastFilter); // refresh stars in grid
+    const body = qs('#modalBody');
+    if(body && current === p){
+      const btn = body.querySelector('[data-fav-toggle]');
+      if(btn) btn.innerHTML = favoriteSet.has(slug) ? '&#9733; Favorited' : '&#9734; Add to Favorites';
     }
   }
   function updateFavoritesUI(){
     const favWrap = qs('#favoritePlaces');
-    if(!favWrap) return;
+    if(!favWrap) return; // no favorites panel on this page
     const favItems = places.filter(p=> favoriteSet.has(placeSlug(p)));
     if(!favItems.length){
-      favWrap.innerHTML = '<p class="caption" style="margin:.5rem 0;">No favorites yet</p>';
+      favWrap.innerHTML = '<p style="color:#4a5568;font-size:.85rem;margin:.5rem 0;">No favorites yet</p>';
     } else {
       const frag = document.createDocumentFragment();
       favItems.forEach(p=>{
-  const d = ce('div','sectionListItem');
-  d.innerHTML = placeRowHTML(p);
-  d.addEventListener('click', ()=> openCard(p, qs('#favoritesSection')));
+        const d = ce('div','place-card');
+        d.innerHTML = placeCardHTML(p);
+        d.addEventListener('click', ()=> openModal(p));
         frag.appendChild(d);
       });
       favWrap.innerHTML='';

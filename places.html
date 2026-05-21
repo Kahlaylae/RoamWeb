@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Places · Roam Anguilla</title>
+  <meta name="description" content="Explore Anguilla's best restaurants, beaches, bars, landmarks, and hidden gems. Search, filter by type, and find places near you." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://roamaxa.app/places.html" />
+  <meta name="theme-color" content="#1E6F9F" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Places · Roam Anguilla" />
+  <meta property="og:description" content="Discover Anguilla's best restaurants, beaches, bars, and landmarks." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://roamaxa.app/places.html" />
+  <meta property="og:image" content="https://roamaxa.app/assets/WebLogo.webp" />
+  <meta property="og:site_name" content="Roam Anguilla" />
+
+  <!-- Favicon & Manifest -->
+  <link rel="icon" type="image/webp" href="/assets/titlelogo.webp" sizes="32x32" />
+  <link rel="manifest" href="/jsonassets/manifest.json" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <a href="/" style="text-decoration:none;">
+        <h1>Roam <span>Anguilla</span></h1>
+      </a>
+    </div>
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="/blog" class="nav-link">Blog</a>
+      <a href="/events.html" class="nav-link">Events</a>
+      <a href="/places.html" class="nav-link active">Places</a>
+    </nav>
+    <a href="/download.html" class="get-app-link">
+      <i class="fas fa-mobile-alt"></i> Get the App
+    </a>
+  </div>
+
+  <!-- Places Section -->
+  <section id="placesSection">
+    <div class="section-title">
+      <i class="fas fa-compass"></i> Explore Anguilla
+    </div>
+    <!-- places.js inserts search bar, type filter, and radius bar before #placeList -->
+    <div id="placeList" class="places-grid"></div>
+  </section>
+
+  <!-- Footer -->
+  <div class="footer">
+    🌊 Roam &mdash; Make it your adventure 🌴<br />
+    <small style="font-size:0.75rem;color:#7a8899;margin-top:0.4rem;display:block;">
+      <a href="/blog" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Blog</a>·
+      <a href="/events.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Events</a>·
+      <a href="/places.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Places</a>·
+      <a href="/download.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Get the App</a>
+    </small>
+  </div>
+
+</div>
+
+<!-- Place Detail Modal -->
+<div id="placeModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-content">
+    <button class="modal-close" id="closeModal" aria-label="Close">&times;</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- Service Worker -->
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>
+
+<!-- Places -->
+<script src="/jsonassets/places.js"></script>
+</body>
+</html>
