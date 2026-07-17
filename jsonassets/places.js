@@ -3,7 +3,8 @@
 // Minimal modular pattern without polluting global scope except window.Places
 
 (function(){
-  const DATA_URL = '/jsonassets/places.json';
+  const DATA_URL = 'https://kahlaylae.github.io/RoamCMS/places.json';
+  const IMAGE_BASE = 'https://kahlaylae.github.io/RoamCMS/images/';
   const ICONS_URL = '/jsonassets/icons.json';
   const PLACEHOLDER_IMG = '/assets/placeholder.webp';
   let places = [];
@@ -328,7 +329,7 @@
     if(!img) return PLACEHOLDER_IMG;
     if(/^https?:\/\//i.test(img)) return img;
     if(img.startsWith('/')) return img;
-    return img.includes('/') ? '/' + img : '/assets/' + img;
+    return IMAGE_BASE + img;
   }
 
   function placeCardHTML(p){

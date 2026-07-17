@@ -1,6 +1,6 @@
 // events.js - loads events.json and renders weekly events with day + "Now" filters
 (function(){
-  const EVENTS_URL = '/jsonassets/events.json';
+  const EVENTS_URL = 'https://kahlaylae.github.io/RoamCMS/events.json';
   const DAY_ORDER = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
   let events = [];
   let filtered = [];

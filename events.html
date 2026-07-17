@@ -67,7 +67,8 @@
   <!-- Header -->
   <div class="header">
     <div class="logo">
-      <a href="/" style="text-decoration:none;">
+      <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.6rem;">
+        <img src="/assets/titlelogo.webp" alt="" style="height:38px;width:auto;" />
         <h1>Roam <span>Anguilla</span></h1>
       </a>
     </div>
@@ -82,14 +83,17 @@
     </a>
   </div>
 
-  <!-- Events Section -->
-  <section id="eventsSection">
+  <!-- Events Section with constrained viewport -->
+  <section id="eventsSection" style="max-height:70vh;overflow-y:auto;border-radius:20px;padding-right:0.5rem;margin-bottom:1rem;">
     <div class="section-title">
       <i class="fas fa-calendar-alt"></i> Events in Anguilla
     </div>
     <!-- events.js inserts the day filter bar before #eventList -->
     <div id="eventList"></div>
   </section>
+  <div style="overflow:visible;text-align:right;margin:0.5rem 0 1.5rem;">
+    <a href="/" class="view-all-link" style="float:none;">← Back to Home</a>
+  </div>
 
   <!-- Footer -->
   <div class="footer">

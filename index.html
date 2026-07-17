@@ -42,7 +42,7 @@
   <link rel="manifest" href="/jsonassets/manifest.json" />
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/style.css?v=2" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
 
@@ -51,6 +51,10 @@
 
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139" crossorigin="anonymous"></script>
+
+  <!-- Firebase + Ratings -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 <div class="app">
@@ -58,7 +62,8 @@
   <!-- Header -->
   <div class="header">
     <div class="logo">
-      <a href="/" style="text-decoration:none;">
+      <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.6rem;">
+        <img src="/assets/titlelogo.webp" alt="" style="height:38px;width:auto;" />
         <h1>Roam <span>Anguilla</span></h1>
       </a>
     </div>
@@ -74,6 +79,7 @@
   </div>
 
   <!-- Latest in Anguilla -->
+  <div class="home-section">
   <div class="section-title">
     <i class="fas fa-newspaper"></i> Latest in Anguilla
   </div>
@@ -81,8 +87,10 @@
   <div style="overflow:hidden;">
     <a href="/blog" class="view-all-link">View all posts &rarr;</a>
   </div>
+  </div>
 
   <!-- Happening now & soon -->
+  <div class="home-section">
   <div class="section-title">
     <i class="fas fa-calendar-alt"></i> Happening now &amp; soon
   </div>
@@ -92,8 +100,10 @@
   <div style="overflow:hidden;">
     <a href="/events.html" class="view-all-link">View all events &rarr;</a>
   </div>
+  </div>
 
   <!-- Explore Anguilla -->
+  <div class="home-section">
   <div class="section-title">
     <i class="fas fa-compass"></i> Explore Anguilla
   </div>
@@ -102,6 +112,7 @@
   </div>
   <div style="overflow:hidden;">
     <a href="/places.html" class="view-all-link">View all places &rarr;</a>
+  </div>
   </div>
 
   <!-- Footer -->
@@ -130,15 +141,22 @@
 <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>
 
 <!-- Blog posts -->
-<script src="/jsonassets/bloglist.js"></script>
+<script src="/jsonassets/bloglist.js?v=2"></script>
+
+<!-- Ratings -->
+<script src="/jsonassets/ratings.js?v=2"></script>
+
+<!-- Open/Close Status -->
+<script src="/jsonassets/openstatus.js?v=2"></script>
 
 <!-- Events & Places -->
 <script>
 (function(){
   'use strict';
 
-  var EVENTS_URL  = '/jsonassets/events.json';
-  var PLACES_URL  = '/jsonassets/places.json';
+  var EVENTS_URL  = 'https://kahlaylae.github.io/RoamCMS/events.json';
+  var PLACES_URL  = 'https://kahlaylae.github.io/RoamCMS/places.json';
+  var IMAGE_BASE  = 'https://kahlaylae.github.io/RoamCMS/images/';
   var PLACES_CAP  = 12;
   var EVENTS_CAP  = 8;
   var WEEKDAYS    = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
@@ -231,16 +249,21 @@
       return;
     }
     shown.forEach(function(place){
-      var imgSrc = place.image || '/assets/placeholder.webp';
+      var imgSrc = (place.image && /^https?:\/\//i.test(place.image)) ? place.image : (place.image ? IMAGE_BASE + place.image : '/assets/placeholder.webp');
       var card   = document.createElement('div');
       card.className = 'place-card';
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
+      // Build rating placeholder (replaced async by ratings.js)
+      var ratingHTML = '<div class="place-rating" data-place-title="' + esc(place.title) + '"><span class="rating-loading" style="font-size:0.7rem;color:#aaa;">—</span></div>';
+      var statusHTML = (typeof OpenStatus !== 'undefined') ? OpenStatus.openStatusHTML(place) : '';
       card.innerHTML =
         '<div class="place-img" style="background-image:url(\'' + esc(imgSrc) + '\');"></div>' +
         '<div class="place-info">' +
           '<div class="place-title">'    + esc(place.title)  + '</div>' +
           '<div class="place-category">' + esc(place.label)  + ' &middot; ' + esc(place.type) + '</div>' +
+          statusHTML +
+          ratingHTML +
           '<div class="place-footer">' +
             '<span class="place-phone">' +
               (place.phone ? '<a href="tel:' + esc(place.phone) + '"><i class="fas fa-phone-alt"></i> ' + esc(place.phone.substring(0, 16)) + '</a>' : '<span style="color:#aaa;">—</span>') +
@@ -252,6 +275,36 @@
       card.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); showModal('place', place); } });
       container.appendChild(card);
     });
+
+    // Kick off async rating fetch
+    loadPlaceRatings(shown);
+  }
+
+  async function loadPlaceRatings(places) {
+    if (!window.RoamRatings) return;
+    try {
+      await window.RoamRatings.init();
+      // Compute place IDs (matches iOS SHA-256: title|location)
+      var idMap = {};     // placeId → place
+      var titleToId = {}; // title → placeId
+      for (var i = 0; i < places.length; i++) {
+        var pid = await window.RoamRatings.placeId(places[i]);
+        idMap[pid] = places[i];
+        titleToId[places[i].title] = pid;
+      }
+      var placeIds = Object.keys(idMap);
+      await window.RoamRatings.fetchAggregates(placeIds);
+      // Update rating displays
+      for (var i = 0; i < places.length; i++) {
+        var pid = titleToId[places[i].title];
+        if (!pid) continue;
+        var el = document.querySelector('.place-rating[data-place-title="' + CSS.escape(places[i].title) + '"]');
+        if (el) {
+          el.innerHTML = window.RoamRatings.renderStars(pid);
+        }
+      }
+      window.RoamRatings.attachStarClicks();
+    } catch(e) { console.warn('Ratings load failed', e); }
   }
 
   /* ── modal ── */

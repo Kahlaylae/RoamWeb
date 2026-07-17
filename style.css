@@ -43,20 +43,30 @@ body {
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 2rem;
-    padding-bottom: 0.5rem;
+    padding: 0.8rem 1.2rem 0.5rem 1.2rem;
+    background: #c8d6e4;
+    border-radius: 16px;
     border-bottom: 2px solid var(--light-orange);
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+}
+.logo img {
+    height: 38px;
+    width: auto;
+}
 .logo h1 {
-    font-size: 2.6rem;
+    font-size: 2rem;
     font-weight: 800;
     letter-spacing: -0.02em;
     background: linear-gradient(135deg, var(--blue) 0%, var(--orange) 100%);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
+    margin: 0;
 }
-
 .logo h1 span {
     font-weight: 700;
     background: none;
@@ -69,8 +79,12 @@ body {
     display: flex;
     align-items: center;
     gap: 0.25rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
 }
+.header-nav::-webkit-scrollbar { display: none; }
 
 .nav-link {
     color: var(--blue);
@@ -123,6 +137,17 @@ body {
     gap: 0.7rem;
 }
 
+/* Homepage section wrapper — adds breathing room */
+.home-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(30, 111, 159, 0.08);
+}
+.home-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
 .section-title i {
     color: var(--orange);
     font-size: 1.8rem;
@@ -161,6 +186,35 @@ body {
     color: inherit;
     display: flex;
     flex-direction: column;
+}
+
+/* Featured card: side-by-side on wide viewports */
+.story-card.featured {
+    flex: 0 0 620px;
+    flex-direction: row;
+    gap: 1.5rem;
+    padding: 0;
+}
+.story-card.featured .story-image {
+    width: 280px;
+    min-width: 280px;
+    height: auto;
+    min-height: 200px;
+    margin-bottom: 0;
+    border-radius: 28px 0 0 28px;
+    overflow: hidden;
+}
+.story-card.featured .story-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.story-card.featured .story-card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.4rem 1.4rem 1.4rem 0;
+    flex: 1;
 }
 
 .story-card:hover {
@@ -254,8 +308,7 @@ body {
 /* ---- View All link ---- */
 .view-all-link {
     display: inline-block;
-    margin: -0.5rem 0 1.5rem;
-    float: right;
+    margin: 0.5rem 0 1.5rem;
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--blue);
@@ -396,7 +449,12 @@ body {
     padding: 0.2rem 0.8rem;
     border-radius: 20px;
     display: inline-block;
-    margin: 0.6rem 0 0.9rem;
+    margin: 0.6rem 0 0.5rem;
+}
+
+.place-rating {
+    margin-bottom: 0.6rem;
+    min-height: 1.2rem;
 }
 
 .place-footer {
@@ -610,14 +668,31 @@ body {
         padding: 1.2rem;
         border-radius: 1.2rem;
     }
-    .logo h1 {
-        font-size: 2rem;
-    }
+    .logo img { height: 30px; }
+    .logo h1 { font-size: 1.6rem; }
     .places-scroll-container {
         max-height: 480px;
     }
     .section-title {
         font-size: 1.5rem;
+    }
+    /* Collapse featured card to vertical on tablets */
+    .story-card.featured {
+        flex: 0 0 300px;
+        flex-direction: column;
+        gap: 0;
+        padding: 1.4rem;
+    }
+    .story-card.featured .story-image {
+        width: 100%;
+        min-width: unset;
+        height: 150px;
+        min-height: unset;
+        border-radius: 20px;
+        margin-bottom: 1rem;
+    }
+    .story-card.featured .story-card-body {
+        padding: 0;
     }
 }
 
@@ -632,9 +707,8 @@ body {
     .header {
         gap: 0.6rem;
     }
-    .logo h1 {
-        font-size: 1.7rem;
-    }
+    .logo img { height: 26px; }
+    .logo h1 { font-size: 1.4rem; }
     .header-nav {
         gap: 0.15rem;
     }

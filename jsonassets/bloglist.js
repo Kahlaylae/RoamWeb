@@ -41,18 +41,20 @@
 
   function buildCard(p, isFeatured){
     const card = ce('a');
-    card.className = 'story-card';
+    card.className = 'story-card' + (isFeatured ? ' featured' : '');
     card.href = escapeHTML(p.url || '#');
     card.innerHTML = `
       <div class="story-image">
         <img src="${escapeHTML(p.image||'/assets/placeholder.webp')}" alt="${escapeHTML(p.title)}" loading="lazy" />
       </div>
+      <div class="${isFeatured ? 'story-card-body' : ''}">
       ${isFeatured ? '<span class="story-featured">★ Latest</span>' : ''}
       ${p.tag ? `<span class="story-tag">${escapeHTML(p.tag)}</span>` : ''}
       <div class="story-date">${formatDate(p._date)}</div>
       <div class="story-title">${escapeHTML(p.title)}</div>
       <div class="story-excerpt">${escapeHTML(trimDesc(p.description, 130))}</div>
       <span class="story-read-link">Read &rarr;</span>
+      </div>
     `;
     return card;
   }

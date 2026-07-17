@@ -120,8 +120,8 @@ self.addEventListener('message', async (event) => {
   if (!(event.data && event.data.action === 'cacheData')) return;
   const cache = await caches.open(DATA_CACHE);
   const urls = [
-    '/jsonassets/places.json',
-    '/jsonassets/events.json',
+    'https://kahlaylae.github.io/RoamCMS/places.json',
+    'https://kahlaylae.github.io/RoamCMS/events.json',
     '/jsonassets/content.json'
   ];
   for (const url of urls) {

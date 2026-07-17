@@ -1,18 +1,26 @@
 [
   {
+    "title": "Anguilla Summer Festival 2026 \u2014 The Complete Guide",
+    "date": "July 17, 2026",
+    "tag": "Festivals & Events",
+    "description": "Your complete guide to Anguilla Summer Festival 2026. Full schedule, event breakdowns, pricing, and insider tips \u2014 from J'Ouvert and boat racing to the Caribbean Beach Party, pageants, Calypso, and more. Prices this year are incredibly affordable \u2014 don't miss it.",
+    "url": "/blog/summer-festival-2026/",
+    "image": "/blog/summer-festival-2026/hero.webp"
+  },
+  {
     "title": "Roam Anguilla Launches",
     "description": "Discover the hidden gems of Anguilla through our comprehensive travel guide and local insights. Learn what makes this Caribbean paradise special and how to make the most of your visit.",
     "date": "August 13,2025",
-  "url": "/blog/firstblog/",
-  "image": "/blog/firstblog/hero-image.jpg",
+    "url": "/blog/firstblog/",
+    "image": "/blog/firstblog/hero-image.jpg",
     "tag": "Travel Tips"
   },
   {
     "title": "Volunteering with the ANT",
     "description": "Join us on a volunteer research trip to Prickly Pear West with the Anguilla National Trust. Discover marine bird conservation, endemic wildlife, and pristine Caribbean nature on this lesser-known cay.",
     "date": "August 25,2025",
-  "url": "/blog/volunteer-ant/",
-  "image": "/blog/volunteer-ant/hero-image.webp",
+    "url": "/blog/volunteer-ant/",
+    "image": "/blog/volunteer-ant/hero-image.webp",
     "tag": "Local Stories"
   }
 ]
