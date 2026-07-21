@@ -1,6 +1,6 @@
 // bloglist.js - dynamic blog section rendering from content.json
 (function(){
-  const CONTENT_URL = '/jsonassets/content.json';
+  const CONTENT_URL = 'https://kahlaylae.github.io/RoamCMS/content.json';
   let posts = [];
   let featured = null; // still track for badge only
 
