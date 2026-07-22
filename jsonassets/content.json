@@ -6,24 +6,24 @@
     "date": "July 17, 2026",
     "tag": "Festivals & Events",
     "url": "/blog/summer-festival-2026/",
-    "image": "/blog/summer-festival-2026/hero.png"
+    "image": "/blog/summer-festival-2026/images/hero.jpg"
   },
   {
-    "date": "July 21, 2026",
-    "description": "Track your favorite events and create your own personalised memories on your next vacation with our app! Coming soon!",
-    "image": "/blog/firstblog/images/hero.png",
-    "subheadline": "Track your favorite events and create your own personalised memories on your next vacation with our app! Coming soon!",
-    "tag": "Travel Tips",
     "title": "Roam Anguilla Launches",
-    "url": "/blog/firstblog/"
+    "subheadline": "Track your favorite events and create your own personalised memories on your next vacation with our app! Coming soon!",
+    "description": "Track your favorite events and create your own personalised memories on your next vacation with our app! Coming soon!",
+    "date": "July 22, 2026",
+    "tag": "Travel Tips",
+    "url": "/blog/firstblog/",
+    "image": "/blog/firstblog/hero.png"
   },
   {
-    "date": "July 21, 2026",
-    "description": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays. Find out more below!",
-    "image": "/blog/volunteer-ant/hero.jpg",
-    "subheadline": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays. Find out more below!",
-    "tag": "Local Stories",
     "title": "Volunteering with the ANT",
-    "url": "/blog/volunteer-ant/"
+    "subheadline": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays. Find out more below!",
+    "description": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays. Find out more below!",
+    "date": "July 22, 2026",
+    "tag": "Local Stories",
+    "url": "/blog/volunteer-ant/",
+    "image": "/blog/volunteer-ant/hero.png"
   }
 ]
