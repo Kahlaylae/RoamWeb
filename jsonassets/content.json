@@ -1,28 +1,28 @@
 [
   {
-    "date": "July 17, 2026",
-    "description": "Your complete guide to Anguilla Summer Festival 2026. Full schedule, event breakdowns, pricing, and insider tips — from J'Ouvert and boat racing to the Caribbean Beach Party, pageants, Calypso, and more. Prices this year are incredibly affordable — don't miss it.",
-    "image": "/blog/summer-festival-2026/hero.jpg",
-    "tag": "Festivals & Events",
     "title": "Anguilla Summer Festival 2026 — The Complete Guide",
-    "url": "/blog/summer-festival-2026/"
+    "description": "<p class=\"intro\"> <p> The Anguilla Summer Festival is back, and this year it's shaping up to be one for the history books. From the electric chaos of J'Ouvert morning to",
+    "date": "July 17, 2026",
+    "tag": "Festivals & Events",
+    "url": "/blog/summer-festival-2026/",
+    "image": "/blog/summer-festival-2026/hero.jpg"
   },
   {
-    "title": "Roam Anguilla Launches",
-    "subheadline": "Track your favorite events and create your own personalised memories on your next vacation with our app! Coming soon!",
+    "date": "July 21, 2026",
     "description": "Track your favorite events and create your own personalised memories on your next vacation with our app! Coming soon!",
-    "date": "July 21, 2026",
+    "image": "/blog/firstblog/images/hero.png",
+    "subheadline": "Track your favorite events and create your own personalised memories on your next vacation with our app! Coming soon!",
     "tag": "Travel Tips",
-    "url": "/blog/firstblog/",
-    "image": "/blog/firstblog/hero.png"
+    "title": "Roam Anguilla Launches",
+    "url": "/blog/firstblog/"
   },
   {
-    "title": "Volunteering with the ANT",
-    "subheadline": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays.",
-    "description": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays.",
     "date": "July 21, 2026",
+    "description": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays.",
+    "image": "/blog/volunteer-ant/images/hero.png",
+    "subheadline": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays.",
     "tag": "Local Stories",
-    "url": "/blog/volunteer-ant/",
-    "image": "/blog/volunteer-ant/hero.png"
+    "title": "Volunteering with the ANT",
+    "url": "/blog/volunteer-ant/"
   }
 ]
