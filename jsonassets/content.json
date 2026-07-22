@@ -1,11 +1,12 @@
 [
   {
     "title": "Anguilla Summer Festival 2026 — The Complete Guide",
-    "description": "<p class=\"intro\"> <p> The Anguilla Summer Festival is back, and this year it's shaping up to be one for the history books. From the electric chaos of J'Ouvert morning to",
+    "subheadline": "Anguilla celebrates its 52nd annual Summer Festival with a jam-packed roster of events! Find out why this year's celebrations are guaranteed to be unforgettable.",
+    "description": "Anguilla celebrates its 52nd annual Summer Festival with a jam-packed roster of events! Find out why this year's celebrations are guaranteed to be unforgettable.",
     "date": "July 17, 2026",
     "tag": "Festivals & Events",
     "url": "/blog/summer-festival-2026/",
-    "image": "/blog/summer-festival-2026/hero.jpg"
+    "image": "/blog/summer-festival-2026/hero.png"
   },
   {
     "date": "July 21, 2026",
@@ -18,9 +19,9 @@
   },
   {
     "date": "July 21, 2026",
-    "description": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays.",
-    "image": "/blog/volunteer-ant/images/hero.png",
-    "subheadline": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays.",
+    "description": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays. Find out more below!",
+    "image": "/blog/volunteer-ant/hero.jpg",
+    "subheadline": "We recently tagged along as volunteers on a research visit to Prickly Pear West, one of Anguilla's lesser-known offshore cays. Find out more below!",
     "tag": "Local Stories",
     "title": "Volunteering with the ANT",
     "url": "/blog/volunteer-ant/"
