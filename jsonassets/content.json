@@ -6,7 +6,7 @@
     "date": "July 17, 2026",
     "tag": "Festivals & Events",
     "url": "/blog/summer-festival-2026/",
-    "image": "/blog/summer-festival-2026/images/hero.jpg"
+    "image": "/blog/summer-festival-2026/hero.jpg"
   },
   {
     "title": "Roam Anguilla Launches",
@@ -15,7 +15,7 @@
     "date": "July 22, 2026",
     "tag": "Travel Tips",
     "url": "/blog/firstblog/",
-    "image": "/blog/firstblog/hero.png"
+    "image": "/blog/firstblog/hero.jpg"
   },
   {
     "title": "Volunteering with the ANT",
@@ -24,6 +24,6 @@
     "date": "July 22, 2026",
     "tag": "Local Stories",
     "url": "/blog/volunteer-ant/",
-    "image": "/blog/volunteer-ant/hero.png"
+    "image": "/blog/volunteer-ant/hero.jpg"
   }
 ]

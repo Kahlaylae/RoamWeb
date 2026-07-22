@@ -126,6 +126,24 @@ body {
     transform: translateY(-2px);
 }
 
+/* Blog site-wide header (matches blog/index.html) */
+.blog-header {
+    background: #c8d6e4;
+    border-bottom: 2px solid var(--light-orange);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    padding: 1rem 0; margin-bottom: 2rem;
+    width: 100%;
+}
+.blog-header-inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+}
+@media (max-width: 768px) {
+    .blog-header-inner { flex-direction: column; text-align: center; gap: 0.75rem; }
+    .blog-header-inner .header-nav { justify-content: center; }
+}
+
 /* ---- Section Titles ---- */
 .section-title {
     font-size: 1.9rem;
@@ -738,23 +756,26 @@ body {
 
 /* Breadcrumb nav */
 .breadcrumb-nav {
-    max-width: 800px; margin: 0 auto 0.5rem; padding: 0.5rem 0;
-    font-size: 0.82rem; color: #888;
+    width: 100%; max-width: 800px; margin: 0 auto 0.5rem;
+    padding: 0.5rem 0; font-size: 0.82rem; color: #888;
+    align-self: center;
 }
 .breadcrumb-nav a { color: var(--blue); text-decoration: none; }
 .breadcrumb-nav a:hover { color: var(--orange); }
 
 .back-link {
-    display: inline-block; max-width: 800px; margin: 0 auto 1.5rem;
+    display: inline-block; width: 100%; max-width: 800px;
+    margin: 0 auto 1.5rem; align-self: center;
     color: var(--blue); text-decoration: none; font-size: 0.85rem; font-weight: 500;
 }
 .back-link:hover { color: var(--orange); }
 
 /* Article container */
 article {
-    max-width: 800px; margin: 0 auto; background: white;
-    border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    margin-bottom: 2rem;
+    width: 100%; max-width: 800px; margin: 0 auto;
+    background: white; border-radius: 16px; padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06); margin-bottom: 2rem;
+    align-self: center;
 }
 
 .article-header { margin-bottom: 1.5rem; }
@@ -827,9 +848,10 @@ article {
 
 /* Comments section */
 .comments-section {
-    max-width: 800px; margin: 0 auto 2rem;
+    width: 100%; max-width: 800px; margin: 0 auto 2rem;
     background: white; padding: 2rem; border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    align-self: center;
 }
 .comments-section h3 {
     color: var(--blue); margin-bottom: 1.5rem; font-size: 1.3rem;
