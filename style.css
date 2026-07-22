@@ -772,7 +772,7 @@ body {
 .back-link:hover { color: var(--orange); }
 
 /* Article container */
-article {
+article, .article {
     width: 100%; max-width: 800px; margin: 0 auto;
     background: white; border-radius: 16px; padding: 2rem;
     box-shadow: 0 4px 20px rgba(0,0,0,0.06); margin-bottom: 2rem;
