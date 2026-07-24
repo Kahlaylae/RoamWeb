@@ -244,6 +244,9 @@
       display: flex;
       flex-direction: column;
     }
+    .blog-post-card.featured-post {
+      overflow: visible;
+    }
     .blog-post-card:not(.featured-post) .blog-post-content {
       flex: 1;
     }
@@ -260,7 +263,8 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0;
-      max-height: 400px;
+      min-height: 300px;
+      overflow: visible;
     }
     
     .featured-badge {

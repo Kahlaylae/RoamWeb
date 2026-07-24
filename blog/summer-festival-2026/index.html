@@ -28,25 +28,32 @@
   </script>
 </head>
 <body>
-  <header class="blog-header">
-    <div class="blog-header-inner">
-      <div class="logo">
-        <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.6rem;">
-          <img src="/assets/titlelogo.webp" alt="" style="height:38px;width:auto;" />
-          <h1>Roam <span>Anguilla</span></h1>
-        </a>
-      </div>
-      <nav class="header-nav" aria-label="Main navigation">
-        <a href="/blog" class="nav-link active">Blog</a>
-        <a href="/events.html" class="nav-link">Events</a>
-        <a href="/places.html" class="nav-link">Places</a>
-        <a href="/about.html" class="nav-link">About</a>
-      </nav>
-      <a href="/download.html" class="get-app-link">
-        <i class="fas fa-mobile-alt"></i> Get the App
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.6rem;">
+        <img src="/assets/titlelogo.webp" alt="" style="height:38px;width:auto;" />
+        <h1>Roam <span>Anguilla</span></h1>
       </a>
     </div>
-  </header>
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="/blog" class="nav-link active">Blog</a>
+      <a href="/events.html" class="nav-link">Events</a>
+      <a href="/places.html" class="nav-link">Places</a>
+      <a href="/about.html" class="nav-link">About</a>
+    </nav>
+    <a href="/download.html" class="get-app-link">
+      <i class="fas fa-mobile-alt"></i> Get the App
+    </a>
+  </div>
+
+  <nav class="breadcrumb-nav">
+    <a href="/#blog">🏠 Main App</a> › <a href="/blog/">📝 Blog</a> › <span>Anguilla Summer Festival 2026 — The Complete Guide</span>
+  </nav>
+  <a href="/blog/" class="back-link">&larr; Back to Blog</a>
+
   <div class="article">
     <header class="article-header">
       <h1 class="article-title">Anguilla Summer Festival 2026 — The Complete Guide</h1>
@@ -180,5 +187,19 @@
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
   <script id="dsq-count-scr" src="//roamanguilla.disqus.com/count.js" async></script>
+
+  <!-- Footer -->
+  <div class="footer">
+    &#127754; Roam &mdash; Make it your adventure &#127796;<br />
+    <small style="font-size:0.75rem;color:#7a8899;margin-top:0.4rem;display:block;">
+      <a href="/blog" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Blog</a>&middot;
+      <a href="/events.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Events</a>&middot;
+      <a href="/places.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Places</a>&middot;
+      <a href="/about.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">About</a>&middot;
+      <a href="/download.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Get the App</a>
+    </small>
+  </div>
+
+</div>
 </body>
 </html>
