@@ -88,45 +88,13 @@
   </script>
   
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background-color: #f5f5f5;
-      display: block;
-      padding: 0;
-      margin: 0;
-    }
+    /* Blog page — uses shared style.css layout (body flex, .app capsule, .header) */
+    /* Only blog-specific overrides below */
 
-    /* Full-width site nav bar */
-    .blog-header {
-      background: #c8d6e4;
-      border-bottom: 2px solid var(--light-orange);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-      padding: 1rem 0;
-      margin-bottom: 3rem;
-    }
-    .blog-header-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 2rem 4rem 2rem;
+      padding: 0 1rem 2rem 1rem;
     }
     
     /* Ad Zones */
@@ -591,16 +559,9 @@
     
     /* Mobile Optimizations */
     @media (max-width: 768px) {
-      .blog-header-inner { flex-direction: column; text-align: center; gap: 0.75rem; }
       .blog-content-wrapper { gap: 1.5rem; }
-      .blog-header-inner .header-nav { justify-content: center; }
       .blog-sidebar { flex-direction: column; align-items: stretch; }
       .sidebar-widget { max-width: none; }
-      .header-content {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-      }
       
       .container {
         padding: 0 1rem 2rem 1rem;
@@ -852,27 +813,29 @@
   </style>
 </head>
 <body>
-  <!-- Site nav bar (matches homepage) -->
-  <header class="blog-header">
-    <div class="blog-header-inner">
-      <div class="logo">
-        <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.6rem;">
-          <img src="/assets/titlelogo.webp" alt="" style="height:38px;width:auto;" />
-          <h1>Roam <span>Anguilla</span></h1>
-        </a>
-      </div>
-      <nav class="header-nav" aria-label="Main navigation">
-        <a href="/blog" class="nav-link active">Blog</a>
-        <a href="/events.html" class="nav-link">Events</a>
-        <a href="/places.html" class="nav-link">Places</a>
-        <a href="/about.html" class="nav-link">About</a>
-      </nav>
-      <a href="/download.html" class="get-app-link">
-        <i class="fas fa-mobile-alt"></i> Get the App
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.6rem;">
+        <img src="/assets/titlelogo.webp" alt="" style="height:38px;width:auto;" />
+        <h1>Roam <span>Anguilla</span></h1>
       </a>
     </div>
-  </header>
-  
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="/blog" class="nav-link active">Blog</a>
+      <a href="/events.html" class="nav-link">Events</a>
+      <a href="/places.html" class="nav-link">Places</a>
+      <a href="/about.html" class="nav-link">About</a>
+    </nav>
+    <a href="/download.html" class="get-app-link">
+      <i class="fas fa-mobile-alt"></i> Get the App
+    </a>
+  </div>
+
+  <a href="/" class="view-all-link" style="margin-bottom:1rem;display:inline-block;">&larr; Back to Home</a>
+
   <div class="container">
     <!-- Ad Zone: Header Banner -->
     <div class="ad-zone header-ad">
@@ -980,6 +943,20 @@
       </div>
     </div>
   </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    &#127754; Roam &mdash; Make it your adventure &#127796;<br />
+    <small style="font-size:0.75rem;color:#7a8899;margin-top:0.4rem;display:block;">
+      <a href="/blog" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Blog</a>&middot;
+      <a href="/events.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Events</a>&middot;
+      <a href="/places.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Places</a>&middot;
+      <a href="/about.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">About</a>&middot;
+      <a href="/download.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Get the App</a>
+    </small>
+  </div>
+
+</div>
 
   <script>
     // Dynamic blog loading from content.json with featured latest post
