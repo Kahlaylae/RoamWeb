@@ -177,6 +177,12 @@
     return h12 + ':' + (mins < 10 ? '0' : '') + mins + ' ' + ampm;
   }
 
+  function displayType(type){
+    var t = (type||'').trim();
+    var map = { 'Gas':'Gas Station', 'Beach':'Beaches' };
+    return map[t] || t;
+  }
+
   /* ── event helpers ── */
   function enrichEvent(ev){
     var now        = new Date();
@@ -261,7 +267,7 @@
         '<div class="place-img" style="background-image:url(\'' + esc(imgSrc) + '\');"></div>' +
         '<div class="place-info">' +
           '<div class="place-title">'    + esc(place.title)  + '</div>' +
-          '<div class="place-category">' + esc(place.label)  + ' &middot; ' + esc(place.type) + '</div>' +
+          '<div class="place-category">' + esc(place.label)  + ' &middot; ' + esc(displayType(place.type)) + '</div>' +
           statusHTML +
           ratingHTML +
           '<div class="place-footer">' +
@@ -326,7 +332,7 @@
 
       bodyDiv.innerHTML =
         '<h2 style="font-size:1.8rem;color:var(--blue);margin-bottom:1rem;">' + esc(data.title) + '</h2>' +
-        '<div class="detail-row"><strong>' + esc(data.label) + ' &middot; ' + esc(data.type) + '</strong>' + (data.location ? ' &middot; ' + esc(data.location) : '') + '</div>' +
+        '<div class="detail-row"><strong>' + esc(data.label) + ' &middot; ' + esc(displayType(data.type)) + '</strong>' + (data.location ? ' &middot; ' + esc(data.location) : '') + '</div>' +
         '<div class="detail-row">' +
           '<i class="fas fa-phone-alt" style="color:var(--orange);margin-right:.4rem;"></i>' + (data.phone ? '<a href="tel:' + esc(data.phone) + '" style="color:var(--blue);">' + esc(data.phone) + '</a>' : '—') + '<br>' +
           '<i class="fas fa-globe" style="color:var(--orange);margin-right:.4rem;margin-top:.3rem;"></i>' + (data.website ? '<a href="' + esc(data.website) + '" target="_blank" rel="noopener" style="color:var(--blue);">' + esc(data.website) + '</a>' : '—') +

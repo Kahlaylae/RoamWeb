@@ -199,7 +199,7 @@
     if(!document.getElementById('placeTypeBarHide')) document.head.appendChild(hideStyle);
     const allBtn = buildTypeButton('All','');
     typeBar.appendChild(allBtn);
-    types.forEach(t=> typeBar.appendChild(buildTypeButton(t, t)));
+    types.forEach(t=> typeBar.appendChild(buildTypeButton(displayType(t), t)));
     (hostSection||document.body).insertBefore(typeBar, listContainer);
     setActiveTypeButton('');
   }
@@ -324,6 +324,11 @@
   }
 
   /* ---------- Helpers ---------- */
+  function displayType(type){
+    const t = (type||'').trim();
+    const map = { 'Gas':'Gas Station', 'Beach':'Beaches' };
+    return map[t] || t;
+  }
   function pickImage(p){
     const img = (p.image||'').trim();
     if(!img) return PLACEHOLDER_IMG;
@@ -342,7 +347,7 @@
       <div class="place-img" style="background-image:url('${escapeHTML(imgSrc)}');"></div>
       <div class="place-info">
         <div class="place-title">${escapeHTML(p.title)}${fav?' <span style="color:#f59e0b;font-size:1rem;" title="Favorited">&#9733;</span>':''}</div>
-        <span class="place-category">${escapeHTML(p.type||p.label||'Place')}</span>
+        <span class="place-category">${escapeHTML(displayType(p.type)||p.label||'Place')}</span>
         <div class="place-footer">
           <span style="font-size:0.75rem;font-weight:600;color:${statusColor};">${escapeHTML(status.label)}</span>
           ${dist?`<span style="font-size:0.72rem;color:#6b7280;background:#f3f4f6;padding:.15rem .55rem;border-radius:999px;">${escapeHTML(dist)}</span>`:''}
@@ -399,7 +404,7 @@
       <img src="${escapeHTML(imgSrc)}" alt="${escapeHTML(p.title)}" style="width:100%;max-height:220px;object-fit:cover;border-radius:20px;margin:1rem 0;background:#eef2f5;" loading="lazy" onerror="this.src='${PLACEHOLDER_IMG}'" />
       <div class="detail-row">
         <p><strong>Location:</strong> ${escapeHTML(p.location||'N/A')}</p>
-        ${p.type?`<p style="margin-top:.4rem;"><strong>Type:</strong> ${escapeHTML(p.type)}</p>`:''}
+        ${p.type?`<p style="margin-top:.4rem;"><strong>Type:</strong> ${escapeHTML(displayType(p.type))}</p>`:''}
         <p style="margin-top:.4rem;"><strong>Status:</strong> ${escapeHTML(computeOpenStatus(p).label)}</p>
         ${hoursLine?`<p style="margin-top:.4rem;"><strong>Hours:</strong> ${escapeHTML(hoursLine)}</p>`:''}
         ${closedDays?`<p style="margin-top:.4rem;"><strong>Closed:</strong> ${escapeHTML(closedDays)}</p>`:''}
