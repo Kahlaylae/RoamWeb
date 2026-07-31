@@ -281,6 +281,12 @@
       }
       return true;
     });
+    // Sponsor-first sort — tagged "sponsor" always rises to top
+    filtered = filtered.slice().sort((a,b)=>{
+      const aS = ((a.tags||'').toLowerCase().includes('sponsor')) ? 0 : 1;
+      const bS = ((b.tags||'').toLowerCase().includes('sponsor')) ? 0 : 1;
+      return aS - bS;
+    });
     if(userPos){
       filtered = filtered.slice().sort((a,b)=>{
         const da = (typeof a.latitude==='number' && typeof a.longitude==='number') ? haversine(userPos.lat,userPos.lon,a.latitude,a.longitude) : Infinity;

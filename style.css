@@ -395,58 +395,61 @@ body {
     display: inline-block;
 }
 
-/* ---- Places scroll container (vertical scroll inside page) ---- */
+/* ---- Places scroll container (horizontal scrolling cards) ---- */
 .places-scroll-container {
-    max-height: 550px;
-    overflow-y: auto;
+    overflow: hidden;
     margin: 1.5rem 0 2rem 0;
-    padding-right: 0.5rem;
-    border-radius: 28px;
 }
 
-.places-scroll-container::-webkit-scrollbar {
-    width: 6px;
+.places-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding: 0.5rem 0.2rem 1.8rem 0.2rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--orange) #e2e8f0;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
-.places-scroll-container::-webkit-scrollbar-track {
+.places-grid::-webkit-scrollbar {
+    height: 6px;
+}
+
+.places-grid::-webkit-scrollbar-thumb {
+    background: var(--orange);
+    border-radius: 12px;
+}
+
+.places-grid::-webkit-scrollbar-track {
     background: #f0f0f0;
     border-radius: 10px;
 }
 
-.places-scroll-container::-webkit-scrollbar-thumb {
-    background: var(--orange);
-    border-radius: 10px;
-}
-
-/* ---- Places Grid ---- */
-.places-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem 1.6rem;
-    margin: 1rem 0 2rem;
-}
-
 .place-card {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
     background: white;
     border-radius: 28px;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
-    border: 1px solid #f0ede8;
+    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(30, 111, 159, 0.15);
     transition: all 0.25s;
     cursor: pointer;
     overflow: hidden;
-    border-bottom: 4px solid var(--orange);
 }
 
 .place-card:hover {
     transform: translateY(-6px);
+    border-color: var(--orange);
     box-shadow: 0 24px 32px -12px rgba(30, 111, 159, 0.2);
 }
 
 .place-img {
-    height: 170px;
+    height: 180px;
     background-size: cover;
     background-position: center;
     background-color: #eef2f5;
+    border-radius: 0;
 }
 
 .place-info {
@@ -689,9 +692,6 @@ body {
     }
     .logo img { height: 30px; }
     .logo h1 { font-size: 1.6rem; }
-    .places-scroll-container {
-        max-height: 480px;
-    }
     .section-title {
         font-size: 1.5rem;
     }
@@ -833,19 +833,25 @@ article, .article {
     color: #888; margin-top: 0.5rem; text-align: center;
 }
 
-/* Place cards inside articles */
-.place-card {
+/* Place cards inside articles — scoped to avoid conflict with home page */
+.article-content .place-card,
+article .place-card {
     background: #f0f7ff; border: 1px solid var(--blue);
     border-radius: 10px; padding: 14px 18px; margin: 1em 0;
     display: flex; align-items: center; gap: 12px;
     font-size: 0.9rem;
+    box-shadow: none;
+    flex: auto;
+    scroll-snap-align: none;
 }
-.place-card a {
+.article-content .place-card a,
+article .place-card a {
     background: var(--blue); color: white; padding: 8px 16px;
     border-radius: 8px; text-decoration: none; font-size: 0.82rem;
     font-weight: 600; white-space: nowrap; flex-shrink: 0;
 }
-.place-card a:hover { background: var(--orange); }
+.article-content .place-card a:hover,
+article .place-card a:hover { background: var(--orange); }
 
 /* Comments section */
 .comments-section {
@@ -867,6 +873,8 @@ article, .article {
     .article-content h2 { font-size: 1.15rem; }
     .comments-section { padding: 1.25rem; }
     .cta-box { padding: 14px 16px; }
-    .place-card { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .place-card a { align-self: stretch; text-align: center; }
+    .article-content .place-card,
+    article .place-card { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .article-content .place-card a,
+    article .place-card a { align-self: stretch; text-align: center; }
 }

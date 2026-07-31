@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Support · Roam Anguilla</title>
+  <meta name="description" content="Get help with the Roam Anguilla app — submit a support ticket or contact us directly." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://roamaxa.app/support.html" />
+  <meta name="theme-color" content="#1E6F9F" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Support · Roam Anguilla" />
+  <meta property="og:description" content="Need help with Roam Anguilla? Submit a ticket or email us." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://roamaxa.app/support.html" />
+  <meta property="og:image" content="https://roamaxa.app/assets/WebLogo.webp" />
+  <meta property="og:site_name" content="Roam Anguilla" />
+
+  <!-- Favicon & Manifest -->
+  <link rel="icon" type="image/webp" href="/assets/titlelogo.webp" sizes="32x32" />
+  <link rel="manifest" href="/jsonassets/manifest.json" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139" crossorigin="anonymous"></script>
+
+  <style>
+    .content-page {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 1rem 0 2rem;
+    }
+    .content-page h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1a2c3e;
+      margin-bottom: 0.25rem;
+    }
+    .content-page .subtitle {
+      font-size: 0.95rem;
+      color: #5a6a7c;
+      margin-bottom: 2rem;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--orange); }
+
+    /* ── Email card ── */
+    .email-card {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      background: var(--light-blue);
+      border: 1px solid rgba(30,111,159,0.12);
+      border-radius: 18px;
+      padding: 1.5rem 1.8rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .email-card i {
+      font-size: 2rem;
+      color: var(--blue);
+      flex-shrink: 0;
+    }
+    .email-card .info {
+      flex: 1;
+      min-width: 200px;
+    }
+    .email-card .info p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #3a4a5c;
+    }
+    .email-card .info strong {
+      color: #1a2c3e;
+      font-size: 1rem;
+    }
+    .email-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--blue);
+      color: #fff;
+      padding: 0.7rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .email-btn:hover {
+      background: #0f537c;
+      transform: translateY(-2px);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0 1.5rem;
+      color: #a0aec0;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    /* ── Support form ── */
+    .support-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .field label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #3a4a5c;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .field input,
+    .field textarea {
+      padding: 0.75rem 1rem;
+      border: 1px solid #d4dce4;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      color: #1a2c3e;
+      background: #fff;
+      transition: border-color 0.2s;
+      outline: none;
+      resize: vertical;
+    }
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(30,111,159,0.08);
+    }
+    .field textarea {
+      min-height: 120px;
+    }
+    .field .chars-left {
+      font-size: 0.72rem;
+      color: #a0aec0;
+      text-align: right;
+      margin-top: 0.2rem;
+    }
+    .field .chars-left.warn {
+      color: var(--orange);
+    }
+
+    .ticket-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.75rem;
+    }
+    .ticket-row .field { flex: 1; }
+    .ticket-row .ticket-display {
+      flex: 0 0 auto;
+      background: #f0f4f8;
+      border: 1px solid #d4dce4;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 0.1em;
+      user-select: all;
+      min-width: 100px;
+      text-align: center;
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .submit-btn {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .submit-btn:hover {
+      background: #e67a30;
+      transform: translateY(-2px);
+    }
+    .submit-btn:disabled {
+      background: #cbd5e0;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .form-status {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .form-status.success { color: #2e8b57; }
+    .form-status.error { color: #e53e3e; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.6rem;">
+        <img src="/assets/titlelogo.webp" alt="" style="height:38px;width:auto;" />
+        <h1>Roam <span>Anguilla</span></h1>
+      </a>
+    </div>
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="/blog" class="nav-link">Blog</a>
+      <a href="/events.html" class="nav-link">Events</a>
+      <a href="/places.html" class="nav-link">Places</a>
+      <a href="/about.html" class="nav-link">About</a>
+    </nav>
+    <a href="/download/" class="get-app-link">
+      <i class="fas fa-mobile-alt"></i> Get the App
+    </a>
+  </div>
+
+  <a href="/" class="back-link">&larr; Back to Home</a>
+
+  <!-- Content -->
+  <div class="content-page">
+    <h2>Support</h2>
+    <p class="subtitle">Need help with the app? Shoot us an email or submit a ticket below.</p>
+
+    <!-- Direct Email -->
+    <div class="email-card">
+      <i class="fas fa-envelope"></i>
+      <div class="info">
+        <strong>Email us directly</strong>
+        <p>For quick questions, feedback, or urgent issues.</p>
+      </div>
+      <a href="mailto:help+kirmanihonore@gmail.com?subject=Roam%20Anguilla%20Support" class="email-btn">
+        <i class="fas fa-paper-plane"></i> Send an Email
+      </a>
+    </div>
+
+    <div class="divider">or submit a ticket</div>
+
+    <!-- Support Form -->
+    <form class="support-form" id="supportForm" onsubmit="submitTicket(event)">
+      <div class="field">
+        <label for="ticketName">Your Name</label>
+        <input type="text" id="ticketName" placeholder="How should we address you?" maxlength="80" required />
+        <span style="font-size:0.7rem;color:#a0aec0;margin-top:0.2rem;">We'll use this to address you in our reply.</span>
+      </div>
+
+      <div class="ticket-row">
+        <div class="field">
+          <label for="ticketId">Ticket ID</label>
+          <input type="text" id="ticketId" readonly style="background:#f7f9fb;color:var(--blue);font-weight:700;font-family:'SF Mono','Fira Code','Consolas',monospace;letter-spacing:0.08em;" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="ticketDesc">Describe the problem</label>
+        <textarea id="ticketDesc" placeholder="What happened?" maxlength="250" required oninput="updateCharCount()"></textarea>
+        <span class="chars-left" id="charCount">250 characters remaining</span>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="submit-btn" id="submitBtn">Send Ticket</button>
+        <span class="form-status" id="formStatus"></span>
+      </div>
+    </form>
+  </div>
+
+</div><!-- /.app -->
+
+<script>
+  // Generate a 5-char alphanumeric ticket from the real-time clock
+  function generateTicket() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no 0/O/1/I confusion
+    const ms = Date.now().toString(36).toUpperCase().slice(-8);
+    let ticket = '';
+    for (let i = 0; i < 5; i++) {
+      const idx = (ms.charCodeAt(i % ms.length) + i * 7) % chars.length;
+      ticket += chars[idx];
+    }
+    return ticket;
+  }
+
+  // Set ticket on load
+  document.getElementById('ticketId').value = generateTicket();
+
+  // Character counter
+  function updateCharCount() {
+    const ta = document.getElementById('ticketDesc');
+    const count = document.getElementById('charCount');
+    const remaining = 250 - ta.value.length;
+    count.textContent = remaining + ' characters remaining';
+    count.classList.toggle('warn', remaining < 50);
+  }
+
+  // Submit handler
+  function submitTicket(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('ticketName').value.trim();
+    const ticket = document.getElementById('ticketId').value;
+    const desc = document.getElementById('ticketDesc').value.trim();
+    const btn = document.getElementById('submitBtn');
+    const status = document.getElementById('formStatus');
+
+    if (!name || !desc) {
+      status.className = 'form-status error';
+      status.textContent = 'Please fill in your name and description.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    status.className = 'form-status';
+    status.textContent = '';
+
+    const subject = encodeURIComponent('Roam Support — Ticket ' + ticket);
+    const body = encodeURIComponent(
+      'Ticket: ' + ticket + '\n' +
+      'Name: ' + name + '\n' +
+      'Date: ' + new Date().toISOString().split('T')[0] + '\n\n' +
+      'Description:\n' + desc + '\n\n' +
+      '——\nSubmitted via roamaxa.app/support.html'
+    );
+
+    window.location.href = 'mailto:help+kirmanihonore@gmail.com?subject=' + subject + '&body=' + body;
+
+    // Reset after brief delay (in case mailto doesn't navigate away)
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.textContent = 'Send Ticket';
+      status.className = 'form-status success';
+      status.textContent = '✓ Email client opened! If nothing happened, email us at help+kirmanihonore@gmail.com';
+    }, 1500);
+  }
+</script>
+</body>
+</html>

@@ -73,7 +73,7 @@
       <a href="/places.html" class="nav-link">Places</a>
       <a href="/about.html" class="nav-link">About</a>
     </nav>
-    <a href="/download.html" class="get-app-link">
+    <a href="/download/" class="get-app-link">
       <i class="fas fa-mobile-alt"></i> Get the App
     </a>
   </div>
@@ -123,7 +123,7 @@
       <a href="/events.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Events</a>·
       <a href="/places.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Places</a>·
       <a href="/about.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">About</a>·
-      <a href="/download.html" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Get the App</a>
+      <a href="/download/" style="color:#7a8899;text-decoration:none;margin:0 0.5rem;">Get the App</a>
     </small>
   </div>
 
@@ -249,6 +249,12 @@
   function renderPlaces(places){
     var container = document.getElementById('placesContainer');
     if(!container) return;
+    // Sponsor-first sort — tagged "sponsor" always rises to top
+    places.sort(function(a,b){
+      var aS = ((a.tags||'').toLowerCase().indexOf('sponsor') !== -1) ? 0 : 1;
+      var bS = ((b.tags||'').toLowerCase().indexOf('sponsor') !== -1) ? 0 : 1;
+      return aS - bS;
+    });
     var shown = places.slice(0, PLACES_CAP);
     if(!shown.length){
       container.innerHTML = '<p style="color:#4a5568;font-size:.9rem;margin:.5rem 0;">No places listed yet.</p>';
