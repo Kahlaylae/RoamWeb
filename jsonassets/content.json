@@ -15,7 +15,7 @@
     "date": "July 22, 2025",
     "tag": "Travel Tips",
     "url": "/blog/firstblog/",
-    "image": "/blog/firstblog/hero.jpg"
+    "image": "/blog/firstblog/images/hero.jpg"
   },
   {
     "title": "Volunteering with the ANT",
@@ -24,6 +24,6 @@
     "date": "August 22, 2025",
     "tag": "Local Stories",
     "url": "/blog/volunteer-ant/",
-    "image": "/blog/volunteer-ant/hero.jpg"
+    "image": "/blog/volunteer-ant/images/hero.jpg"
   }
 ]
