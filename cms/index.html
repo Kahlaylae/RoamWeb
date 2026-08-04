@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roam Anguilla – Blog CMS</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple: #4b0082;
+      --purple-light: #6a0dad;
+      --bg: #f4f6fb;
+      --card: #fff;
+      --border: #dde1e9;
+      --text: #1e1e2e;
+      --muted: #6b7280;
+      --accent: #fbbf24;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .app-shell { display: flex; flex-direction: column; min-height: 100vh; }
+
+    .top-bar {
+      background: var(--purple);
+      color: #fff;
+      padding: .9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 2px 12px rgba(75,0,130,.35);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .top-bar img { width: 36px; height: 36px; border-radius: 8px; }
+    .top-bar h1 { font-size: 1.15rem; font-weight: 700; flex: 1; }
+    .top-bar a { color: rgba(255,255,255,.8); text-decoration: none; font-size: .85rem; }
+    .top-bar a:hover { color: #fff; }
+
+    .main { display: grid; grid-template-columns: 260px 1fr; flex: 1; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      padding: 1.25rem;
+      overflow-y: auto;
+    }
+    .sidebar h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: .75rem; }
+    .sidebar-btn {
+      display: flex; align-items: center; gap: .6rem;
+      width: 100%; padding: .7rem .85rem; margin-bottom: .4rem;
+      background: none; border: 1px solid var(--border); border-radius: 8px;
+      cursor: pointer; font-size: .9rem; color: var(--text); text-align: left;
+      transition: all .2s;
+    }
+    .sidebar-btn:hover { background: #f0ebf8; border-color: var(--purple); color: var(--purple); }
+    .sidebar-btn.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+    .sidebar-btn .icon { font-size: 1rem; }
+
+    .post-list { margin-top: 1.25rem; }
+    .post-item {
+      padding: .65rem .85rem; border-radius: 8px; cursor: pointer;
+      font-size: .85rem; line-height: 1.3; margin-bottom: .35rem;
+      border: 1px solid transparent; transition: all .2s;
+    }
+    .post-item:hover { background: #f0ebf8; border-color: var(--purple); }
+    .post-item .post-title { font-weight: 600; color: var(--text); }
+    .post-item .post-date { color: var(--muted); font-size: .75rem; margin-top: .2rem; }
+    .post-item .post-tag {
+      display: inline-block; margin-top: .3rem;
+      background: var(--purple); color: #fff;
+      padding: .1rem .45rem; border-radius: 99px; font-size: .7rem;
+    }
+
+    /* ── Content area ── */
+    .content-area { padding: 1.75rem; overflow-y: auto; }
+
+    /* ── Views ── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,.05);
+    }
+    .card h3 { font-size: 1rem; color: var(--purple); margin-bottom: 1rem; font-weight: 700; }
+
+    /* ── Form ── */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; }
+    label { font-size: .82rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    input[type="text"], input[type="date"], input[type="url"], select, textarea {
+      padding: .6rem .85rem; border: 1px solid var(--border);
+      border-radius: 8px; font-size: .95rem; color: var(--text);
+      background: #fafbfc; transition: border-color .2s;
+      font-family: inherit; width: 100%;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--purple); background: #fff; }
+    textarea { resize: vertical; min-height: 80px; }
+
+    /* slug field readonly style */
+    input[readonly] { background: #f0ebf8; color: var(--purple); font-weight: 600; cursor: default; }
+
+    /* ── Rich editor ── */
+    .editor-toolbar {
+      display: flex; flex-wrap: wrap; gap: .4rem;
+      padding: .6rem; background: #f8f4ff;
+      border: 1px solid var(--border); border-bottom: none;
+      border-radius: 8px 8px 0 0;
+    }
+    .editor-toolbar button {
+      padding: .3rem .6rem; border: 1px solid var(--border);
+      border-radius: 5px; background: #fff; cursor: pointer;
+      font-size: .8rem; font-weight: 600; color: var(--text);
+      transition: all .15s;
+    }
+    .editor-toolbar button:hover { background: var(--purple); color: #fff; border-color: var(--purple); }
+    .editor-toolbar .sep { width: 1px; background: var(--border); margin: 0 .1rem; }
+
+    #articleBody {
+      min-height: 320px; padding: 1rem;
+      border: 1px solid var(--border); border-radius: 0 0 8px 8px;
+      background: #fff; font-size: 1rem; line-height: 1.7;
+      outline: none; overflow-y: auto;
+    }
+    #articleBody:focus { border-color: var(--purple); }
+    #articleBody h2 { color: var(--purple); margin: 1.5rem 0 .5rem; font-size: 1.25rem; }
+    #articleBody p { margin-bottom: 1rem; }
+    #articleBody img { max-width: 100%; border-radius: 8px; margin: .5rem 0; }
+    #articleBody blockquote {
+      border-left: 4px solid var(--purple); padding: .75rem 1rem;
+      background: #f8f4ff; border-radius: 0 8px 8px 0; margin: 1rem 0;
+    }
+    #articleBody ul, #articleBody ol { margin: .75rem 0 .75rem 1.5rem; }
+
+    /* Image insert helper */
+    .img-insert-row {
+      display: flex; gap: .5rem; align-items: center;
+      margin-top: .6rem; flex-wrap: wrap;
+    }
+    .img-insert-row input { flex: 1; min-width: 200px; }
+    .img-caption-input { margin-top: .4rem; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .65rem 1.35rem; border-radius: 9px;
+      font-size: .9rem; font-weight: 600; cursor: pointer;
+      border: none; transition: all .2s; font-family: inherit;
+    }
+    .btn-primary { background: var(--purple); color: #fff; }
+    .btn-primary:hover { background: var(--purple-light); }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-success:hover { background: #059669; }
+    .btn-outline { background: #fff; color: var(--purple); border: 1.5px solid var(--purple); }
+    .btn-outline:hover { background: var(--purple); color: #fff; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-sm { padding: .4rem .9rem; font-size: .8rem; }
+    .btn-group { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.25rem; }
+
+    /* ── Preview ── */
+    #previewFrame {
+      width: 100%; min-height: 600px;
+      border: 1px solid var(--border); border-radius: 12px;
+      background: #fff;
+    }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      padding: .8rem 1.25rem; border-radius: 10px;
+      background: var(--purple); color: #fff;
+      font-size: .9rem; font-weight: 600;
+      box-shadow: 0 4px 20px rgba(0,0,0,.2);
+      transform: translateY(120%); transition: transform .3s ease;
+      z-index: 999;
+    }
+    #toast.show { transform: translateY(0); }
+    #toast.success { background: var(--success); }
+    #toast.error   { background: var(--danger); }
+
+    /* ── Dashboard stats ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1.25rem; text-align: center; box-shadow: 0 1px 6px rgba(0,0,0,.05);
+    }
+    .stat-num { font-size: 2.2rem; font-weight: 800; color: var(--purple); line-height: 1; }
+    .stat-label { font-size: .78rem; color: var(--muted); margin-top: .3rem; text-transform: uppercase; letter-spacing: .06em; }
+
+    /* Articles table */
+    .articles-table { width: 100%; border-collapse: collapse; }
+    .articles-table th {
+      text-align: left; padding: .6rem .85rem;
+      background: #f8f4ff; color: var(--purple);
+      font-size: .78rem; text-transform: uppercase; letter-spacing: .06em;
+      border-bottom: 2px solid var(--border);
+    }
+    .articles-table td { padding: .75rem .85rem; border-bottom: 1px solid var(--border); font-size: .9rem; vertical-align: middle; }
+    .articles-table tr:last-child td { border-bottom: none; }
+    .articles-table tr:hover td { background: #faf8ff; }
+    .tag-badge {
+      display: inline-block; padding: .18rem .55rem;
+      border-radius: 99px; font-size: .72rem; font-weight: 600;
+      background: var(--purple); color: #fff;
+    }
+
+    /* ── Progress bar (export) ── */
+    .progress-wrap { margin-top: 1rem; display: none; }
+    .progress-bar { height: 6px; background: #e5e7eb; border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--success); width: 0; transition: width .4s; border-radius: 99px; }
+    .progress-text { font-size: .8rem; color: var(--muted); margin-top: .4rem; }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .main { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <img src="../assets/WebLogo.webp" alt="Roam Anguilla" onerror="this.style.display='none'" />
+    <h1>📝 Roam Anguilla — Blog CMS</h1>
+    <a href="../blog/" target="_blank">← View Live Blog</a>
+  </div>
+
+  <div class="main">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Navigation</h2>
+      <button class="sidebar-btn active" data-view="dashboard" onclick="switchView('dashboard',this)">
+        <span class="icon">🏠</span> Dashboard
+      </button>
+      <button class="sidebar-btn" data-view="new-post" onclick="switchView('new-post',this)">
+        <span class="icon">✏️</span> New Article
+      </button>
+      <button class="sidebar-btn" data-view="manage" onclick="switchView('manage',this)">
+        <span class="icon">📋</span> Manage Articles
+      </button>
+      <button class="sidebar-btn" data-view="export" onclick="switchView('export',this)">
+        <span class="icon">📦</span> Export &amp; Deploy
+      </button>
+
+      <div class="post-list" id="sidebarPostList">
+        <h2 style="margin-top:1.25rem;">Recent Posts</h2>
+        <div id="recentPosts"><em style="font-size:.82rem;color:var(--muted)">Loading…</em></div>
+      </div>
+    </aside>
+
+    <!-- Content Area -->
+    <div class="content-area">
+
+      <!-- ── Dashboard ── -->
+      <div id="view-dashboard" class="view active">
+        <h2 style="font-size:1.5rem;margin-bottom:1.25rem;">👋 Welcome to the CMS</h2>
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card"><div class="stat-num" id="statTotal">–</div><div class="stat-label">Total Articles</div></div>
+          <div class="stat-card"><div class="stat-num" id="statDraft">0</div><div class="stat-label">Pending Export</div></div>
+          <div class="stat-card"><div class="stat-num" id="statCats">–</div><div class="stat-label">Categories</div></div>
+        </div>
+
+        <div class="card">
+          <h3>🚀 Quick Start</h3>
+          <ol style="padding-left:1.5rem;line-height:2;font-size:.95rem;">
+            <li>Click <strong>New Article</strong> in the sidebar to write a post.</li>
+            <li>Fill in metadata (title, description, date, category, hero image URL).</li>
+            <li>Write the article body using the formatting toolbar.</li>
+            <li>Click <strong>Add to Queue</strong> — the article is added to your export queue.</li>
+            <li>Go to <strong>Export &amp; Deploy</strong> and click <strong>Download ZIP</strong>.</li>
+            <li>Unzip the file and upload the <code>blog/{slug}/</code> folder plus <code>jsonassets/content.json</code> to the repository.</li>
+          </ol>
+        </div>
+
+        <div class="card">
+          <h3>📰 Latest Published Articles</h3>
+          <table class="articles-table" id="dashboardTable">
+            <thead><tr><th>Title</th><th>Date</th><th>Category</th></tr></thead>
+            <tbody id="dashboardBody"><tr><td colspan="3" style="color:var(--muted);font-size:.85rem;">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── New Article ── -->
+      <div id="view-new-post" class="view">
+        <h2 style="font-size:1.5rem;margin-bottom:1.25rem;">✏️ New Article</h2>
+
+        <!-- Metadata -->
+        <div class="card">
+          <h3>📋 Article Metadata</h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fTitle">Title *</label>
+              <input type="text" id="fTitle" placeholder="e.g. Top 5 Beaches in Anguilla" oninput="autoSlug()" />
+            </div>
+            <div class="form-group">
+              <label for="fSlug">URL Slug *</label>
+              <input type="text" id="fSlug" placeholder="auto-generated" oninput="slugEdited=true" />
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-group">
+              <label for="fDesc">Description / Excerpt *</label>
+              <textarea id="fDesc" rows="3" placeholder="Short summary shown on the blog listing page (max ~200 chars recommended)"></textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fDate">Publish Date *</label>
+              <input type="date" id="fDate" />
+            </div>
+            <div class="form-group">
+              <label for="fTag">Category / Tag *</label>
+              <select id="fTag">
+                <option value="">— Select —</option>
+                <option>Travel Tips</option>
+                <option>Restaurants</option>
+                <option>Beaches</option>
+                <option>Events</option>
+                <option>Conservation</option>
+                <option>Adventure</option>
+                <option>Local Stories</option>
+                <option>Wildlife</option>
+                <option>Culture</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-group">
+              <label for="fHero">Hero Image URL *</label>
+              <input type="url" id="fHero" placeholder="https://roamaxa.app/blog/my-article/heroimage.webp" />
+              <small style="color:var(--muted);font-size:.78rem;margin-top:.2rem;">
+                Upload your image to <code>blog/{slug}/</code> in the repo, then enter its URL here.
+              </small>
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-group">
+              <label for="fKeywords">SEO Keywords <span style="font-weight:400;text-transform:none;">(comma-separated)</span></label>
+              <input type="text" id="fKeywords" placeholder="Anguilla, Caribbean, Travel, Beach" />
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-group">
+              <label for="fSection">Article Section</label>
+              <input type="text" id="fSection" placeholder="e.g. Travel Guide, Conservation &amp; Adventure" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Body Editor -->
+        <div class="card">
+          <h3>📝 Article Body</h3>
+
+          <div class="editor-toolbar">
+            <button onclick="fmt('bold')" title="Bold"><b>B</b></button>
+            <button onclick="fmt('italic')" title="Italic"><i>I</i></button>
+            <button onclick="fmt('underline')" title="Underline"><u>U</u></button>
+            <div class="sep"></div>
+            <button onclick="fmtBlock('h2')" title="Heading">H2</button>
+            <button onclick="fmtBlock('p')" title="Paragraph">¶</button>
+            <div class="sep"></div>
+            <button onclick="fmt('insertUnorderedList')" title="Bullet list">• List</button>
+            <button onclick="fmt('insertOrderedList')" title="Numbered list">1. List</button>
+            <div class="sep"></div>
+            <button onclick="fmtHighlight()" title="Highlight blockquote">❝ Highlight</button>
+            <div class="sep"></div>
+            <button onclick="fmtLink()" title="Insert link">🔗 Link</button>
+          </div>
+
+          <div id="articleBody" contenteditable="true" spellcheck="true">
+            <p>Start writing your article here…</p>
+          </div>
+
+          <!-- Insert image helper -->
+          <div style="margin-top:1rem;padding:1rem;background:#f8f4ff;border-radius:8px;border:1px solid var(--border);">
+            <label style="font-size:.82rem;font-weight:700;color:var(--purple);display:block;margin-bottom:.5rem;">📷 Insert Image into Article</label>
+            <div class="img-insert-row">
+              <input type="url" id="imgUrl" placeholder="Image URL (e.g. research.webp or full URL)" />
+              <input type="text" id="imgAlt" placeholder="Alt text" style="max-width:200px;" />
+              <button class="btn btn-outline btn-sm" onclick="insertImage()">Insert Image</button>
+            </div>
+            <div class="img-insert-row img-caption-input">
+              <input type="text" id="imgCaption" placeholder="Optional caption" style="max-width:300px;" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="previewArticle()">👁️ Preview</button>
+          <button class="btn btn-success" onclick="addToQueue()">➕ Add to Queue</button>
+          <button class="btn btn-outline" onclick="clearForm()">🗑️ Clear</button>
+        </div>
+      </div>
+
+      <!-- ── Preview ── -->
+      <div id="view-preview" class="view">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
+          <h2 style="font-size:1.5rem;">👁️ Article Preview</h2>
+          <button class="btn btn-outline btn-sm" onclick="switchView('new-post', document.querySelector('[data-view=new-post]'))">← Back to Editor</button>
+          <button class="btn btn-success btn-sm" onclick="addToQueueFromPreview()">➕ Add to Queue</button>
+        </div>
+        <iframe id="previewFrame" title="Article Preview"></iframe>
+      </div>
+
+      <!-- ── Manage ── -->
+      <div id="view-manage" class="view">
+        <h2 style="font-size:1.5rem;margin-bottom:1.25rem;">📋 Manage Articles</h2>
+
+        <div class="card" id="queueCard">
+          <h3>📦 Export Queue <span id="queueBadge" style="background:var(--accent);color:#333;border-radius:99px;padding:.1rem .55rem;font-size:.78rem;margin-left:.4rem;">0</span></h3>
+          <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem;">Articles queued for export. They will be included in the next ZIP download.</p>
+          <table class="articles-table">
+            <thead><tr><th>Title</th><th>Slug</th><th>Date</th><th>Tag</th><th>Actions</th></tr></thead>
+            <tbody id="queueBody"><tr><td colspan="5" style="color:var(--muted);font-size:.85rem;">Queue is empty.</td></tr></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3>📰 Published Articles (from content.json)</h3>
+          <table class="articles-table">
+            <thead><tr><th>Title</th><th>Date</th><th>Category</th><th>URL</th></tr></thead>
+            <tbody id="publishedBody"><tr><td colspan="4" style="color:var(--muted);font-size:.85rem;">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── Export ── -->
+      <div id="view-export" class="view">
+        <h2 style="font-size:1.5rem;margin-bottom:1.25rem;">📦 Export &amp; Deploy</h2>
+
+        <div class="card">
+          <h3>📥 Download ZIP</h3>
+          <p style="font-size:.9rem;color:var(--muted);margin-bottom:1rem;line-height:1.6;">
+            The ZIP will contain:
+          </p>
+          <ul style="font-size:.9rem;padding-left:1.5rem;line-height:1.9;color:var(--text);margin-bottom:1.25rem;">
+            <li>A ready-to-deploy <code>blog/{slug}/index.html</code> for each queued article.</li>
+            <li>An updated <code>jsonassets/content.json</code> with all new entries prepended.</li>
+          </ul>
+          <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem;">
+            After downloading, unzip and copy the files into the repository, then commit and push.
+          </p>
+
+          <div id="exportQueueSummary" style="margin-bottom:1.25rem;font-size:.9rem;color:var(--purple);font-weight:600;">
+            Queue: <span id="exportQueueCount">0</span> article(s) ready to export.
+          </div>
+
+          <div class="progress-wrap" id="progressWrap">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="progress-text" id="progressText">Preparing…</div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-success" onclick="exportZip()" id="btnExport">
+              ⬇️ Download ZIP
+            </button>
+            <button class="btn btn-outline" onclick="clearQueue()">🗑️ Clear Queue</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>📖 How to Deploy</h3>
+          <ol style="padding-left:1.5rem;line-height:2.2;font-size:.9rem;">
+            <li>Download the ZIP file above.</li>
+            <li>Unzip it — you'll see <code>blog/</code> and <code>jsonassets/</code> folders.</li>
+            <li>Copy <code>blog/{slug}/index.html</code> into the same folder in the repository.</li>
+            <li>Copy (replace) <code>jsonassets/content.json</code> in the repository.</li>
+            <li>Add any hero or article images to <code>blog/{slug}/</code>.</li>
+            <li>Commit all changes and push — the site updates automatically.</li>
+          </ol>
+        </div>
+      </div>
+
+    </div><!-- /content-area -->
+  </div><!-- /main -->
+</div><!-- /app-shell -->
+
+<div id="toast"></div>
+
+<!-- JSZip 3.10.1 via CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
+  integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+'use strict';
+
+/* ─── State ─── */
+const CONTENT_URL = '/jsonassets/content.json';
+let publishedPosts = [];
+let queue = [];       // articles waiting to be exported
+let slugEdited = false;
+
+/* ─── Init ─── */
+document.addEventListener('DOMContentLoaded', () => {
+  setDefaultDate();
+  loadPublished();
+});
+
+function setDefaultDate() {
+  const today = new Date().toISOString().slice(0, 10);
+  document.getElementById('fDate').value = today;
+}
+
+/* ─── Load published posts ─── */
+function loadPublished() {
+  fetch(CONTENT_URL, { cache: 'no-store' })
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(json => {
+      publishedPosts = (json || []).map(p => ({ ...p, _date: parseDate(p.date) }))
+        .sort((a, b) => b._date - a._date);
+      renderDashboard();
+      renderSidebar();
+      renderPublishedTable();
+    })
+    .catch(() => {
+      toast('Could not load published articles — starting with empty list.', 'error');
+      renderDashboard();
+      renderSidebar();
+      renderPublishedTable();
+    });
+}
+
+function parseDate(str) {
+  if (!str) return new Date(0);
+  const cleaned = str.replace(/,(?=\d{4}$)/, ', ');
+  const d = new Date(cleaned);
+  return isNaN(d.getTime()) ? new Date(0) : d;
+}
+function fmtDateLong(d) {
+  if (!d || isNaN(d.getTime())) return '';
+  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+}
+function fmtDateDisplay(isoStr) {
+  if (!isoStr) return '';
+  const [y, m, day] = isoStr.split('-');
+  const d = new Date(+y, +m - 1, +day);
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+/* ─── Dashboard ─── */
+function renderDashboard() {
+  document.getElementById('statTotal').textContent = publishedPosts.length;
+  document.getElementById('statDraft').textContent = queue.length;
+  const cats = new Set(publishedPosts.map(p => p.tag).filter(Boolean));
+  document.getElementById('statCats').textContent = cats.size;
+
+  const tbody = document.getElementById('dashboardBody');
+  if (!publishedPosts.length) {
+    tbody.innerHTML = '<tr><td colspan="3" style="color:var(--muted)">No articles yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = publishedPosts.slice(0, 8).map(p => `
+    <tr>
+      <td><strong>${esc(p.title)}</strong></td>
+      <td style="white-space:nowrap">${esc(p.date || '')}</td>
+      <td><span class="tag-badge">${esc(p.tag || '')}</span></td>
+    </tr>`).join('');
+}
+
+function renderSidebar() {
+  const el = document.getElementById('recentPosts');
+  if (!publishedPosts.length) { el.innerHTML = '<em style="font-size:.82rem;color:var(--muted)">No posts yet.</em>'; return; }
+  el.innerHTML = publishedPosts.slice(0, 6).map(p => `
+    <div class="post-item">
+      <div class="post-title">${esc(p.title)}</div>
+      <div class="post-date">${esc(p.date || '')}</div>
+      ${p.tag ? `<span class="post-tag">${esc(p.tag)}</span>` : ''}
+    </div>`).join('');
+}
+
+function renderPublishedTable() {
+  const tbody = document.getElementById('publishedBody');
+  if (!publishedPosts.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">No published articles found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = publishedPosts.map(p => `
+    <tr>
+      <td><strong>${esc(p.title)}</strong></td>
+      <td style="white-space:nowrap">${esc(p.date || '')}</td>
+      <td><span class="tag-badge">${esc(p.tag || '')}</span></td>
+      <td><a href="${esc(p.url || '#')}" target="_blank" style="color:var(--purple);font-size:.82rem;">${esc(p.url || '')}</a></td>
+    </tr>`).join('');
+}
+
+/* ─── View switching ─── */
+function switchView(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+  const viewEl = document.getElementById('view-' + name);
+  if (viewEl) viewEl.classList.add('active');
+  if (btn) btn.classList.add('active');
+
+  if (name === 'manage') updateQueueUI();
+  if (name === 'export') updateExportUI();
+  if (name === 'dashboard') renderDashboard();
+}
+
+/* ─── Slug auto-generation ─── */
+function autoSlug() {
+  if (slugEdited) return;
+  const title = document.getElementById('fTitle').value;
+  document.getElementById('fSlug').value = toSlug(title);
+}
+function toSlug(str) {
+  return str.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .slice(0, 60);
+}
+
+/* ─── Rich editor commands ─── */
+function fmt(cmd, val) {
+  document.getElementById('articleBody').focus();
+  document.execCommand(cmd, false, val || null);
+}
+function fmtBlock(tag) {
+  document.getElementById('articleBody').focus();
+  document.execCommand('formatBlock', false, tag);
+}
+function fmtHighlight() {
+  document.getElementById('articleBody').focus();
+  document.execCommand('formatBlock', false, 'blockquote');
+}
+function fmtLink() {
+  const url = prompt('Enter URL:');
+  if (url) {
+    document.getElementById('articleBody').focus();
+    document.execCommand('createLink', false, url);
+  }
+}
+
+/* ─── Insert image ─── */
+function insertImage() {
+  const url     = document.getElementById('imgUrl').value.trim();
+  const alt     = document.getElementById('imgAlt').value.trim();
+  const caption = document.getElementById('imgCaption').value.trim();
+  if (!url) { toast('Please enter an image URL', 'error'); return; }
+
+  const editor = document.getElementById('articleBody');
+  editor.focus();
+
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = alt || '';
+  img.style.cssText = 'width:100%;height:auto;border-radius:8px;margin:1rem 0;';
+
+  const wrapper = document.createElement('div');
+  wrapper.appendChild(img);
+
+  if (caption) {
+    const cap = document.createElement('p');
+    cap.className = 'image-caption';
+    cap.style.cssText = 'font-style:italic;color:#666;text-align:center;margin:.5rem 0 1.5rem;font-size:.95rem;';
+    cap.textContent = caption;
+    wrapper.appendChild(cap);
+  }
+
+  // Insert at caret or append
+  const sel = window.getSelection();
+  if (sel && sel.rangeCount) {
+    const range = sel.getRangeAt(0);
+    if (editor.contains(range.commonAncestorContainer)) {
+      range.collapse(false);
+      range.insertNode(wrapper);
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } else {
+      editor.appendChild(wrapper);
+    }
+  } else {
+    editor.appendChild(wrapper);
+  }
+
+  // Clear inputs
+  document.getElementById('imgUrl').value = '';
+  document.getElementById('imgAlt').value = '';
+  document.getElementById('imgCaption').value = '';
+  toast('Image inserted', 'success');
+}
+
+/* ─── Collect form values ─── */
+function collectForm() {
+  const title    = document.getElementById('fTitle').value.trim();
+  const slug     = document.getElementById('fSlug').value.trim();
+  const desc     = document.getElementById('fDesc').value.trim();
+  const dateIso  = document.getElementById('fDate').value;
+  const tag      = document.getElementById('fTag').value;
+  const heroUrl  = document.getElementById('fHero').value.trim();
+  const keywords = document.getElementById('fKeywords').value.trim();
+  const section  = document.getElementById('fSection').value.trim();
+  const bodyHTML = document.getElementById('articleBody').innerHTML.trim();
+
+  return { title, slug, desc, dateIso, tag, heroUrl, keywords, section, bodyHTML };
+}
+
+function validateForm(data) {
+  if (!data.title)   { toast('Title is required', 'error'); return false; }
+  if (!data.slug)    { toast('Slug is required', 'error'); return false; }
+  if (!data.desc)    { toast('Description is required', 'error'); return false; }
+  if (!data.dateIso) { toast('Date is required', 'error'); return false; }
+  if (!data.tag)     { toast('Category is required', 'error'); return false; }
+  if (!data.heroUrl) { toast('Hero image URL is required', 'error'); return false; }
+  return true;
+}
+
+/* ─── Preview ─── */
+function previewArticle() {
+  const data = collectForm();
+  if (!validateForm(data)) return;
+  const html = buildArticleHTML(data);
+  const frame = document.getElementById('previewFrame');
+  frame.srcdoc = html;
+  switchView('preview', null);
+  // keep correct sidebar button active
+  document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-view="new-post"]').classList.add('active');
+}
+
+function addToQueueFromPreview() {
+  switchView('new-post', document.querySelector('[data-view="new-post"]'));
+  addToQueue();
+}
+
+/* ─── Add to queue ─── */
+function addToQueue() {
+  const data = collectForm();
+  if (!validateForm(data)) return;
+
+  // Check duplicate slug
+  if (queue.some(q => q.slug === data.slug)) {
+    toast('An article with this slug is already in the queue', 'error');
+    return;
+  }
+  if (publishedPosts.some(p => (p.url || '').includes('/' + data.slug + '/'))) {
+    if (!confirm('A published article with a similar slug exists. Add anyway?')) return;
+  }
+
+  queue.push(data);
+  updateQueueUI();
+  updateExportUI();
+  renderDashboard();
+  toast('Article added to export queue!', 'success');
+  clearForm();
+  switchView('manage', document.querySelector('[data-view=manage]'));
+}
+
+/* ─── Queue UI ─── */
+function updateQueueUI() {
+  document.getElementById('queueBadge').textContent = queue.length;
+  const tbody = document.getElementById('queueBody');
+  if (!queue.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted)">Queue is empty.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = queue.map((item, i) => `
+    <tr>
+      <td><strong>${esc(item.title)}</strong></td>
+      <td><code style="font-size:.82rem">${esc(item.slug)}</code></td>
+      <td style="white-space:nowrap">${esc(fmtDateDisplay(item.dateIso))}</td>
+      <td><span class="tag-badge">${esc(item.tag)}</span></td>
+      <td>
+        <button class="btn btn-outline btn-sm" onclick="editQueued(${i})">Edit</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:.4rem" onclick="removeQueued(${i})">Remove</button>
+      </td>
+    </tr>`).join('');
+}
+
+function updateExportUI() {
+  const count = queue.length;
+  document.getElementById('exportQueueCount').textContent = count;
+  document.getElementById('statDraft').textContent = count;
+}
+
+function removeQueued(i) {
+  queue.splice(i, 1);
+  updateQueueUI();
+  updateExportUI();
+  renderDashboard();
+  toast('Removed from queue');
+}
+
+function editQueued(i) {
+  const item = queue[i];
+  queue.splice(i, 1);
+  // Populate form
+  document.getElementById('fTitle').value    = item.title;
+  document.getElementById('fSlug').value     = item.slug;
+  document.getElementById('fDesc').value     = item.desc;
+  document.getElementById('fDate').value     = item.dateIso;
+  document.getElementById('fTag').value      = item.tag;
+  document.getElementById('fHero').value     = item.heroUrl;
+  document.getElementById('fKeywords').value = item.keywords;
+  document.getElementById('fSection').value  = item.section;
+  document.getElementById('articleBody').innerHTML = item.bodyHTML;
+  slugEdited = true;
+  updateQueueUI();
+  updateExportUI();
+  renderDashboard();
+  switchView('new-post', document.querySelector('[data-view=new-post]'));
+  toast('Article loaded for editing');
+}
+
+function clearQueue() {
+  if (queue.length && !confirm('Clear the entire export queue?')) return;
+  queue = [];
+  updateQueueUI();
+  updateExportUI();
+  renderDashboard();
+  toast('Queue cleared');
+}
+
+/* ─── Clear form ─── */
+function clearForm() {
+  document.getElementById('fTitle').value    = '';
+  document.getElementById('fSlug').value     = '';
+  document.getElementById('fDesc').value     = '';
+  document.getElementById('fDate').value     = new Date().toISOString().slice(0, 10);
+  document.getElementById('fTag').value      = '';
+  document.getElementById('fHero').value     = '';
+  document.getElementById('fKeywords').value = '';
+  document.getElementById('fSection').value  = '';
+  document.getElementById('articleBody').innerHTML = '<p>Start writing your article here…</p>';
+  slugEdited = false;
+}
+
+/* ─── Build article HTML ─── */
+function buildArticleHTML(data) {
+  const { title, slug, desc, dateIso, tag, heroUrl, keywords, section, bodyHTML } = data;
+  const displayDate  = fmtDateDisplay(dateIso);
+  const canonicalURL = `https://roamaxa.app/blog/${slug}/`;
+  const heroAbsURL   = heroUrl.startsWith('http') ? heroUrl : `https://roamaxa.app/blog/${slug}/${heroUrl}`;
+
+  // Build JSON-LD as a proper object and serialise safely for embedding in <script>
+  const jsonLdObj = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description: desc,
+    image: heroAbsURL,
+    author: { "@type": "Organization", name: "Roam Anguilla" },
+    publisher: {
+      "@type": "Organization",
+      name: "Roam Anguilla",
+      logo: { "@type": "ImageObject", url: "https://roamaxa.app/WebLogo.webp" }
+    },
+    datePublished: dateIso,
+    dateModified: dateIso,
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalURL },
+    url: canonicalURL,
+    articleSection: section || tag,
+    keywords: keywords ? keywords.split(',').map(k => k.trim()) : []
+  };
+  // Avoid premature script-tag termination in JSON-LD content
+  const jsonLd = JSON.stringify(jsonLdObj, null, 2).replace(/<\/script/gi, '<\\/script');
+
+  // JS-safe title for the Disqus inline config (using JSON.stringify for correct string escaping)
+  const jsTitleLiteral = JSON.stringify(title);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(title)} - Roam Anguilla</title>
+  <meta name="description" content="${esc(desc)}" />
+  <meta name="keywords" content="${esc(keywords)}" />
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="${esc(title)}" />
+  <meta property="og:description" content="${esc(desc)}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="${canonicalURL}" />
+  <meta property="og:image" content="${esc(heroAbsURL)}" />
+  <meta property="og:site_name" content="Roam Anguilla" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@RoamAnguilla" />
+  <meta name="twitter:title" content="${esc(title)}" />
+  <meta name="twitter:description" content="${esc(desc)}" />
+  <meta name="twitter:image" content="${esc(heroAbsURL)}" />
+
+  <link rel="canonical" href="${canonicalURL}" />
+  <link rel="icon" type="image/webp" href="../../titlelogo.webp" sizes="25x25" />
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3098807263908139"
+     crossorigin="anonymous"><\/script>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+${jsonLd}
+  <\/script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #333; background: #f8f9fa; }
+    .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+    .back-link { display: inline-block; margin-bottom: 2rem; padding: .5rem 1rem; background: #4b0082; color: #fff; text-decoration: none; border-radius: 8px; transition: background .3s ease; }
+    .back-link:hover { background: #6a0dad; }
+    .hero-image { width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 2rem; }
+    .article-header { margin-bottom: 2rem; }
+    .article-title { font-size: 2.5rem; font-weight: bold; margin-bottom: 1rem; color: #2c3e50; }
+    .article-meta { color: #666; font-size: 1rem; margin-bottom: 1rem; }
+    .article-content { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+    .article-content h2 { color: #4b0082; margin: 2rem 0 1rem; font-size: 1.5rem; }
+    .article-content p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+    .article-content img { width: 100%; height: auto; border-radius: 8px; margin: 1rem 0; }
+    .image-caption { font-style: italic; color: #666; text-align: center; margin: .5rem 0 1.5rem; font-size: .95rem; }
+    .highlight-section { background: #f8f9fa; padding: 1.5rem; border-left: 4px solid #4b0082; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+    blockquote { background: #f8f9fa; padding: 1.5rem; border-left: 4px solid #4b0082; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+    ul, ol { margin: .75rem 0 .75rem 1.5rem; }
+    li { margin-bottom: .4rem; font-size: 1.1rem; }
+    a { color: #4b0082; }
+    @media (max-width: 600px) {
+      .container { padding: 1rem; }
+      .article-title { font-size: 2rem; }
+      .article-content { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav style="margin-bottom:1rem;font-size:.9rem;color:#666;">
+      <a href="../../#blog" style="color:#4b0082;text-decoration:none;">🏠 Main App</a>
+      <span style="margin:0 .5rem;">›</span>
+      <a href="../" style="color:#4b0082;text-decoration:none;">📝 Blog</a>
+      <span style="margin:0 .5rem;">›</span>
+      <span>${esc(title)}</span>
+    </nav>
+
+    <a href="../" class="back-link">← Back to Blog</a>
+
+    <article>
+      <header class="article-header">
+        <h1 class="article-title">${esc(title)}</h1>
+        <div class="article-meta">
+          Published on ${esc(displayDate)} by Roam Anguilla Team |
+          <span style="background:#4b0082;color:#fff;padding:.2rem .5rem;border-radius:4px;font-size:.8rem;">${esc(tag)}</span>
+        </div>
+      </header>
+
+      <img src="${esc(heroUrl)}" alt="${esc(title)} hero image" class="hero-image" />
+
+      <div class="article-content">
+        ${bodyHTML}
+      </div>
+    </article>
+
+    <!-- Ad Zone -->
+    <div style="background:#f0f0f0;padding:2rem;text-align:center;margin:2rem 0;border-radius:12px;border:2px dashed #ccc;">
+      <p style="color:#666;margin-bottom:0;">Advertisement Space</p>
+    </div>
+
+    <!-- Disqus Comments -->
+    <div style="background:#fff;padding:2rem;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.1);margin-top:2rem;">
+      <h3 style="color:#4b0082;margin-bottom:1.5rem;font-size:1.5rem;">Join the Conversation</h3>
+      <div id="disqus_thread"></div>
+      <script>
+        var disqus_config = function () {
+          this.page.url = '${canonicalURL}';
+          this.page.identifier = 'roam-anguilla-${slug}';
+          this.page.title = ${jsTitleLiteral};
+        };
+        (function() {
+          var d = document, s = d.createElement('script');
+          s.src = 'https://roamanguilla.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      <\/script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </div>
+<\/body>
+</html>`;
+}
+
+/* ─── Build updated content.json ─── */
+function buildContentJSON() {
+  // New entries first (newest first)
+  const newEntries = queue.map(item => {
+    const [y, m, d] = item.dateIso.split('-');
+    const dateStr = new Date(+y, +m - 1, +d).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    return {
+      title: item.title,
+      description: item.desc,
+      date: dateStr,
+      url: `/blog/${item.slug}/`,
+      image: item.heroUrl.startsWith('http') ? item.heroUrl : `/blog/${item.slug}/${item.heroUrl}`,
+      tag: item.tag
+    };
+  });
+
+  // Remove duplicates from existing based on slug
+  const existing = publishedPosts.filter(p =>
+    !queue.some(q => (p.url || '').includes('/' + q.slug + '/'))
+  ).map(p => ({
+    title: p.title,
+    description: p.description,
+    date: p.date,
+    url: p.url,
+    image: p.image,
+    tag: p.tag
+  }));
+
+  return JSON.stringify([...newEntries, ...existing], null, 2);
+}
+
+/* ─── Export ZIP ─── */
+async function exportZip() {
+  if (!queue.length) { toast('Queue is empty. Add articles first.', 'error'); return; }
+
+  const progressWrap = document.getElementById('progressWrap');
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+  const btnExport    = document.getElementById('btnExport');
+
+  progressWrap.style.display = 'block';
+  btnExport.disabled = true;
+  btnExport.textContent = '⏳ Building…';
+
+  function setProgress(pct, label) {
+    progressFill.style.width = pct + '%';
+    progressText.textContent = label;
+  }
+
+  try {
+    const zip = new JSZip();
+    setProgress(10, 'Creating article files…');
+
+    for (let i = 0; i < queue.length; i++) {
+      const item = queue[i];
+      const html = buildArticleHTML(item);
+      zip.file(`blog/${item.slug}/index.html`, html);
+      setProgress(10 + ((i + 1) / queue.length) * 60, `Added: ${item.title}`);
+    }
+
+    setProgress(75, 'Building content.json…');
+    zip.file('jsonassets/content.json', buildContentJSON());
+
+    setProgress(85, 'Compressing…');
+    const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+
+    setProgress(100, 'Done!');
+    const url  = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href     = url;
+    link.download = `roam-anguilla-articles-${new Date().toISOString().slice(0, 10)}.zip`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+
+    toast('ZIP downloaded successfully! 🎉', 'success');
+  } catch (err) {
+    console.error(err);
+    toast('Export failed: ' + err.message, 'error');
+    setProgress(0, 'Error — see console');
+  } finally {
+    btnExport.disabled = false;
+    btnExport.textContent = '⬇️ Download ZIP';
+    setTimeout(() => { progressWrap.style.display = 'none'; }, 3000);
+  }
+}
+
+/* ─── Utility ─── */
+function esc(str) {
+  return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function toast(msg, type) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show' + (type ? ' ' + type : '');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.className = ''; }, 3500);
+}
+</script>
+</body>
+</html>
